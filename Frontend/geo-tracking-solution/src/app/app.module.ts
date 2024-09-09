@@ -4,10 +4,14 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
+import { ConfigurationBarComponent } from './configuration-bar/configuration-bar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavigationBarComponent,
+    ConfigurationBarComponent
   ],
   imports: [
     BrowserModule,
