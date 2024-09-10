@@ -1,0 +1,9 @@
+.navbar {
+    background-color: #ff6d43;
+    color: black;
+}
+
+.dark-mode .navbar {
+    background-color: #002d3c;
+    color: white;
+}
