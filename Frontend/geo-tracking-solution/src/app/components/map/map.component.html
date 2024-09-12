@@ -1,1 +1,14 @@
-<p>map works!</p>
+<mat-form-field>
+    <mat-label>Used map</mat-label>
+    <mat-select [(ngModel)]="selectedMap" name="map">
+        @for (mapType of mapTypes; track mapType) {
+        <mat-option [value]="mapType.value" (click)="reloadMap(mapType.value)">{{mapType.viewValue}}</mat-option>
+        }
+    </mat-select>
+</mat-form-field>
+
+<div class="map-container">
+    <div class="map-frame">
+        <div id="map"></div>
+    </div>
+</div>
