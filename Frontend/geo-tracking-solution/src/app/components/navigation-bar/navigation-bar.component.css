@@ -1,9 +1,15 @@
+/* Light Mode: Orange Navbar */
 .navbar {
-    background-color: #ff6d43;
+    background-color: #ff6d43; 
     color: black;
 }
 
+/* Dark Mode: Blue Navbar */
 .dark-mode .navbar {
-    background-color: #002d3c;
+    background-color: #002d3c; 
     color: white;
 }
+
+.navbar-link::after {
+    display: none;
+  }
