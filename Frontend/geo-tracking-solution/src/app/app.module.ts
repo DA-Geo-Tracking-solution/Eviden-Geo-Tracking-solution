@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { ConfigurationBarComponent } from './components/configuration-bar/configuration-bar.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationBarComponent,
-    ConfigurationBarComponent
+    ConfigurationBarComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
