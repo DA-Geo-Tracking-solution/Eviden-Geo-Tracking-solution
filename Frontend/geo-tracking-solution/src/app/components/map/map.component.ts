@@ -33,25 +33,24 @@ interface MapType {
   styleUrl: './map.component.css'
 })
 export class MapComponent {
+  public _selectedMap: any;
+
   @Input()
   //array to store user information
   public users: User[] = [];
+  @Input()
+  set selectedMap(value: string){
+    this._selectedMap = value;
+    this.reloadMap(this._selectedMap);
+  }
   //parameter to seclare maptype ('vector', 'raster', 'satellite') default should be vector because best performance
-  public selectedMap: string = 'vector';
   private map: any;
-
-  //different MapTypes for html Dropdown Selection
-  public mapTypes: MapType[] = [
-    { value: 'vector', viewValue: 'Vektor' },
-    { value: 'raster', viewValue: 'Raster' },
-    { value: 'satellite', viewValue: 'Satelit' },
-  ];
 
   constructor(private rasterMapService: RasterMapService, private vectorService: VectorMapService) { }
 
   //draw new Lines and Markers when something changes
   ngOnChanges(changes: SimpleChanges): void {
-    switch (this.selectedMap) {
+    switch (this._selectedMap) {
       case 'vector':
         this.vectorService.drawUserMarkers(this.users);
         this.vectorService.drawUserLines(this.users);
@@ -70,7 +69,7 @@ export class MapComponent {
 
   //initialize chosen Map
   private initMap(): void {
-    switch (this.selectedMap) {
+    switch (this._selectedMap) {
       case 'vector':
         this.initVectormap();
         break;
@@ -105,8 +104,8 @@ export class MapComponent {
   }
 
   //delete current Map and make init of new chosen Map
-  reloadMap(selectedMap: string) {
-    this.selectedMap = selectedMap;
+  reloadMap(_selectedMap: string) {
+    this._selectedMap = _selectedMap;
     this.map.remove();
     this.initMap();
   }
@@ -127,5 +126,6 @@ export class MapComponent {
       showCompass: true
     }));
     this.vectorService.setMap(this.map);
+    this.vectorService.initializeDrawControl();
   }
 }

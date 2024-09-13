@@ -2,6 +2,15 @@
     <ng-template pTemplate>
         <div class="col ">
             <div class="table-responsive">
+                <mat-form-field>
+                    <mat-label>Used map</mat-label>
+                    <mat-select [(ngModel)]="selectedMap" name="map">
+                        @for (mapType of mapTypes; track mapType) {
+                        <mat-option [value]="mapType.value"
+                            (click)="changeMapType(mapType.value)">{{mapType.viewValue}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
                 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
                     <!-- Position Column -->
@@ -37,13 +46,12 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
-                <p>{{error}}</p>
             </div>
         </div>
     </ng-template>
     <ng-template pTemplate>
         <div class="col">
-            <app-map [users]="users"></app-map>
+            <app-map [users]="users" [selectedMap]="selectedMap"></app-map>
         </div>
     </ng-template>
 </p-splitter>

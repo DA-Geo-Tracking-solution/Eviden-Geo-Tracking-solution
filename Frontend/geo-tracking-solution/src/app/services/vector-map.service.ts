@@ -1,9 +1,10 @@
-//Comments are written by Olama 7b from Zagreb for test reasons
+//Comments are written by Olama 7b from Zagreb for testing reasons
 import { Injectable } from '@angular/core';
 // Importing maplibre-gl library for creating a map
 import maplibregl from 'maplibre-gl';
 // Importing User class to get user information
 import User from '../classes/User';
+import MaplibreTerradrawControl from '@watergis/maplibre-gl-terradraw';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import User from '../classes/User';
 export class VectorMapService {
 
   private map!: maplibregl.Map; // Declaring a Map property as an optional field
+  private drawControl!: MaplibreTerradrawControl;
   private vectormarkers: { [key: number]: maplibregl.Marker } = []; // Creating a dictionary to store markers
   private userLocations: { [key: string]: [number, number][] } = {}; // Creating a dictionary to store user locations
 
@@ -98,5 +100,14 @@ export class VectorMapService {
   //clear the MarkersArray
   clearMarkers() {
     this.vectormarkers = [];
+  }
+
+  initializeDrawControl(): void {
+    this.drawControl = new MaplibreTerradrawControl({
+      
+    });
+
+    // Zeichnungskontrolle der Karte hinzufügen
+    this.map.addControl(this.drawControl, 'bottom-left');
   }
 }
