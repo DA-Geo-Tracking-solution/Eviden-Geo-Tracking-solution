@@ -8,8 +8,8 @@ import { Observable, Subject } from 'rxjs';
 })
 export class WebsocketService {
 
-  private socket: WebSocket;
-  private subject: Subject<MessageEvent>;
+  private socket!: WebSocket;
+  private subject!: Subject<MessageEvent>;
 
   constructor() { }
 
