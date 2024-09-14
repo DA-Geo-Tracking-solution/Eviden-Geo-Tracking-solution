@@ -1,11 +1,11 @@
-<aside class="menu">
-    <p class="menu-label">
-      Kontakte
-    </p>
-    <ul class="menu-list">
-      <li *ngFor="let contact of contacts">
-        <a (click)="selectContact(contact)">{{ contact }}</a>
-      </li>
-    </ul>
-  </aside>
-  
+<div >
+    <div class="columns is-fullheight">
+        <div class="column is-one-third contact is-fullheight">
+           <p>contact list</p>
+        </div>
+        <!-- Chat -->
+        <div class="column chat is-fullheight ">
+            <app-contact-chat/>
+        </div>
+    </div>
+</div>

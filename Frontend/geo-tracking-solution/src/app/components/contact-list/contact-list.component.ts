@@ -7,13 +7,13 @@ import { Component,EventEmitter, Output } from '@angular/core';
 })
 export class ContactListComponent {
 
-  @Output() contactSelected = new EventEmitter<string>();
+  // @Output() contactSelected = new EventEmitter<string>();
 
-  // TODO: Muss später geändert werden zu den Kontakten in der Datenbank
-  contacts: string[] = ['Kontakt 1', 'Kontakt 2', 'Kontakt 3'];
+  // // TODO: Muss später geändert werden zu den Kontakten in der Datenbank
+  // contacts: string[] = ['Kontakt 1', 'Kontakt 2', 'Kontakt 3'];
 
-  selectContact(contact: string):void{
-    this.contactSelected.emit(contact);
-  }
+  // selectContact(contact: string):void{
+  //   this.contactSelected.emit(contact);
+  // }
 
 }
