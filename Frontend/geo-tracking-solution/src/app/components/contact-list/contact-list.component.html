@@ -1,1 +1,11 @@
-<p>contact-list works!</p>
+<aside class="menu">
+    <p class="menu-label">
+      Kontakte
+    </p>
+    <ul class="menu-list">
+      <li *ngFor="let contact of contacts">
+        <a (click)="selectContact(contact)">{{ contact }}</a>
+      </li>
+    </ul>
+  </aside>
+  
