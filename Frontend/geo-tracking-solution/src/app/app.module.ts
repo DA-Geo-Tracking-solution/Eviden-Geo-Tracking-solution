@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { ScrollerModule } from 'primeng/scroller';
+import { NgScrollbarModule } from 'ngx-scrollbar';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +12,7 @@ import { NavigationBarComponent } from './components/navigation-bar/navigation-b
 import { ConfigurationBarComponent } from './components/configuration-bar/configuration-bar.component';
 import { ContactChatComponent } from './components/contact-chat/contact-chat.component';
 import { ContactListComponent } from './components/contact-list/contact-list.component';
+
 
 @NgModule({
   declarations: [
@@ -21,6 +25,8 @@ import { ContactListComponent } from './components/contact-list/contact-list.com
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ScrollerModule,
+    NgScrollbarModule,
     FormsModule
   ],
   providers: [

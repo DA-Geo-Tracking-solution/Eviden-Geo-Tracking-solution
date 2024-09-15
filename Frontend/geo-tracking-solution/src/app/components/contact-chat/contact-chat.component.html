@@ -1,21 +1,20 @@
-
-<div class="chat-container box">
-    
-    <!-- Nachrichtenbereich -->
-    <div class="messages" style="height: 300px; overflow-y: auto;">
-      <div *ngFor="let msg of messages" class="notification is-primary">
-        {{ msg }}
-      </div>
-    </div>
+<div class="chat-container box is-flex is-flex-direction-column" style="height: 100vh;">
   
-    <!-- Eingabebereich -->
-    <div class="input-container field has-addons">
-      <div class="control is-expanded">
-        <input class="input" [(ngModel)]="message" placeholder="Deine Nachricht eingeben..." />
-      </div>
-      <div class="control">
-        <button class="button is-primary" (click)="sendMessage()">Senden</button>
-      </div>
+  <!-- Nachrichtenbereich -->
+  <div class="messages is-flex-grow-1 is-overflow-auto">
+    <div *ngFor="let msg of messages" class="notification is-primary">
+      {{ msg }}
     </div>
   </div>
-  
+
+  <!-- Eingabebereich -->
+  <div class="input-container field has-addons p-3">
+    <div class="control is-expanded">
+      <input class="input" [(ngModel)]="message" placeholder="Deine Nachricht eingeben..." />
+    </div>
+    <div class="control">
+      <button class="button is-primary" (click)="sendMessage()">Senden</button>
+    </div>
+  </div>
+
+</div>

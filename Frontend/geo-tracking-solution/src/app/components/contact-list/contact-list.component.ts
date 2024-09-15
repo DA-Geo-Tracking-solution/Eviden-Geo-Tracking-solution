@@ -1,4 +1,6 @@
-import { Component,EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { ScrollerModule } from 'primeng/scroller';
+
 
 @Component({
   selector: 'app-contact-list',
@@ -15,5 +17,11 @@ export class ContactListComponent {
   // selectContact(contact: string):void{
   //   this.contactSelected.emit(contact);
   // }
+
+  items!: string[];
+
+  ngOnInit() {
+    this.items = Array.from({ length: 1000 }).map((_, i) => `Item #${i}`);
+  }
 
 }
