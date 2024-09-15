@@ -1,0 +1,17 @@
+version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management    # This version includes the RabbitMQ management plugin
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"                 # Port for RabbitMQ AMQP protocol
+      - "15672:15672"               # Port for RabbitMQ Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest  # Default username
+      RABBITMQ_DEFAULT_PASS: guest  # Default password
+    networks:
+      - rabbitmq_network
+
+networks:
+  rabbitmq_network:
+    driver: bridge
