@@ -39,6 +39,7 @@
               "./node_modules/bulma/css/bulma.css",
               "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
+              "./node_modules/bulma-list/css/bulma-list.css",
               "src/styles.css"
             ],
             "scripts": [],
