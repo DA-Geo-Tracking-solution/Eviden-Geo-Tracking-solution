@@ -1,3 +1,9 @@
-.light-login {
+[data-theme=eviden-orange],
+.theme-orange {
     background-color: #ff6d43;
+}
+
+[data-theme=deep-blue],
+.theme-deep-blue {
+    background-color: #002d3c;
 }
