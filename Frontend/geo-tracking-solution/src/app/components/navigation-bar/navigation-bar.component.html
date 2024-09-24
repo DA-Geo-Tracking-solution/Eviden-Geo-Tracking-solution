@@ -1,60 +1,77 @@
-<nav class="navbar" role="navigation" aria-label="main navigation" data-theme="light">
-    <div class="navbar-brand">
-      <a class="navbar-item" href="#">
-        <img src="../../../assets/Logo/Eviden_Black.png">
+<nav class="navbar" #navbar role="navigation" aria-label="main navigation" data-theme="">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="#">
+      <img src="../../../assets/Logo/Eviden_Black.png">
+    </a>
+
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item">
+        <img src="../../../assets/icons/navigation-bar/black/dashboard_black.png"> Dashboard
       </a>
-  
-      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
+
+      <a class="navbar-item">
+        <img src="../../../assets/icons/navigation-bar/black/groupe_black.png"> Groups
       </a>
+
+      <a class="navbar-item">
+        <img src="../../../assets/icons/navigation-bar/black/contact_black.png"> Contact
+      </a>
+
+      <a class="navbar-item">
+        <img src="../../../assets/icons/navigation-bar/black/map_black.png"> Map
+      </a>
+
+
     </div>
-  
-    <div id="navbarBasicExample" class="navbar-menu">
-      <div class="navbar-start">
-        <a class="navbar-item">
-          <img src="../../../assets/icons/navigation-bar/black/dashboard_black.png"> Dashboard
-        </a>
-  
-        <a class="navbar-item">
-          <img src="../../../assets/icons/navigation-bar/black/groupe_black.png"> Groups
-        </a>
-        
-        <a class="navbar-item">
-            <img src="../../../assets/icons/navigation-bar/black/contact_black.png"> Contact
-        </a>
-        
-        <a class="navbar-item">
-            <img src="../../../assets/icons/navigation-bar/black/map_black.png"> Map
-        </a>
+    <!-- Change to light/dark mode -->
+    <div class="navbar-item has-dropdown is-hoverable">
+      <a class="navbar-link">
+        <img src="../../../assets/icons/theme/monitor.png">
+      </a>
 
-
+      <div class="navbar-dropdown is-right">
+        <a class="navbar-item" (click)="changeTheme('light')">
+          <img src="../../../assets/icons/theme/sonne.png"> Light
+        </a>
+        <a class="navbar-item" (click)="changeTheme('dark')">
+          <img src="../../../assets/icons/theme/dark.png"> Dark
+        </a>
+        <a class="navbar-item" (click)="changeTheme('system')">
+          <img src="../../../assets/icons/theme/monitor.png"> System
+        </a>
       </div>
-  
-      <div class="navbar-end">
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
-            <img src="../../../assets/icons/menue-50.png">
-          </a>
-  
-          <div class="navbar-dropdown is-right">
-            <a class="navbar-item">
-              Overview
-            </a>
-            <a class="navbar-item">
-              Elements
-            </a>
-            <a class="navbar-item">
-              Components
-            </a>
-            <hr class="navbar-divider">
-            <div class="navbar-item">
-              Version 1.0.2
-            </div>
-          </div>
+    </div>
+
+    <!-- More -->
+    <div class="navbar-item has-dropdown is-hoverable">
+      <a class="navbar-link">
+        <img src="../../../assets/icons/menue-50.png">
+      </a>
+
+      <div class="navbar-dropdown is-right">
+        <a class="navbar-item">
+          Overview
+        </a>
+        <a class="navbar-item">
+          Elements
+        </a>
+        <a class="navbar-item">
+          Components
+        </a>
+        <hr class="navbar-divider">
+        <div class="navbar-item">
+          Version 1.0.2
         </div>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>

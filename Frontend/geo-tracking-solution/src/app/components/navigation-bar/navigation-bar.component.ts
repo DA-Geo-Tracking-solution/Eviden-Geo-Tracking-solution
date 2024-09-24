@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -7,15 +7,13 @@ import { Component } from '@angular/core';
 })
 
 export class NavigationBarComponent {
-  isDarkMode = false;
+  @ViewChild('navbar') navbar!: ElementRef;
 
-  toggleDarkMode() {
-    this.isDarkMode = !this.isDarkMode;
+  constructor(private renderer: Renderer2) { }
 
-    if (this.isDarkMode) {
-      document.body.classList.add('dark-mode');
-    } else {
-      document.body.classList.remove('dark-mode');
-    }
+  // Funktion zum Ändern des Themes
+  changeTheme(theme: string) {
+    this.renderer.setAttribute(this.navbar.nativeElement, 'data-theme', theme);
+    console.log(`Theme changed to: ${theme}`);
   }
 }
