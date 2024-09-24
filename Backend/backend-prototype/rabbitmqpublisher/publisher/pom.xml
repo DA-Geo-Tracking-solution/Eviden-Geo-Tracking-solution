@@ -35,6 +35,11 @@
       <artifactId>logback-classic</artifactId>
       <version>1.5.8</version>
     </dependency>
+    <dependency>
+      <groupId>com.datastax.oss</groupId>
+      <artifactId>java-driver-core</artifactId>
+      <version>4.13.0</version> <!-- Adjust the version as needed -->
+    </dependency>
   </dependencies>
 
   <build>
