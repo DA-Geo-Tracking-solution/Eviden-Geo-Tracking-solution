@@ -14,22 +14,22 @@
 
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
+
       <a class="navbar-item">
-        <img src="../../../assets/icons/navigation-bar/black/dashboard_black.png"> Dashboard
+        <img [src]="dashboardIcon" alt="Dashboard Icon"> Dashboard
       </a>
 
       <a class="navbar-item">
-        <img src="../../../assets/icons/navigation-bar/black/groupe_black.png"> Groups
+        <img [src]="groupsIcon" alt="Groups Icon"> Groups
       </a>
 
       <a class="navbar-item">
-        <img src="../../../assets/icons/navigation-bar/black/contact_black.png"> Contact
+        <img [src]="contactIcon" alt="Contact Icon"> Contact
       </a>
 
       <a class="navbar-item">
-        <img src="../../../assets/icons/navigation-bar/black/map_black.png"> Map
+        <img [src]="mapIcon" alt="Map Icon"> Map
       </a>
-
 
     </div>
     <!-- Change to light/dark mode -->
@@ -45,7 +45,7 @@
         <a class="navbar-item" (click)="changeTheme('dark')">
           <img src="../../../assets/icons/theme/dark.png"> Dark
         </a>
-        <a class="navbar-item" (click)="changeTheme('system')">
+        <a class="navbar-item" (click)="changeTheme(' ')">
           <img src="../../../assets/icons/theme/monitor.png"> System
         </a>
       </div>
