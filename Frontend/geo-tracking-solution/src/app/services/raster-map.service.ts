@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import * as L from 'leaflet';
 import User from '../classes/User';
+import 'leaflet-draw';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RasterMapService {
 
-  private map: L.Map | undefined;
+  private map!: L.Map;
   private rastermarkers: { [key: number]: L.Marker } = [];
   private userLocations: { [key: string]: [number, number][] } = {};
 
@@ -74,5 +75,26 @@ export class RasterMapService {
   //clear the MarkersArray
   clearMarkers() {
     this.rastermarkers = [];
+  }
+
+  initializeDrawing(): void {
+    // Zeichenebene
+    const drawnItems = new L.FeatureGroup();
+    this.map.addLayer(drawnItems);
+
+    // Zeichnungsoptionen
+    const drawControl = new L.Control.Draw({
+      edit: {
+        featureGroup: drawnItems
+      }
+    });
+
+    this.map.addControl(drawControl);
+
+    // Ereignisse, um auf die gezeichneten Formen zu reagieren
+    this.map.on(L.Draw.Event.CREATED, (e: any) => {
+      const layer = e.layer;
+      drawnItems.addLayer(layer);
+    });
   }
 }

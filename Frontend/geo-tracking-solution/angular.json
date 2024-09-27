@@ -44,10 +44,14 @@
               "./node_modules/leaflet/dist/leaflet.css",
               "src/styles.css",
               "./node_modules/maplibre-gl/dist/maplibre-gl.css",
-              "./node_modules/@watergis/maplibre-gl-terradraw/dist/maplibre-gl-terradraw.css"
+              "./node_modules/@watergis/maplibre-gl-terradraw/dist/maplibre-gl-terradraw.css",
+              "./node_modules/leaflet/dist/leaflet.css",
+              "./node_modules/leaflet-draw/dist/leaflet.draw.css"
             ],
             "scripts": [
-              "node_modules/maplibre-gl/dist/maplibre-gl.js"
+              "./node_modules/maplibre-gl/dist/maplibre-gl.js",
+              "./node_modules/leaflet/dist/leaflet.js",
+              "./node_modules/leaflet-draw/dist/leaflet.draw.js"
             ]
           },
           "configurations": {

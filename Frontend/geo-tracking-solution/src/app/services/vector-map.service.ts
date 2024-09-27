@@ -103,9 +103,7 @@ export class VectorMapService {
   }
 
   initializeDrawControl(): void {
-    this.drawControl = new MaplibreTerradrawControl({
-      
-    });
+    this.drawControl = new MaplibreTerradrawControl({});
 
     // Zeichnungskontrolle der Karte hinzufügen
     this.map.addControl(this.drawControl, 'bottom-left');

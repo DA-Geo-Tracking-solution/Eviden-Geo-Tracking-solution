@@ -1,6 +1,9 @@
 {
   "dependencies": {
+    "@types/leaflet-draw": "^1.0.11",
     "@watergis/maplibre-gl-terradraw": "^0.1.1",
+    "leaflet": "^1.9.4",
+    "leaflet-draw": "^1.0.4",
     "maplibre-gl": "^4.7.0"
   }
 }

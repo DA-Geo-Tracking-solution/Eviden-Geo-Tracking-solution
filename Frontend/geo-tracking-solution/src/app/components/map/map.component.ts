@@ -39,17 +39,26 @@ export class MapComponent {
   //array to store user information
   public users: User[] = [];
   @Input()
-  set selectedMap(value: string){
+  set selectedMap(value: string) {
     this._selectedMap = value;
     this.reloadMap(this._selectedMap);
   }
-  //parameter to seclare maptype ('vector', 'raster', 'satellite') default should be vector because best performance
+  //parameter to declare maptype ('vector', 'raster', 'satellite') default should be vector because best performance
   private map: any;
 
   constructor(private rasterMapService: RasterMapService, private vectorService: VectorMapService) { }
 
+  ngAfterViewInit(): void {
+    this.initMap();
+    this.changeMapType();
+  }
+
   //draw new Lines and Markers when something changes
   ngOnChanges(changes: SimpleChanges): void {
+    this.changeMapType();
+  }
+
+  changeMapType(): void {
     switch (this._selectedMap) {
       case 'vector':
         this.vectorService.drawUserMarkers(this.users);
@@ -62,11 +71,6 @@ export class MapComponent {
     }
   }
 
-  ngAfterViewInit(): void {
-    this.initMap();
-  }
-
-
   //initialize chosen Map
   private initMap(): void {
     switch (this._selectedMap) {
@@ -77,12 +81,18 @@ export class MapComponent {
         this.initRastermap();
         break;
       case 'satellite':
-        //placeholder, because currently no satellite image map
+        //placeholder, because currently no satellite raster map
         this.initVectormap();
         break;
     }
   }
-
+  //delete current Map and make init of new chosen Map
+  reloadMap(_selectedMap: string) {
+    this._selectedMap = _selectedMap;
+    this.map.remove();
+    this.initMap();
+  }
+  
   //Initialize Raster map
   private initRastermap() {
     this.rasterMapService.clearMarkers();
@@ -99,20 +109,21 @@ export class MapComponent {
     });
 
     tiles.addTo(this.map);
+
+    // Force the map to recalculate its size after loading
+    setTimeout(() => {
+      this.map.invalidateSize();
+    }, 0);
+
     this.rasterMapService.setMap(this.map);
-
+    this.rasterMapService.initializeDrawing();
   }
 
-  //delete current Map and make init of new chosen Map
-  reloadMap(_selectedMap: string) {
-    this._selectedMap = _selectedMap;
-    this.map.remove();
-    this.initMap();
-  }
 
   // Initialize Vektormap 
   private initVectormap() {
     this.vectorService.clearMarkers();
+
     this.map = new maplibregl.Map({
       container: "map",
       style: 'http://localhost:8080/styles/basic-preview/style.json',
@@ -120,11 +131,18 @@ export class MapComponent {
       zoom: 8,
       minZoom: 3,
     });
+
     this.map.addControl(new maplibregl.NavigationControl({
       visualizePitch: true,
       showZoom: true,
       showCompass: true
     }));
+
+    // Force the map to resize after loading
+    setTimeout(() => {
+      this.map.resize();
+    }, 0);
+
     this.vectorService.setMap(this.map);
     this.vectorService.initializeDrawControl();
   }
