@@ -1,7 +1,7 @@
 <nav class="navbar" #navbar role="navigation" aria-label="main navigation" data-theme="">
   <div class="navbar-brand">
     <a class="navbar-item" href="#">
-      <img src="../../../assets/Logo/Eviden_Black.png">
+      <img [src]="evidenLogo" alt="Eviden Logo">
     </a>
 
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -45,7 +45,7 @@
         <a class="navbar-item" (click)="changeTheme('dark')">
           <img src="../../../assets/icons/theme/dark.png"> Dark
         </a>
-        <a class="navbar-item" (click)="changeTheme(' ')">
+        <a class="navbar-item" (click)="changeTheme('system')">
           <img src="../../../assets/icons/theme/monitor.png"> System
         </a>
       </div>
@@ -54,7 +54,7 @@
     <!-- More -->
     <div class="navbar-item has-dropdown is-hoverable">
       <a class="navbar-link">
-        <img src="../../../assets/icons/menue-50.png">
+        <img [src]="moreIcon" alt="More Icon">
       </a>
 
       <div class="navbar-dropdown is-right">

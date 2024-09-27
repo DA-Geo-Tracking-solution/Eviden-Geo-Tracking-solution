@@ -14,24 +14,70 @@ export class NavigationBarComponent {
   groupsIcon: string = '../../../assets/icons/navigation-bar/black/groupe_black.png';
   contactIcon: string = '../../../assets/icons/navigation-bar/black/contact_black.png';
   mapIcon: string = '../../../assets/icons/navigation-bar/black/map_black.png';
+  moreIcon: string = '../../../assets/icons/menue_black.png';
+  evidenLogo: string = '../../../assets/Logo/Eviden_Black.png';
+
+  currentTheme: string = 'light'; // Aktuell ausgewähltes Theme
 
   constructor(private renderer: Renderer2) { }
 
-  // Funktion zum Ändern des Themes
+  ngOnInit() {
+    if (typeof window !== 'undefined') {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (this.currentTheme === 'system') {
+          this.applySystemTheme();
+        }
+      });
+    }
+  }
+
   changeTheme(theme: string) {
+    this.currentTheme = theme;  // Speichert das aktuell ausgewählte Theme
     this.renderer.setAttribute(this.navbar.nativeElement, 'data-theme', theme);
     console.log(`Theme changed to: ${theme}`);
 
     if (theme === 'dark') {
-      this.dashboardIcon = '../../../assets/icons/navigation-bar/white/dashboard_white.png';
-      this.groupsIcon = '../../../assets/icons/navigation-bar/white/groupe_white.png';
-      this.contactIcon = '../../../assets/icons/navigation-bar/white/contact_white.png';
-      this.mapIcon = '../../../assets/icons/navigation-bar/white/map_white.png';
+      this.applyDarkTheme();
     } else if (theme === 'light') {
-      this.dashboardIcon = '../../../assets/icons/navigation-bar/black/dashboard_black.png';
-      this.groupsIcon = '../../../assets/icons/navigation-bar/black/groupe_black.png';
-      this.contactIcon = '../../../assets/icons/navigation-bar/black/contact_black.png';
-      this.mapIcon = '../../../assets/icons/navigation-bar/black/map_black.png';
+      this.applyLightTheme();
+    } else if (theme === 'system') {
+      this.applySystemTheme();  // Systemfarben anwenden
+    }
+  }
+
+  applyDarkTheme() {
+    this.dashboardIcon = '../../../assets/icons/navigation-bar/white/dashboard_white.png';
+    this.groupsIcon = '../../../assets/icons/navigation-bar/white/groupe_white.png';
+    this.contactIcon = '../../../assets/icons/navigation-bar/white/contact_white.png';
+    this.mapIcon = '../../../assets/icons/navigation-bar/white/map_white.png';
+    this.moreIcon = '../../../assets/icons/menue_white.png';
+    this.evidenLogo = '../../../assets/Logo/Eviden_White.png';
+
+    // NavBar auf Dark Mode umstellen
+    this.renderer.removeClass(this.navbar.nativeElement, 'navbar-light');
+    this.renderer.addClass(this.navbar.nativeElement, 'navbar-dark');
+  }
+
+  applyLightTheme() {
+    this.dashboardIcon = '../../../assets/icons/navigation-bar/black/dashboard_black.png';
+    this.groupsIcon = '../../../assets/icons/navigation-bar/black/groupe_black.png';
+    this.contactIcon = '../../../assets/icons/navigation-bar/black/contact_black.png';
+    this.mapIcon = '../../../assets/icons/navigation-bar/black/map_black.png';
+    this.moreIcon = '../../../assets/icons/menue_black.png';
+    this.evidenLogo = '../../../assets/Logo/Eviden_Black.png';
+
+    // NavBar auf Light Mode umstellen
+    this.renderer.removeClass(this.navbar.nativeElement, 'navbar-dark');
+    this.renderer.addClass(this.navbar.nativeElement, 'navbar-light');
+  }
+
+  applySystemTheme() {
+    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (isDarkMode) {
+      this.applyDarkTheme();
+    } else {
+      this.applyLightTheme();
     }
   }
 }

@@ -1,16 +1,18 @@
-/* Light Mode: Orange Navbar */
-.navbar {
-    background-color: #ff6d43; 
-    color: black;
+.navbar-dark {
+  background-color: #002d3c;
+  color: white;
 }
 
-/* Dark Mode: Blue Navbar */
-.dark-mode .navbar {
-    background-color: #002d3c; 
-    color: white;
+.navbar-light {
+  background-color: #ff6d43;
+  color: black;
+}
+
+.navbar-link {
+  color: inherit;
+  /* Erbt die Farbe von der Navbar */
 }
 
 .navbar-link::after {
-    display: none;
-  }
-
+  display: none;
+}
