@@ -10,8 +10,9 @@
 
 .navbar-link {
   color: inherit;
-  /* Erbt die Farbe von der Navbar */
+  /* Erbt die Farbe von der Navbar  */
 }
+
 
 .navbar-link::after {
   display: none;

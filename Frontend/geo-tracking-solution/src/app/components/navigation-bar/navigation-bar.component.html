@@ -1,77 +1,79 @@
 <nav class="navbar" #navbar role="navigation" aria-label="main navigation" data-theme="">
-  <div class="navbar-brand">
-    <a class="navbar-item" href="#">
-      <img [src]="evidenLogo" alt="Eviden Logo">
-    </a>
-
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-
-  <div id="navbarBasicExample" class="navbar-menu">
-    <div class="navbar-start">
-
-      <a class="navbar-item">
-        <img [src]="dashboardIcon" alt="Dashboard Icon"> Dashboard
-      </a>
-
-      <a class="navbar-item">
-        <img [src]="groupsIcon" alt="Groups Icon"> Groups
-      </a>
-
-      <a class="navbar-item">
-        <img [src]="contactIcon" alt="Contact Icon"> Contact
-      </a>
-
-      <a class="navbar-item">
-        <img [src]="mapIcon" alt="Map Icon"> Map
-      </a>
-
-    </div>
-    <!-- Change to light/dark mode -->
-    <div class="navbar-item has-dropdown is-hoverable">
-      <a class="navbar-link">
-        <img src="../../../assets/icons/theme/monitor.png">
-      </a>
-
-      <div class="navbar-dropdown is-right">
-        <a class="navbar-item" (click)="changeTheme('light')">
-          <img src="../../../assets/icons/theme/sonne.png"> Light
+    <div class="navbar-brand">
+        <a class="navbar-item" href="#">
+            <img [src]="evidenLogo" alt="Eviden Logo">
         </a>
-        <a class="navbar-item" (click)="changeTheme('dark')">
-          <img src="../../../assets/icons/theme/dark.png"> Dark
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
         </a>
-        <a class="navbar-item" (click)="changeTheme('system')">
-          <img src="../../../assets/icons/theme/monitor.png"> System
-        </a>
-      </div>
     </div>
 
-    <!-- More -->
-    <div class="navbar-item has-dropdown is-hoverable">
-      <a class="navbar-link">
-        <img [src]="moreIcon" alt="More Icon">
-      </a>
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
 
-      <div class="navbar-dropdown is-right">
-        <a class="navbar-item">
-          Overview
-        </a>
-        <a class="navbar-item">
-          Elements
-        </a>
-        <a class="navbar-item">
-          Components
-        </a>
-        <hr class="navbar-divider">
-        <div class="navbar-item">
-          Version 1.0.2
+            <a class="navbar-item">
+                <img [src]="dashboardIcon" alt="Dashboard Icon"> Dashboard
+            </a>
+
+            <a class="navbar-item">
+                <img [src]="groupsIcon" alt="Groups Icon"> Groups
+            </a>
+
+            <a class="navbar-item">
+                <img [src]="contactIcon" alt="Contact Icon"> Contact
+            </a>
+
+            <a class="navbar-item">
+                <img [src]="mapIcon" alt="Map Icon"> Map
+            </a>
+
         </div>
-      </div>
+        <!-- Change to light/dark mode -->
+        <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+                <img [src]="themeIcon">
+            </a>
+
+            <div class="navbar-dropdown is-right">
+                <a class="navbar-item" (click)="changeTheme('light')">
+                    <!-- TODO: Icon muss noch geändert werden -->
+                    <img src="../../../assets/icons/theme/sonne.png"> Light
+                </a>
+                <a class="navbar-item" (click)="changeTheme('dark')">
+                    <!-- TODO: Icon muss noch geändert werden -->
+                    <img src="../../../assets/icons/theme/dark.png"> Dark
+                </a>
+                <a class="navbar-item" (click)="changeTheme('system')">
+                    <img src="../../../assets/icons/theme/monitor.png"> System
+                </a>
+            </div>
+        </div>
+
+        <!-- More -->
+        <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+                <img [src]="moreIcon" alt="More Icon">
+            </a>
+
+            <div class="navbar-dropdown is-right">
+                <a class="navbar-item">
+                    Overview
+                </a>
+                <a class="navbar-item">
+                    Elements
+                </a>
+                <a class="navbar-item">
+                    Components
+                </a>
+                <hr class="navbar-divider">
+                <div class="navbar-item">
+                    Version 1.0.2
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </nav>

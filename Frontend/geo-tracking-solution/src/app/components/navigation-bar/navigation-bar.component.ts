@@ -5,7 +5,6 @@ import { Component, Renderer2, ElementRef, ViewChild } from '@angular/core';
   templateUrl: './navigation-bar.component.html',
   styleUrls: ['./navigation-bar.component.css']
 })
-
 export class NavigationBarComponent {
   @ViewChild('navbar') navbar!: ElementRef;
 
@@ -17,12 +16,18 @@ export class NavigationBarComponent {
   moreIcon: string = '../../../assets/icons/menue_black.png';
   evidenLogo: string = '../../../assets/Logo/Eviden_Black.png';
 
-  currentTheme: string = 'light'; // Aktuell ausgewähltes Theme
+  themeIcon: string = '../../../assets/icons/theme/monitor.png';
+
+  currentTheme: string = 'system'; // Standardmäßig auf 'system' gesetzt
 
   constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
     if (typeof window !== 'undefined') {
+      // Setze das Theme beim Laden der Seite basierend auf Systemeinstellungen
+      this.applySystemTheme();
+
+      // Überwache Systemtheme
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
         if (this.currentTheme === 'system') {
           this.applySystemTheme();
@@ -53,9 +58,15 @@ export class NavigationBarComponent {
     this.moreIcon = '../../../assets/icons/menue_white.png';
     this.evidenLogo = '../../../assets/Logo/Eviden_White.png';
 
+    this.themeIcon = '../../../assets/icons/theme/dark.png';
+
     // NavBar auf Dark Mode umstellen
+    this.renderer.setAttribute(this.navbar.nativeElement, 'data-theme', 'dark'); // Setzen des data-theme
     this.renderer.removeClass(this.navbar.nativeElement, 'navbar-light');
     this.renderer.addClass(this.navbar.nativeElement, 'navbar-dark');
+
+    // Schriftfarbe auf Weiß setzen
+    this.renderer.setStyle(this.navbar.nativeElement, 'color', 'white');
   }
 
   applyLightTheme() {
@@ -66,9 +77,15 @@ export class NavigationBarComponent {
     this.moreIcon = '../../../assets/icons/menue_black.png';
     this.evidenLogo = '../../../assets/Logo/Eviden_Black.png';
 
+    this.themeIcon = '../../../assets/icons/theme/sonne.png';
+
     // NavBar auf Light Mode umstellen
+    this.renderer.setAttribute(this.navbar.nativeElement, 'data-theme', 'light'); // Setzen des data-theme
     this.renderer.removeClass(this.navbar.nativeElement, 'navbar-dark');
     this.renderer.addClass(this.navbar.nativeElement, 'navbar-light');
+
+    // Schriftfarbe auf Schwarz setzen
+    this.renderer.setStyle(this.navbar.nativeElement, 'color', 'black');
   }
 
   applySystemTheme() {
