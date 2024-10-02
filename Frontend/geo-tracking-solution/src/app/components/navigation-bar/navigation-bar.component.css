@@ -1,11 +1,27 @@
-.navbar-dark {
+/* Default Light Mode (falls kein prefers-color-scheme definiert ist) */
+.navbar[data-theme="light"] {
+  background-color: #ff6d43;
+  color: black;
+}
+
+.navbar[data-theme="dark"] {
   background-color: #002d3c;
   color: white;
 }
 
-.navbar-light {
-  background-color: #ff6d43;
-  color: black;
+/* Automatic system theme detection using prefers-color-scheme */
+@media (prefers-color-scheme: dark) {
+  .navbar {
+    background-color: #002d3c;
+    color: white;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .navbar {
+    background-color: #ff6d43;
+    color: black;
+  }
 }
 
 .navbar-link {

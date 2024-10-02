@@ -8,7 +8,6 @@ import { Component, Renderer2, ElementRef, ViewChild } from '@angular/core';
 export class NavigationBarComponent {
   @ViewChild('navbar') navbar!: ElementRef;
 
-  // Variablen für die Icon-Pfade
   dashboardIcon: string = '../../../assets/icons/navigation-bar/black/dashboard_black.png';
   groupsIcon: string = '../../../assets/icons/navigation-bar/black/groupe_black.png';
   contactIcon: string = '../../../assets/icons/navigation-bar/black/contact_black.png';
@@ -18,13 +17,12 @@ export class NavigationBarComponent {
 
   themeIcon: string = '../../../assets/icons/theme/monitor.png';
 
-  currentTheme: string = 'system'; // Standardmäßig auf 'system' gesetzt
+  currentTheme: string = 'system';
 
   constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
     if (typeof window !== 'undefined') {
-      // Setze das Theme beim Laden der Seite basierend auf Systemeinstellungen
       this.applySystemTheme();
 
       // Überwache Systemtheme
@@ -36,8 +34,13 @@ export class NavigationBarComponent {
     }
   }
 
+  ngAfterViewInit() {
+    // Theme erneut anwenden nach Initialisierung der Komponente
+    this.applySystemTheme();
+  }
+
   changeTheme(theme: string) {
-    this.currentTheme = theme;  // Speichert das aktuell ausgewählte Theme
+    this.currentTheme = theme;
     this.renderer.setAttribute(this.navbar.nativeElement, 'data-theme', theme);
     console.log(`Theme changed to: ${theme}`);
 
@@ -46,7 +49,7 @@ export class NavigationBarComponent {
     } else if (theme === 'light') {
       this.applyLightTheme();
     } else if (theme === 'system') {
-      this.applySystemTheme();  // Systemfarben anwenden
+      this.applySystemTheme();
     }
   }
 
@@ -60,12 +63,10 @@ export class NavigationBarComponent {
 
     this.themeIcon = '../../../assets/icons/theme/dark.png';
 
-    // NavBar auf Dark Mode umstellen
-    this.renderer.setAttribute(this.navbar.nativeElement, 'data-theme', 'dark'); // Setzen des data-theme
+    this.renderer.setAttribute(this.navbar.nativeElement, 'data-theme', 'dark');
     this.renderer.removeClass(this.navbar.nativeElement, 'navbar-light');
     this.renderer.addClass(this.navbar.nativeElement, 'navbar-dark');
 
-    // Schriftfarbe auf Weiß setzen
     this.renderer.setStyle(this.navbar.nativeElement, 'color', 'white');
   }
 
@@ -79,12 +80,10 @@ export class NavigationBarComponent {
 
     this.themeIcon = '../../../assets/icons/theme/sonne.png';
 
-    // NavBar auf Light Mode umstellen
-    this.renderer.setAttribute(this.navbar.nativeElement, 'data-theme', 'light'); // Setzen des data-theme
+    this.renderer.setAttribute(this.navbar.nativeElement, 'data-theme', 'light');
     this.renderer.removeClass(this.navbar.nativeElement, 'navbar-dark');
     this.renderer.addClass(this.navbar.nativeElement, 'navbar-light');
 
-    // Schriftfarbe auf Schwarz setzen
     this.renderer.setStyle(this.navbar.nativeElement, 'color', 'black');
   }
 
