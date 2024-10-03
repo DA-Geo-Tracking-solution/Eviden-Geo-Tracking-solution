@@ -3,33 +3,49 @@ package htl.hl;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+
 import java.nio.charset.StandardCharsets;
 
-public class GPSSender {
+import org.keycloak.representations.idm.authorization.AuthorizationRequest;
+import org.keycloak.representations.idm.authorization.AuthorizationResponse;
+import org.keycloak.authorization.client.AuthzClient;
 
+
+
+public class GPSSender {
     private final static String QUEUE_NAME = "gps_data_queue";
 
     public static void main(String[] argv) throws Exception {
-        // Set up connection to RabbitMQ
+
+        AuthzClient authzClient = AuthzClient.create();
+        AuthorizationRequest request = new AuthorizationRequest();
+
+        // send the entitlement request to the server in order to
+        // obtain an RPT with all permissions granted to the user
+        AuthorizationResponse response = authzClient.authorization("admin", "password").authorize(request);
+        String rpt = response.getToken();
+
+
+        // Set up RabbitMQ connection
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");  // Your RabbitMQ host
-        factory.setPort(5672);         // Default RabbitMQ port
-        factory.setUsername("guest");  // RabbitMQ username
-        factory.setPassword("guest");  // RabbitMQ password
+        factory.setHost("localhost");
+        factory.setPort(5672);
+        factory.setUsername("guest");
+        factory.setPassword("guest");
+
 
         try (Connection connection = factory.newConnection();
              Channel channel = connection.createChannel()) {
-            // Declare a queue to send GPS data
+
             channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 
-            // Example of GPS data with a username
-            String username = "user1";
-            String gpsData = "45.123,-93.456";  // Latitude, Longitude
+            // Define the message format: username:latitude,longitude
+            String username = "admin";
+            double latitude = 45.123;
+            double longitude = -93.456;
+            String message = rpt + ":" + username + ":" + latitude + "," + longitude;
 
-            // Combine username and GPS data into one message
-            String message = String.format("%s:%s", username, gpsData);
-
-            // Send message to the queue
+            // Publish the message
             channel.basicPublish("", QUEUE_NAME, null, message.getBytes(StandardCharsets.UTF_8));
             System.out.println(" [x] Sent: '" + message + "'");
         }

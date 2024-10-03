@@ -1,11 +1,9 @@
 {
     "realm": "myrealm",
     "auth-server-url": "http://localhost:8080",
-    "ssl-required": "external",
-    "resource": "my-java-app",
+    "resource": "gps_sender",
     "credentials": {
-      "secret": "your-client-secret"
-    },
-    "confidential-port": 0
+      "secret": "O5RVdr8DFAA7fObGMa6VJM9w7vna6bju"
+    }
   }
   
