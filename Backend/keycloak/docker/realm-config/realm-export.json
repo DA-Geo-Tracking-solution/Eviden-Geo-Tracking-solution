@@ -1,0 +1,38 @@
+{
+  "realm": "my-app-realm",
+  "enabled": true,
+  "clients": [
+    {
+      "clientId": "my-spring-app",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "serviceAccountsEnabled": false,
+      "secret": "myCustomSecret123!",
+      "redirectUris": [
+        "http://localhost:8080/login/oauth2/code/keycloak"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "fullScopeAllowed": true,
+      "authorizationServicesEnabled": true,
+      "attributes": {
+        "spring.security.oauth2.client.registration.keycloak.client-id": "my-spring-app",
+        "spring.security.oauth2.client.registration.keycloak.client-secret": "myCustomSecret123!"
+      }
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "user",
+        "description": "User role"
+      },
+      {
+        "name": "admin",
+        "description": "Admin role"
+      }
+    ]
+  }
+}
