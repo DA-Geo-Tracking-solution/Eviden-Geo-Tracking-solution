@@ -1,9 +1,104 @@
-[data-theme=eviden-orange],
-.theme-orange {
-    background-color: #ff6d43;
+/* Default styles for light theme */
+body[data-theme='light'] {
+    background-color: white;
+    color: black;
 }
 
-[data-theme=deep-blue],
-.theme-deep-blue {
-    background-color: #002d3c;
+body[data-theme='dark'] {
+    background-color: #1a1a1a;
+    color: white;
+}
+
+/* Light Theme */
+@media (prefers-color-scheme: light) {
+
+    .loginBackground{
+        background-color: #ff6d43;
+    }
+
+    /* Hintergrund des Containers */
+    .container {
+        background-color: #ff6d43;
+        /* Orange für Light Mode */
+    }
+
+    .navbar {
+        background-color: #ff6d43;
+        /* Orange für Light Mode */
+        color: black;
+    }
+
+    .box {
+        background-color: white;
+        /* Hintergrund der Login-Box */
+        color: black;
+    }
+
+    input {
+        background-color: white;
+        /* Eingabefelder in Light Mode */
+        color: black;
+        border-color: #ff6d43;
+        /* Rand passend zum Theme */
+    }
+
+    .button.is-primary {
+        background-color: #ff6d43;
+        /* Button passend zum Light Mode */
+        border-color: #ff6d43;
+        color: white;
+    }
+
+    /* Anpassung des Formularrahmens */
+    form {
+        border: 1px solid #ff6d43;
+        /* Rahmenfarbe für das Formular */
+    }
+}
+
+/* Dark Theme */
+@media (prefers-color-scheme: dark) {
+
+    .loginBackground {
+        background-color: #002d3c;
+    }
+
+    /* Hintergrund des Containers */
+    .container {
+        background-color: #002d3c;
+        /* Dunkelblau für Dark Mode */
+    }
+
+    .navbar {
+        background-color: #002d3c;
+        /* Dunkelblau für Dark Mode */
+        color: white;
+    }
+
+    .box {
+        background-color: #333;
+        /* Hintergrund der Login-Box in Dark Mode */
+        color: white;
+    }
+
+    input {
+        background-color: #444;
+        /* Eingabefelder in Dark Mode */
+        color: white;
+        border-color: #002d3c;
+        /* Rand passend zum Theme */
+    }
+
+    .button.is-primary {
+        background-color: #002d3c;
+        /* Button passend zum Dark Mode */
+        border-color: #002d3c;
+        color: white;
+    }
+
+    /* Optional: Anpassung des Formularrahmens */
+    form {
+        border: 1px solid #002d3c;
+        /* Rahmenfarbe für das Formular */
+    }
 }

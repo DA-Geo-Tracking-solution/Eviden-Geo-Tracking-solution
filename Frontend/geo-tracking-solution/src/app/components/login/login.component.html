@@ -1,19 +1,30 @@
-<div class="container light-login is-flex is-justify-content-center is-align-items-center" style="height: 100vh;" data-theme="deep-blue">
-    <form class="box" style="width: 400px;">
-        <div class="field">
-            <label class="label">Email</label>
-            <div class="control">
-                <input class="input" type="email" placeholder="e.g. alex@example.com" />
+<div class="loginBackground">
+    <div class="container light-login is-flex is-justify-content-center is-align-items-center" style="height: 100vh;">
+        <form class="box" style="width: 400px;">
+            <div class="field">
+                <label class="label">Username</label>
+                <div class="control">
+                    <input class="input" type="text" placeholder="Username" />
+                </div>
             </div>
-        </div>
 
-        <div class="field">
-            <label class="label">Password</label>
-            <div class="control">
-                <input class="input" type="password" placeholder="********" />
+            <div class="field">
+                <label class="label">Password</label>
+                <div class="control has-icons-left">
+                    <input class="input" type="password" placeholder="Password" />
+                    <span class="icon is-small is-left">
+                        <i class="fa fa-lock"></i>
+                    </span>
+                </div>
             </div>
-        </div>
 
-        <button class="button is-primary is-fullwidth">Sign in</button>
-    </form>
+            <label class="checkbox mb-4">
+                <input type="checkbox" />
+                Remember me
+            </label>
+
+
+            <button class="button is-primary is-fullwidth">Sign in</button>
+        </form>
+    </div>
 </div>
