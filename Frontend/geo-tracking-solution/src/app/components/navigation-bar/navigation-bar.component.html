@@ -4,17 +4,17 @@
             <img [src]="evidenLogo" alt="Eviden Logo">
         </a>
 
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-            <span aria-hidden="true"></span>
+        <!-- Burger menu for mobile screens -->
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample"
+            (click)="toggleNavbar()" [ngClass]="{'is-active': navbarOpen}">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
         </a>
     </div>
 
-    <div id="navbarBasicExample" class="navbar-menu">
+    <div id="navbarBasicExample" class="navbar-menu" [ngClass]="{'is-active': navbarOpen}">
         <div class="navbar-start">
-
             <a class="navbar-item">
                 <img [src]="dashboardIcon" alt="Dashboard Icon"> Dashboard
             </a>
@@ -30,8 +30,8 @@
             <a class="navbar-item">
                 <img [src]="mapIcon" alt="Map Icon"> Map
             </a>
-
         </div>
+
         <!-- Change to light/dark mode -->
         <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">
@@ -40,11 +40,9 @@
 
             <div class="navbar-dropdown is-right">
                 <a class="navbar-item" (click)="changeTheme('light')">
-                    <!-- TODO: Icon muss noch geändert werden -->
                     <img src="../../../assets/icons/theme/sonne.png"> Light
                 </a>
                 <a class="navbar-item" (click)="changeTheme('dark')">
-                    <!-- TODO: Icon muss noch geändert werden -->
                     <img src="../../../assets/icons/theme/dark.png"> Dark
                 </a>
                 <a class="navbar-item" (click)="changeTheme('system')">
@@ -53,7 +51,7 @@
             </div>
         </div>
 
-        <!-- More -->
+        <!-- More dropdown -->
         <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">
                 <img [src]="moreIcon" alt="More Icon">

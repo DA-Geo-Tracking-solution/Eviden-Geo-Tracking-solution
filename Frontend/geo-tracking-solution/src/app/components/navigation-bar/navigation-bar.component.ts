@@ -19,6 +19,9 @@ export class NavigationBarComponent {
 
   currentTheme: string = 'system';
 
+  // Neue Variable zum Steuern des Burger-Menüs
+  navbarOpen: boolean = false;
+
   constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
@@ -95,5 +98,10 @@ export class NavigationBarComponent {
     } else {
       this.applyLightTheme();
     }
+  }
+
+  // Neue Methode zum Umschalten des Burger-Menüs
+  toggleNavbar() {
+    this.navbarOpen = !this.navbarOpen;
   }
 }
