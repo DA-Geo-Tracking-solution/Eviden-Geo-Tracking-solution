@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:22.0.3  # Replace with the desired version of Keycloak
+    image: quay.io/keycloak/keycloak:25.0.2
     environment:
       - KEYCLOAK_ADMIN=admin                   # Admin username
       - KEYCLOAK_ADMIN_PASSWORD=admin123       # Admin password
@@ -17,7 +17,8 @@ services:
       - 8081:8080
       - 8443:8443
     command:
-      - start-dev
+      - "start-dev"
+      - "--import-realm"
     volumes:
       - ./realm-config:/opt/keycloak/data/import  # Mount a directory for realm import
     depends_on:
