@@ -16,19 +16,19 @@
     <div id="navbarBasicExample" class="navbar-menu" [ngClass]="{'is-active': navbarOpen}">
         <div class="navbar-start">
             <a class="navbar-item">
-                <img [src]="dashboardIcon" alt="Dashboard Icon"> Dashboard
+                <img [src]="dashboardIcon" alt="Dashboard Icon" routerLink=""> Dashboard
             </a>
 
             <a class="navbar-item">
-                <img [src]="groupsIcon" alt="Groups Icon"> Groups
+                <img [src]="groupsIcon" alt="Groups Icon" routerLink="/groups"> Groups
             </a>
 
             <a class="navbar-item">
-                <img [src]="contactIcon" alt="Contact Icon"> Contact
+                <img [src]="contactIcon" alt="Contact Icon" routerLink="/contact"> Contact
             </a>
 
             <a class="navbar-item">
-                <img [src]="mapIcon" alt="Map Icon"> Map
+                <img [src]="mapIcon" alt="Map Icon" routerLink="/map"> Map
             </a>
         </div>
 
