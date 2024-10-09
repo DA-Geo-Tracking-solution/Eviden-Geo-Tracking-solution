@@ -1,0 +1,31 @@
+.chat {
+    background-color: #303030;
+    color: white;
+    flex: 1;
+    /* * Chatbereich nimmt den Rest der Breite ein */
+    height: 100vh;
+    /* * Volle Höhe */
+    overflow-y: auto;
+    /* * Scrollen, falls nötig */
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: white;
+}
+
+.chat-container .messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #383838;
+    color: white;
+}
+
+.chat-container .input-container {
+    padding: 10px;
+    background-color: #2d2d2d;
+    border-top: 1px solid #444;
+}

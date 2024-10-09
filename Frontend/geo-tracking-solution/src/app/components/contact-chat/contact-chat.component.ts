@@ -4,28 +4,34 @@ import { WebsocketService } from '../../services/websocket.service';
 @Component({
   selector: 'app-contact-chat',
   templateUrl: './contact-chat.component.html',
-  styleUrl: './contact-chat.component.css'
+  styleUrls: ['./contact-chat.component.css'] // Korrigiere hier 'styleUrl' zu 'styleUrls'
 })
 export class ContactChatComponent implements OnInit {
 
   public messages: string[] = [];
   public message: string = '';
+  public navbarOpen: boolean = false;  // Burger-Menü Zustand
 
   constructor(private webService: WebsocketService) { }
 
   ngOnInit(): void {
-    // Verbindung erstellen
+    // WebSocket-Verbindung erstellen
     this.webService.connect('').subscribe(event => {
       const data = JSON.parse(event.data);
       this.messages.push(data.message);
     });
   }
 
-  // Nachtichten senden können
+  // Nachricht senden
   sendMessage(): void {
     if (this.message) {
       this.webService.send({ message: this.message });
       this.message = '';
     }
+  }
+
+  // Burger-Menü Umschalten
+  toggleNavbar(): void {
+    this.navbarOpen = !this.navbarOpen;
   }
 }

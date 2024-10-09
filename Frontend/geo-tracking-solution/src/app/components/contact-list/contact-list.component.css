@@ -1,25 +1,80 @@
-
-html, body {
+/* Set height of HTML and body to full screen */
+html,
+body {
     height: 100%;
     margin: 0;
 }
 
+/* Columns should occupy full viewport height */
 .columns {
     height: 100vh;
+    display: flex;
 }
 
+/* Styling for the contact (left-side panel) */
 .contact {
     background-color: #ECECED;
     color: black;
+    padding: 1rem;
     height: 100%;
+    overflow-y: auto;
 }
 
-.chat {
-    height: 100%;
-}
-
-.contact-navbar{
+/* Navbar for contact section */
+.contact-navbar {
     background-color: yellow;
     color: brown;
-    
+    padding: 1rem;
+}
+
+/* Search bar adjustments */
+.field.has-addons .control input {
+    border-radius: 4px 0 0 4px;
+    border-color: #ccc;
+}
+
+.field.has-addons .control button {
+    border-radius: 0 4px 4px 0;
+    border-color: #ccc;
+    background-color: #007bff;
+    color: white;
+}
+
+/* Ensure images inside the contact list are rounded */
+.list-item-image img.is-rounded {
+    border-radius: 50%;
+}
+
+/* Responsive layout: On smaller screens, hide the contact sidebar */
+@media (max-width: 768px) {
+    .contact {
+        display: none;
+    }
+
+    .chat {
+        width: 100%;
+    }
+}
+
+/* On larger screens, set specific widths for contact and chat */
+@media (min-width: 769px) {
+    .contact {
+        width: 33.33%;
+        /* Contact sidebar takes one-third of the screen */
+        border-right: 1px solid #ddd;
+    }
+
+    .chat {
+        width: 66.66%;
+        /* Chat takes two-thirds of the screen */
+    }
+}
+
+/* Styling for the chat (right-side panel) */
+.chat {
+    height: 100%;
+    background-color: #303030;
+    color: white;
+    padding: 1rem;
+    overflow-y: auto;
 }

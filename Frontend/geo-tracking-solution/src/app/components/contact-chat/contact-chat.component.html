@@ -1,9 +1,10 @@
 <div class="chat-container box is-flex is-flex-direction-column" style="height: 100vh; border-radius: 0;">
 
-  <!-- grüne Navbar -->
+  <!-- Responsive Navbar -->
   <div style="top: 0; width: 100%;">
-    <nav class="navbar is-primary" style="margin: 0; padding: 0; height: 80px; padding-left: 10px;">
-      <div class="navbar-brand" style="display: flex; align-items: center;">
+    <nav class="navbar is-primary" role="navigation" aria-label="main navigation"
+      style="margin: 0; padding: 0; height: 80px;">
+      <div class="navbar-brand" style="display: flex; align-items: center; padding-left: 10px;">
         <!-- Bild -->
         <figure class="image is-64x64" style="margin-right: 10px;">
           <img class="is-rounded" src="https://via.placeholder.com/128x128.png?text=Image">
@@ -16,22 +17,34 @@
             <div class="list-item-description" style="font-size: 0.9rem;">List item description</div>
           </div>
         </div>
+
+        <!-- Burger Icon für mobile Geräte -->
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu"
+          (click)="toggleNavbar()">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
       </div>
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <div class="buttons">
-            <a class="button">
-              <img src="../../../assets/icons/contact-chat/black/telefon_black.png">
-            </a>
-            <a class="button">
-              <img src="../../../assets/icons/contact-chat/black/more_black.png" alt="Menü bar"> 
-            </a>
+
+      <div id="navbarMenu" [class.is-active]="navbarOpen" class="navbar-menu">
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons">
+              <a class="button">
+                <img src="../../../assets/icons/contact-chat/black/telefon_black.png">
+              </a>
+              <a class="button"> 
+                <!-- ! Phoebe hatte ne gute idee mit dem Button -->
+                 <!-- TODO: Noch zu ändern das nicht alles in einen neuen Button kommt -->
+                <img src="../../../assets/icons/contact-chat/black/more_black.png" alt="Menü bar">
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </nav>
   </div>
-
 
   <!-- Nachrichtenbereich -->
   <div class="messages is-flex-grow-1 is-overflow-auto">
