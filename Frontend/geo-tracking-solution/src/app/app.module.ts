@@ -8,6 +8,7 @@ import { NavigationBarComponent } from './components/navigation-bar/navigation-b
 import { ConfigurationBarComponent } from './components/configuration-bar/configuration-bar.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { HomeComponent } from './components/home/home.component';
     NavigationBarComponent,
     ConfigurationBarComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
