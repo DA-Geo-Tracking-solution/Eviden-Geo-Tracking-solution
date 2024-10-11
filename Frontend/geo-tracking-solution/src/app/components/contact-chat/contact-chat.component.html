@@ -1,5 +1,4 @@
 <div class="chat-container box is-flex is-flex-direction-column" style="height: 100vh; border-radius: 0;">
-
   <!-- Responsive Navbar -->
   <div style="top: 0; width: 100%;">
     <nav class="navbar is-primary" role="navigation" aria-label="main navigation"
@@ -10,11 +9,11 @@
           <img class="is-rounded" src="https://via.placeholder.com/128x128.png?text=Image">
         </figure>
 
-        <!-- Text -->
+        <!-- Text, ersetzt durch ausgewählten Kontakt -->
         <div class="navbar-item">
           <div class="list-item-content">
-            <div class="list-item-title" style="font-weight: bold;">List item</div>
-            <div class="list-item-description" style="font-size: 0.9rem;">List item description</div>
+            <div class="list-item-title" style="font-weight: bold;">{{ contact.name || 'List item' }}</div>
+            <div class="list-item-description" style="font-size: 0.9rem;">{{ contact.description || 'List item description' }}</div>
           </div>
         </div>
 
@@ -34,9 +33,7 @@
               <a class="button">
                 <img src="../../../assets/icons/contact-chat/black/telefon_black.png">
               </a>
-              <a class="button"> 
-                <!-- ! Phoebe hatte ne gute idee mit dem Button -->
-                 <!-- TODO: Noch zu ändern das nicht alles in einen neuen Button kommt -->
+              <a class="button">
                 <img src="../../../assets/icons/contact-chat/black/more_black.png" alt="Menü bar">
               </a>
             </div>

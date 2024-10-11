@@ -12,6 +12,7 @@ import { NavigationBarComponent } from './components/navigation-bar/navigation-b
 import { ConfigurationBarComponent } from './components/configuration-bar/configuration-bar.component';
 import { ContactChatComponent } from './components/contact-chat/contact-chat.component';
 import { ContactListComponent } from './components/contact-list/contact-list.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ContactListComponent } from './components/contact-list/contact-list.com
     NavigationBarComponent,
     ConfigurationBarComponent,
     ContactChatComponent,
-    ContactListComponent
+    ContactListComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,

@@ -12,7 +12,7 @@ body {
 }
 
 /* Styling for the contact (left-side panel) */
-.contact {
+.contact-list {
     background-color: #ECECED;
     color: black;
     padding: 1rem;

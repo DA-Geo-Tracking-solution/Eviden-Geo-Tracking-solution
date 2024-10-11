@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { WebsocketService } from '../../services/websocket.service';
 
 @Component({
@@ -7,6 +7,7 @@ import { WebsocketService } from '../../services/websocket.service';
   styleUrls: ['./contact-chat.component.css'] // Korrigiere hier 'styleUrl' zu 'styleUrls'
 })
 export class ContactChatComponent implements OnInit {
+  @Input() contact!: { name: string; description: string };
 
   public messages: string[] = [];
   public message: string = '';

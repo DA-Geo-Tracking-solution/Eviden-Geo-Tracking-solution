@@ -1,73 +1,43 @@
+<!-- TODO: Muss dann auf system und co. geändert werden -->
 <div data-theme="light">
-    <div class="columns is-gapless is-multiline">
-        <!-- Sidebar (Contact List) -->
-        <div class="column is-one-third is-fullheight contact is-hidden-mobile">
-            <div>
-                <nav class="navbar contact-navbar is-flex" role="navigation" aria-label="main navigation"
-                    style="height: 80px;">
-                    <div class="navbar-brand">
-                        <h1 class="title" style="padding-top: 15%;">Contact Chat</h1>
-                    </div>
-                </nav>
+
+    <div>
+        <nav class="navbar contact-navbar is-flex" role="navigation" aria-label="main navigation" style="height: 80px;">
+            <div class="navbar-brand">
+                <h1 class="title" style="padding-top: 15%;">Contact Chat</h1>
             </div>
+        </nav>
+    </div>
 
-            <!-- Search Bar -->
-            <div class="field has-addons">
-                <div class="control is-expanded">
-                    <input class="input" type="text" placeholder="search">
-                </div>
-                <div class="control">
-                    <button class="button is-info">
-                        Search
-                    </button>
-                </div>
-            </div>
-
-            <!-- List with scrollbar -->
-            <ng-scrollbar>
-                <div class="list has-hoverable-list-items">
-                    <div class="list-item">
-                        <div class="list-item-image">
-                            <figure class="image is-64x64">
-                                <img class="is-rounded" src="https://via.placeholder.com/128x128.png?text=Image">
-                            </figure>
-                        </div>
-                        <div class="list-item-content">
-                            <div class="list-item-title">List item</div>
-                            <div class="list-item-description">List item description</div>
-                        </div>
-                    </div>
-
-                    <div class="list-item">
-                        <div class="list-item-image">
-                            <figure class="image is-64x64">
-                                <img class="is-rounded" src="https://via.placeholder.com/128x128.png?text=Image">
-                            </figure>
-                        </div>
-                        <div class="list-item-content">
-                            <div class="list-item-title">List item</div>
-                            <div class="list-item-description">List item description</div>
-                        </div>
-                    </div>
-
-                    <div class="list-item">
-                        <div class="list-item-image">
-                            <figure class="image is-64x64">
-                                <img class="is-rounded" src="https://via.placeholder.com/128x128.png?text=Image">
-                            </figure>
-                        </div>
-                        <div class="list-item-content">
-                            <div class="list-item-title">List item</div>
-                            <div class="list-item-description">List item description</div>
-                        </div>
-                    </div>
-                </div>
-            </ng-scrollbar>
+    <!-- Search Bar -->
+    <div class="field has-addons">
+        <div class="control is-expanded">
+            <input class="input" type="text" placeholder="search">
         </div>
-
-        <!-- Chat (this will take up more space in mobile view) -->
-        <div class="column chat is-fullheight is-two-thirds-mobile is-fullwidth-tablet">
-            <app-contact-chat></app-contact-chat>
+        <div class="control">
+            <button class="button is-info">
+                Search
+            </button>
         </div>
     </div>
+
+
+
+    <!-- List with scrollbar -->
+    <!-- * https://github.com/MurhafSousli/ngx-scrollbar/wiki -->
+    <ng-scrollbar>
+        <div class="list has-hoverable-list-items">
+            <div class="list-item" *ngFor="let contact of contacts" (click)="selectContact(contact)">
+                <div class="list-item-image">
+                    <figure class="image is-64x64">
+                        <img class="is-rounded" src="https://via.placeholder.com/128x128.png?text=Image">
+                    </figure>
+                </div>
+                <div class="list-item-content">
+                    <div class="list-item-title">{{ contact.name }}</div>
+                    <div class="list-item-description">{{ contact.description }}</div>
+                </div>
+            </div>
+        </div>
+    </ng-scrollbar>
 </div>
