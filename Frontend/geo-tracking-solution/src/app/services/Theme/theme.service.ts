@@ -22,5 +22,3 @@ export class ThemeService {
     this.themeSubject.next(isDarkMode ? 'dark' : 'light');
   }
 }
-
-// TODO: Ladezeit verkürzen

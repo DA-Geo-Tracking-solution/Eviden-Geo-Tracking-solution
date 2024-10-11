@@ -9,11 +9,15 @@ import { ThemeService } from '../../services/Theme/theme.service';
 export class FooterComponent {
   @ViewChild('footer') footer!: ElementRef;
 
+  currentTheme: string = 'light'; // Standardwert
+
   constructor(private renderer: Renderer2, private themeService: ThemeService) { }
 
   ngOnInit() {
+    // Abonnieren des aktuellen Themas vom ThemeService
     this.themeService.currentTheme.subscribe(theme => {
-      this.applyTheme(theme);
+      this.currentTheme = theme; // Speichern des aktuellen Themas
+      this.applyTheme(theme); // Anwenden des Themas
     });
   }
 
