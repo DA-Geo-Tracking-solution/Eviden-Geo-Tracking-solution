@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -9,6 +9,11 @@ import { ConfigurationBarComponent } from './components/configuration-bar/config
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { KeycloakService } from './services/keycloak/keycloak.service';
+
+export function kcFactory(KeycloakService: KeycloakService) {
+  return () => KeycloakService.init();
+}
 
 @NgModule({
   declarations: [
@@ -25,7 +30,13 @@ import { FooterComponent } from './components/footer/footer.component';
   ],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    {
+      provide: APP_INITIALIZER,
+      deps: [KeycloakService],
+      useFactory: kcFactory,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

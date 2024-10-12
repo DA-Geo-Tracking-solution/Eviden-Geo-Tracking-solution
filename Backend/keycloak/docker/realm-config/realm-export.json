@@ -1,16 +1,16 @@
 {
-  "realm": "my-app-realm",
+  "realm": "geo-tacking-solution",
   "enabled": true,
   "clients": [
     {
-      "clientId": "my-spring-app",
+      "clientId": "angular-client",
       "enabled": true,
       "protocol": "openid-connect",
       "publicClient": false,
       "serviceAccountsEnabled": false,
       "secret": "myCustomSecret123!",
       "redirectUris": [
-        "http://localhost:8080/login/oauth2/code/keycloak"
+        "http://localhost:4200/*"
       ],
       "webOrigins": [
         "*"
@@ -18,7 +18,7 @@
       "fullScopeAllowed": true,
       "authorizationServicesEnabled": true,
       "attributes": {
-        "spring.security.oauth2.client.registration.keycloak.client-id": "my-spring-app",
+        "spring.security.oauth2.client.registration.keycloak.client-id": "angular-client",
         "spring.security.oauth2.client.registration.keycloak.client-secret": "myCustomSecret123!"
       }
     }
@@ -34,5 +34,22 @@
         "description": "Admin role"
       }
     ]
-  }
+  },
+  "users": [
+    {
+      "username": "test",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Test",
+      "lastName": "User",
+      "email": "testuser@example.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ]
+    }
+  ]
 }
