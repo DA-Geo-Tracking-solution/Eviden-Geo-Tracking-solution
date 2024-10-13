@@ -15,8 +15,8 @@ export class KeycloakService {
     if (!this._keycloak) {
       this._keycloak = new Keycloak({
         url: 'http://localhost:8081',
-        realm: 'geo-tacking-solution',
-        clientId: 'angular-client',
+        realm: 'geo-tracking-solution',
+        clientId: 'angular-client'
       });   
     }
     return this._keycloak
@@ -29,17 +29,21 @@ export class KeycloakService {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-  async init() {
+  async init(): Promise<boolean> {
     if (isPlatformBrowser(this.platformId)) {
       console.log("init keycloak");
       const authenticated = await this.keycloak?.init({
-        onLoad: 'login-required'
+        onLoad: 'login-required',
+        pkceMethod: 'S256',
+        flow: 'standard',
       })
       if (authenticated) {
         this._profile = (await this.keycloak?.loadUserProfile()) as UserProfile;
         this._profile.token = this._keycloak?.token;
+        return true;
       }
     }
+    return false;
   }
   
   login() {
