@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:25.0.2
+    image: quay.io/keycloak/keycloak:26.0.0
     environment:
       - KEYCLOAK_ADMIN=admin                   # Admin username
       - KEYCLOAK_ADMIN_PASSWORD=admin123       # Admin password

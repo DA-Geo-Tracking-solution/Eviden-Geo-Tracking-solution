@@ -1,0 +1,55 @@
+{
+  "realm": "geo-tracking-solution",
+  "enabled": true,
+  "clients": [
+    {
+      "clientId": "angular-client",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "serviceAccountsEnabled": false,
+      "secret": "null",
+      "redirectUris": [
+        "http://localhost:4200/*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "fullScopeAllowed": true,
+      "authorizationServicesEnabled": true,
+      "attributes": {
+        "spring.security.oauth2.client.registration.keycloak.client-id": "angular-client",
+        "spring.security.oauth2.client.registration.keycloak.client-secret": "myCustomSecret123!"
+      }
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "user",
+        "description": "User role"
+      },
+      {
+        "name": "admin",
+        "description": "Admin role"
+      }
+    ]
+  },
+  "users": [
+    {
+      "username": "test",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Test",
+      "lastName": "User",
+      "email": "testuser@example.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}
