@@ -15,9 +15,11 @@ CREATE TABLE IF NOT EXISTS users (
 
 -- Create GPS Data Table
 CREATE TABLE IF NOT EXISTS gps_data (
-    id UUID PRIMARY KEY,
-    username TEXT,
-    latitude DOUBLE,
-    longitude DOUBLE,
-    timestamp TIMESTAMP
-);
+    username text,
+    timestamp timestamp,
+    id uuid,
+    latitude float,
+    longitude float,
+    PRIMARY KEY (username, timestamp)
+) WITH CLUSTERING ORDER BY (timestamp ASC);
+

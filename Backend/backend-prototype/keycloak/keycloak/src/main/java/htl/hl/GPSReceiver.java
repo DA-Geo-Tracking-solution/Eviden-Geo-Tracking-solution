@@ -61,11 +61,12 @@ public class GPSReceiver {
                     throw new IllegalArgumentException("Invalid GPS format. Expected 'latitude,longitude'");
                 }
 
-                double latitude = Double.parseDouble(gpsParts[0]);
-                double longitude = Double.parseDouble(gpsParts[1]); 
+                float latitude = Float.parseFloat(gpsParts[0]);
+                float longitude = Float.parseFloat(gpsParts[1]); 
 
                 // Validate token with Keycloak
                 AccessToken accessToken = AdapterTokenVerifier.verifyToken(token, keycloakDeployment);
+                System.out.println("Access Token" + accessToken);
 
                 if (accessToken == null) {
                     throw new SecurityException("Invalid token!");
