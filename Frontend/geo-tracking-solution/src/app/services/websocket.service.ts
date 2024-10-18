@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { error } from 'console';
+//import { error } from 'console';
 import { Observable, Subject } from 'rxjs';
 
 
@@ -39,7 +39,7 @@ export class WebsocketService {
   private createObservableSocket(socket: WebSocket): Subject<MessageEvent> {
     const observable = new Observable<MessageEvent>(observer => {
       socket.onmessage = (event) => observer.next(event);
-      socket.onerror = (event) => observer.error(error);
+      //socket.onerror = (event) => observer.error(error);
       socket.onclose = () => observer.complete();
       return () => socket.close();
     });

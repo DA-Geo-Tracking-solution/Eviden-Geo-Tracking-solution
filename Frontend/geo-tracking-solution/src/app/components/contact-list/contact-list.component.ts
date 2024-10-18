@@ -12,10 +12,12 @@ export class ContactListComponent {
   contacts = [
     { name: 'Kontakt 1', description: 'Beschreibung 1' },
     { name: 'Kontakt 2', description: 'Beschreibung 2' },
-    { name: 'Kontakt 3', description: 'Beschreibung 3' }
+    { name: 'Kontakt 3', description: 'Beschreibung 3' },
+    { name: 'Kontakt 4', description: 'Beschreibung 4' }
   ];
 
   selectContact(contact: { name: string; description: string }): void {
+    console.log('Selected Contact: ', contact)
     this.contactSelected.emit(contact);
   }
 }
