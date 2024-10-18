@@ -20,7 +20,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/public/**").permitAll()  // Public routes
                         .requestMatchers("/admin/**").hasRole("admin")   // Admin-only access
                         .requestMatchers("/user/**").hasRole("user")     // User-only access
-                        .anyRequest().authenticated()                      // All other routes require authentication
+                        .anyRequest().authenticated()                    // All other routes require authentication
                 )
                 .oauth2ResourceServer(auth ->
                         auth.jwt(token -> token.jwtAuthenticationConverter(new KeycloakJwtAuthenticationConverter())));
