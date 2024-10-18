@@ -15,7 +15,7 @@ services:
       - KC_IMPORT=/opt/keycloak/data/import/realm-export.json  # Import realm configuration
     ports:
       - 8081:8080
-      - 8443:8443
+      - 8444:8443
     command:
       - "start-dev"
       - "--import-realm"

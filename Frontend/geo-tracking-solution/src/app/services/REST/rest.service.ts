@@ -7,7 +7,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 })
 export class RestService {
 
-  private url: string = ''; // TODO: Die API hinzufügen
+  private url: string = 'http://localhost:8080/admin/hello';
 
   constructor(private http: HttpClient) { }
 
@@ -17,7 +17,7 @@ export class RestService {
   }
 
   // POST
-  
+
 
   // Fehlerbehandlung
   private handleError(error: HttpErrorResponse) {

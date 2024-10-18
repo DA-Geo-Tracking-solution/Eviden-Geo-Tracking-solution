@@ -18,7 +18,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/", "/public/**").permitAll()  // Public routes
-                        .requestMatchers("/admin/**").hasRole("admin")   // Admin-only access
+                        .requestMatchers("/admin/**").hasRole("member")   // Admin-only access
                         .requestMatchers("/user/**").hasRole("user")     // User-only access
                         .anyRequest().authenticated()                      // All other routes require authentication
                 )
