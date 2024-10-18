@@ -6,6 +6,7 @@ import maplibregl from 'maplibre-gl';
 import User from '../classes/User';
 import MaplibreTerradrawControl from '@watergis/maplibre-gl-terradraw';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,6 +18,9 @@ export class VectorMapService {
   private userLocations: { [key: string]: [number, number][] } = {}; // Creating a dictionary to store user locations
 
   private allLocations: any; // Storing the return value of the drawUserMarkers method
+
+  //temporary to store coordinates from map should later be pushed to backend
+  private drawingCoordinates: any;
 
   constructor() { }
 
@@ -59,7 +63,8 @@ export class VectorMapService {
       const lineId = `line-${user.id}`; // Creating a unique ID for each line, using the user's ID as the prefix
       if (this.map) { // Checking if the map property is set
         //debug
-        console.log(this.userLocations[user.id]);
+        //console.log(this.userLocations[user.id]);
+
         const lineData: GeoJSON.FeatureCollection<GeoJSON.LineString> = {
           'type': 'FeatureCollection',
           'features': [
@@ -103,9 +108,49 @@ export class VectorMapService {
   }
 
   initializeDrawControl(): void {
-    this.drawControl = new MaplibreTerradrawControl({});
+    this.drawControl = new MaplibreTerradrawControl({
+      //defaultMode: 'polygon',
+      // You may define additional options here
+      /*modes: [
+        // Define available modes here
+        'point',
+        'linestring',
+        'polygon',
+        'rectangle',
+        'circle',
+        'freehand',
+        'angled-rectangle',
+        'select',
+        'render',
+      ],*/
+    });
 
     // Zeichnungskontrolle der Karte hinzufügen
     this.map.addControl(this.drawControl, 'bottom-left');
+
+    this.map.on('load', (event) => {
+      console.log('draw.create event fired');
+
+      // Retrieve the TerraDraw instance
+      const terraDrawInstance = this.drawControl.getTerraDrawInstance();
+
+      terraDrawInstance.on('finish', (event) => {
+        //debug
+        console.log("drawing complete: ", event);
+
+        // Access the stored features from the Map
+        const storedFeatures = terraDrawInstance["_store"]["store"];
+        
+        // Loop through each feature in the store
+        for (const key in storedFeatures) {
+          if (storedFeatures.hasOwnProperty(key)) {
+            const feature = storedFeatures[key];
+            const coordinates = feature.geometry.coordinates;
+            //debug
+            console.log(feature.properties.mode,' Coordinates:', coordinates);
+          }
+        }
+      });
+    });
   }
 }

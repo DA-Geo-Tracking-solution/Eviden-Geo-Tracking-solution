@@ -84,17 +84,53 @@ export class RasterMapService {
 
     // Zeichnungsoptionen
     const drawControl = new L.Control.Draw({
+      draw: {
+        marker: false,
+        polyline: {
+          shapeOptions: {
+            color: '#0000ff',   // Blue stroke color
+            weight: 4,          // Stroke width of 4 pixels
+            opacity: 0.7,       // 70% opacity for the line
+            dashArray: '5, 5',  // Dashed line (5px dash, 5px gap)
+            lineCap: 'round',   // Rounded line ends
+            lineJoin: 'round'   // Rounded line joins
+          }
+        },
+        polygon: {
+          shapeOptions: {
+            color: '#00ff00'
+          }
+        },
+        rectangle: {
+          shapeOptions: {
+            color: '#000000'
+          }
+        },
+        circle: {
+          shapeOptions: {
+            color: '#ff8800'
+          }
+        }
+      },
       edit: {
-        featureGroup: drawnItems
+        featureGroup: drawnItems, // Set feature group for editing
+        remove: true, // Enable delete button at the bottom
       }
     });
 
     this.map.addControl(drawControl);
 
     // Ereignisse, um auf die gezeichneten Formen zu reagieren
-    this.map.on(L.Draw.Event.CREATED, (e: any) => {
-      const layer = e.layer;
+    this.map.on(L.Draw.Event.CREATED, function (event) {
+      const layer = event.layer;
       drawnItems.addLayer(layer);
+
+      let coordinates;
+
+      if (layer instanceof L.Polygon) {
+        coordinates = layer.getLatLngs();
+        console.log(coordinates);
+      }
     });
   }
 }

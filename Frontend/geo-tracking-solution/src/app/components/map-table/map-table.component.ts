@@ -16,7 +16,7 @@ interface MapType {
   styleUrl: './map-table.component.css'
 })
 export class MapTableComponent {
-  currentUserData: User = { id: -1, username: "currentUser", group: "auth", location: { longitude: 0, latitude: 0 } };
+  currentUserData: User = { id: -1, username: "currentUser", group: "auth", location: { longitude: 16.1, latitude: 48.627 } };
   users: User[] = [this.currentUserData];
 
   displayedColumns: string[] = ['id', 'username', 'longitude', 'latitude'];

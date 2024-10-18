@@ -33,7 +33,10 @@ interface MapType {
   styleUrl: './map.component.css'
 })
 export class MapComponent {
-  public _selectedMap: any;
+  private _selectedMap: string | undefined;
+  //parameter to declare maptype ('vector', 'raster', 'satellite') default should be vector because best performance
+  //TODO remove any type
+  private map: any; //maplibregl.Map | L.DrawMap;
 
   @Input()
   //array to store user information
@@ -43,8 +46,7 @@ export class MapComponent {
     this._selectedMap = value;
     this.reloadMap(this._selectedMap);
   }
-  //parameter to declare maptype ('vector', 'raster', 'satellite') default should be vector because best performance
-  private map: any;
+  
 
   constructor(private rasterMapService: RasterMapService, private vectorService: VectorMapService) { }
 
@@ -53,6 +55,7 @@ export class MapComponent {
     this.changeMapType();
   }
 
+  //TODO: make it change when new data is reseived from backend to avoid Error ERROR TypeError: this.map is undefined
   //draw new Lines and Markers when something changes
   ngOnChanges(changes: SimpleChanges): void {
     this.changeMapType();
@@ -110,7 +113,7 @@ export class MapComponent {
 
     tiles.addTo(this.map);
 
-    // Force the map to recalculate its size after loading
+    // Force the map to recalculate its size after loading to fix the window size issue
     setTimeout(() => {
       this.map.invalidateSize();
     }, 0);
@@ -138,7 +141,7 @@ export class MapComponent {
       showCompass: true
     }));
 
-    // Force the map to resize after loading
+    // Force the map to resize after loading to fix the window size issue
     setTimeout(() => {
       this.map.resize();
     }, 0);
