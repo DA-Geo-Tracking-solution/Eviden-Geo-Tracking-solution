@@ -1,19 +1,24 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
+import { KeycloakService } from '../keycloak/keycloak.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestService {
 
-  private url: string = 'http://localhost:8080/admin/hello';
+  private url: string = 'http://localhost:8080';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private keycloakService: KeycloakService
+  ) {}
 
-  // GET
-  getData(): Observable<any> {
-    return this.http.get<any>(this.url).pipe(catchError(this.handleError))
+  async GET(path: string): Promise<Observable<any>> {
+    const token = this.keycloakService.profile?.token;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get(`${this.url}/${path}`, { headers });
   }
 
   // POST
@@ -32,3 +37,5 @@ export class RestService {
     return throwError('Etwas ist schiefgelaufen; bitte versuchen Sie es später erneut.');
   }
 }
+
+

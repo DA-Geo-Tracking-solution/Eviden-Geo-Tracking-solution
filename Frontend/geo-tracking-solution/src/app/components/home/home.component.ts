@@ -16,16 +16,15 @@ export class HomeComponent {
   constructor(private restService: RestService) { }
 
   onButtonClick() {
-    this.restService.getData().subscribe({
-      next: (response) => {
-        this.data = response;
-        this.errorMsg = undefined;
-        console.log('Unsere Daten:' , this.data);
-      },
-      error: (error) => {
-        this.errorMsg = error;
-        console.error('Unser Fehler: ', this.errorMsg);
-      }
+    this.restService.GET("member/hello").then((response) => {
+      response.subscribe(
+        (data) => {
+          this.data = data;
+        },
+        (error) => {
+          console.error('Error fetching secure data', error);
+        }
+      );
     });
   }
 

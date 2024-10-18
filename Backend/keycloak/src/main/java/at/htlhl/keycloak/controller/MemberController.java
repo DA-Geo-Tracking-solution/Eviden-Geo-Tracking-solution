@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/member")
+public class MemberController {
 
     @GetMapping("/hello")
     public String sayHello() {
-        return "{\"String\": \"Hallo Admin\"}";
+        return "{\"String\": \"Hallo Member\"}";
     }
 
 }

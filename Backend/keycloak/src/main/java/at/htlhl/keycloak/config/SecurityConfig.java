@@ -17,10 +17,11 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/", "/public/**").permitAll()  // Public routes
-                        .requestMatchers("/admin/**").hasRole("member")   // Admin-only access
-                        .requestMatchers("/user/**").hasRole("user")     // User-only access
-                        .anyRequest().authenticated()                      // All other routes require authentication
+                        .requestMatchers("/", "/public/**").permitAll()
+                        .requestMatchers("/member/**").hasRole("member")
+                        .requestMatchers("/squadmaster/**").hasRole("squadmaster")
+                        .requestMatchers("/groupmaster/**").hasRole("groupmaster")
+                        .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(auth ->
                         auth.jwt(token -> token.jwtAuthenticationConverter(new KeycloakJwtAuthenticationConverter())));
