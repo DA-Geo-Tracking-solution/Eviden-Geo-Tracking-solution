@@ -18,6 +18,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/", "/public/**").permitAll()
+                        .requestMatchers("/v3/**", "/swagger-ui/**").permitAll() // Todo delete on production
                         .requestMatchers("/member/**").hasRole("member")
                         .requestMatchers("/squadmaster/**").hasRole("squadmaster")
                         .requestMatchers("/groupmaster/**").hasRole("groupmaster")

@@ -1,18 +1,35 @@
 package at.htlhl.keycloak.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import at.htlhl.keycloak.service.GroupService;
+import at.htlhl.keycloak.service.UserService;
+import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/public")
 public class PublicController {
 
+    private GroupService groupService;
+    private UserService userService;
+
+    @Autowired
+    public PublicController(GroupService groupService, UserService userService) {
+        this.groupService = groupService;
+        this.userService = userService;
+    }
+
     @GetMapping("/hello")
     public String sayHello() {
         return "{\"String\": \"Hallo Welt\"}";
     }
 
+    @GetMapping(path = "/user/{userName}")
+    public List<UserRepresentation> getUser(@PathVariable("userName") String userName){
+        List<UserRepresentation> user = userService.getUser(userName);
+        return user;
+    }
 }
