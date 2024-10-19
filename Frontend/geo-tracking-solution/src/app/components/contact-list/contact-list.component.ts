@@ -16,6 +16,18 @@ export class ContactListComponent {
     { name: 'Kontakt 4', description: 'Beschreibung 4' }
   ];
 
+  filteredContacts = [...this.contacts];  // Kopie der Kontakte für die Anzeige
+  searchContact: string = '';
+
+  filterContacts(): void {
+    const lowerSearchText = this.searchContact.toLowerCase();
+
+    this.filteredContacts = this.contacts.filter(contact =>
+      contact.name.toLowerCase().includes(lowerSearchText) ||
+      contact.description.toLowerCase().includes(lowerSearchText)
+    );
+  }
+
   selectContact(contact: { name: string; description: string }): void {
     console.log('Selected Contact: ', contact)
     this.contactSelected.emit(contact);
