@@ -13,6 +13,9 @@ import { ConfigurationBarComponent } from './components/configuration-bar/config
 import { ContactChatComponent } from './components/contact-chat/contact-chat.component';
 import { ContactListComponent } from './components/contact-list/contact-list.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { LowerBarComponent } from './components/lower-bar/lower-bar.component';
+import { AddChatAlertComponent } from './components/add-chat-alert/add-chat-alert.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -22,14 +25,17 @@ import { ContactComponent } from './components/contact/contact.component';
     ConfigurationBarComponent,
     ContactChatComponent,
     ContactListComponent,
-    ContactComponent
+    ContactComponent,
+    LowerBarComponent,
+    AddChatAlertComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ScrollerModule,
     NgScrollbarModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule
   ],
   providers: [
     provideClientHydration(),
