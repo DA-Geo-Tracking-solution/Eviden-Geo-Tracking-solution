@@ -78,3 +78,48 @@ body {
     padding: 1rem;
     overflow-y: auto;
 }
+
+/* Für die lower-bar component */
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.scrollable-content {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 10px;
+    /* Platz für die fixe untere Leiste */
+}
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 160px);
+    /* 160px für Navbar und andere Elemente anpassen */
+}
+
+.ng-scrollbar {
+    flex: 1;
+}
+
+/* Styling für die lower-bar */
+.lower-bar {
+    background-color: #f8f8f8;
+    /* Beispielhintergrundfarbe */
+    padding: 1rem;
+    /* Beispiel-Padding */
+    border-top: 1px solid #ddd;
+    /* Beispielrahmen oben */
+}
+
+/* Optional: Wenn du Animationen hinzufügen möchtest */
+.list-item {
+    transition: background-color 0.3s;
+}
+
+.list-item:hover {
+    background-color: #f0f0f0;
+    /* Beispielhintergrundfarbe beim Hover */
+}

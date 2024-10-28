@@ -1,6 +1,4 @@
-<!-- TODO: Muss dann auf system und co. geändert werden -->
 <div data-theme="">
-
     <div>
         <nav class="navbar contact-navbar is-flex" role="navigation" aria-label="main navigation" style="height: 80px;">
             <div class="navbar-brand">
@@ -21,27 +19,28 @@
         </div>
     </div>
 
-
-    <!-- List with scrollbar -->
-    <!-- * https://github.com/MurhafSousli/ngx-scrollbar/wiki -->
-    <ng-scrollbar>
-        <div class="list has-hoverable-list-items">
-            <div class="list-item" *ngFor="let contact of contacts" (click)="selectContact(contact)">
-                <div class="list-item-image">
-                    <figure class="image is-64x64">
-                        <img class="is-rounded" src="https://via.placeholder.com/128x128.png?text=Image">
-                    </figure>
-                </div>
-                <div class="list-item-content">
-                    <div class="list-item-title">{{ contact.name }}</div>
-                    <div class="list-item-description">{{ contact.email }}</div>
+    <!-- List Container -->
+    <div class="list-container" style="display: flex; flex-direction: column; height: calc(100vh - 160px);">
+        <!-- Adjust height as needed -->
+        <!-- List with scrollbar -->
+        <!-- * https://github.com/MurhafSousli/ngx-scrollbar/wiki -->
+        <ng-scrollbar class="scrollable-content" style="flex: 1;">
+            <div class="list has-hoverable-list-items">
+                <div class="list-item" *ngFor="let contact of contacts" (click)="selectContact(contact)">
+                    <div class="list-item-image">
+                        <figure class="image is-64x64">
+                            <img class="is-rounded" src="https://via.placeholder.com/128x128.png?text=Image">
+                        </figure>
+                    </div>
+                    <div class="list-item-content">
+                        <div class="list-item-title">{{ contact.name }}</div>
+                        <div class="list-item-description">{{ contact.email }}</div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </ng-scrollbar>
-    <!-- TODO: Muss permanten ganz unten angzeigt werden -->
-    <div>
-        <app-lower-bar (contactAdded)="addNewContact($event)" />
-    </div>
+        </ng-scrollbar>
 
+        <!-- TODO: Muss permanent unter der Kontaktliste angezeigt werden -->
+        <app-lower-bar (contactAdded)="addNewContact($event)"></app-lower-bar>
+    </div>
 </div>

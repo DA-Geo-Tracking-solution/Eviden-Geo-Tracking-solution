@@ -10,11 +10,11 @@ export class ContactListComponent {
   @Output() contactSelected = new EventEmitter<{ name: string; email: string }>();
 
   contacts = [
-    { name: 'Kontakt 1', email: 'Beschreibung 1' },
-    { name: 'Kontakt 2', email: 'Beschreibung 2' },
-    { name: 'Kontakt 3', email: 'Beschreibung 3' },
-    { name: 'Kontakt 4', email: 'Beschreibung 4' },
-    { name: 'Kontakt 5', email: 'Beschreibung 5' }
+    { name: 'Kontakt 1', email: 'kontact1@mail.com' },
+    { name: 'Kontakt 2', email: 'kontact2@mail.com' },
+    { name: 'Kontakt 3', email: 'kontact3@mail.com' },
+    { name: 'Kontakt 4', email: 'kontact4@mail.com' },
+    { name: 'Kontakt 5', email: 'kontact5@mail.com' }
   ];
 
   filteredContacts = [...this.contacts];  // Kopie der Kontakte für die Anzeige
