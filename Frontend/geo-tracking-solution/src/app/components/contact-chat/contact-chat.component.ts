@@ -4,7 +4,7 @@ import { WebsocketService } from '../../services/websocket.service';
 @Component({
   selector: 'app-contact-chat',
   templateUrl: './contact-chat.component.html',
-  styleUrls: ['./contact-chat.component.css'] // Korrigiere hier 'styleUrl' zu 'styleUrls'
+  styleUrls: ['./contact-chat.component.css'] 
 })
 export class ContactChatComponent implements OnInit {
   @Input() contact!: { name: string; email: string };

@@ -17,10 +17,9 @@ export class ContactListComponent {
     { name: 'Kontakt 5', email: 'kontact5@mail.com' }
   ];
 
-  filteredContacts = [...this.contacts];  // Kopie der Kontakte für die Anzeige
+  filteredContacts = this.contacts;  // Kopie der Kontakte für die Anzeige
   searchContact: string = '';
 
-  // TODO: Noch zu bearbeiten
   filterContacts(): void {
     const lowerSearchText = this.searchContact.toLowerCase();
 

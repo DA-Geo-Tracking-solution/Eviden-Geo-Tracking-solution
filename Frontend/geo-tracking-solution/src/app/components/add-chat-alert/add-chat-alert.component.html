@@ -1,4 +1,4 @@
-<div class="notification">
+<div class="notification" style="border-radius: 0;">
 
   <!-- * https://bulmajs.tomerbe.co.uk/docs/0.12/2-core-components/alert/ -->
   <!-- TODO: Noch einen passenden Alert hinzufügen wo dann der Nutzer einen chat mit wem anderen starten kann -->
@@ -8,10 +8,10 @@
   <!-- Search Bar -->
   <div class="field has-addons">
     <div class="control is-expanded">
-      <input class="input" type="text" placeholder="search">
+      <input class="input" type="text" placeholder="search" [(ngModel)] = "serchTerm" (keyup)="filterContacts()">
     </div>
     <div class="control">
-      <button class="button is-info">
+      <button class="button is-info" (click)="filterContacts()">
         Search
       </button>
     </div>
@@ -27,7 +27,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let contact of contacts" (click)="selectContact(contact)">
+      <tr *ngFor="let contact of filteredContacts" (click)="selectContact(contact)">
         <td>{{ contact.name}}</td>
         <td>{{ contact.email}}</td>
       </tr>

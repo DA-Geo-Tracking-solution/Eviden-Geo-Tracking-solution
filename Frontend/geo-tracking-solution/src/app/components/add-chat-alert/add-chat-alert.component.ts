@@ -10,9 +10,12 @@ export class AddChatAlertComponent {
 
   contacts = [
     { name: 'Bob Boblio', email: 'bobo@lio.com' },
-    { name: 'Alice', lastname: 'Wonderland', email: 'alice@wonder.com' },
+    { name: 'Alice Wonderland', email: 'alice@wonder.com' },
     { name: 'Max Mustermann', email: 'mustermann@max.com' }
   ];
+
+  filteredContacts = this.contacts;
+  serchTerm = ''; //Suchtext
 
   @Output() contactSelected = new EventEmitter<{ name: string; email: string }>();
 
@@ -26,6 +29,13 @@ export class AddChatAlertComponent {
     console.log(contact);
     this.contactSelected.emit(contact);
     this.closeDialog();
+  }
+
+  filterContacts(){
+    const term = this.serchTerm.toLowerCase();
+    this.filteredContacts = this.contacts.filter(contact => 
+      contact.name.toLowerCase().includes(term) || contact.email.toLowerCase().includes(term)
+    );
   }
 
 }

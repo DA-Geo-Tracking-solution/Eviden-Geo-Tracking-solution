@@ -7,7 +7,8 @@ import { Component } from '@angular/core';
 })
 export class ContactComponent {
 
-  selectedContact: { name: string; email: string } = { name: 'Bob', email: 'Das ist Boblio' };
+  //
+  selectedContact: { name: string; email: string } = { name: '', email: '' };
 
   onContactSelected(contact: { name: string; email: string }) {
     this.selectedContact = contact;
