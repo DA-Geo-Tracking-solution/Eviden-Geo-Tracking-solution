@@ -8,7 +8,9 @@ export class ThemeService {
   private themeSubject = new BehaviorSubject<string>('system');
   currentTheme = this.themeSubject.asObservable();
 
-  constructor() { }
+  constructor() {
+    // this.applySystemTheme();
+  }
 
   setTheme(theme: string) {
     this.themeSubject.next(theme);
