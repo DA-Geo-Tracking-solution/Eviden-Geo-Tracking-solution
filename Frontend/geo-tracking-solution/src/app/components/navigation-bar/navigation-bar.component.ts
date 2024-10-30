@@ -10,8 +10,8 @@ export class NavigationBarComponent {
   @ViewChild('navbar') navbar!: ElementRef;
 
   dashboardIcon: string = '../../../assets/icons/navigation-bar/black/dashboard_black.png';
-  groupsIcon: string = '../../../assets/icons/navigation-bar/black/groupe_black.png';
-  contactIcon: string = '../../../assets/icons/navigation-bar/black/contact_black.png';
+  createUserIcon: string = '../../../assets/icons/navigation-bar/black/user_black.png';
+  chatIcon: string = '../../../assets/icons/navigation-bar/black/chat_black.png';
   mapIcon: string = '../../../assets/icons/navigation-bar/black/map_black.png';
   moreIcon: string = '../../../assets/icons/menue_black.png';
   evidenLogo: string = '../../../assets/Logo/Eviden_Black.png';
@@ -89,8 +89,8 @@ export class NavigationBarComponent {
 
   updateIconsForDarkTheme() {
     this.dashboardIcon = '../../../assets/icons/navigation-bar/white/dashboard_white.png';
-    this.groupsIcon = '../../../assets/icons/navigation-bar/white/groupe_white.png';
-    this.contactIcon = '../../../assets/icons/navigation-bar/white/contact_white.png';
+    this.createUserIcon = '../../../assets/icons/navigation-bar/white/user_white.png';
+    this.chatIcon = '../../../assets/icons/navigation-bar/white/chat_white.png';
     this.mapIcon = '../../../assets/icons/navigation-bar/white/map_white.png';
     this.moreIcon = '../../../assets/icons/menue_white.png';
     this.evidenLogo = '../../../assets/Logo/Eviden_White.png';
@@ -98,8 +98,8 @@ export class NavigationBarComponent {
 
   updateIconsForLightTheme() {
     this.dashboardIcon = '../../../assets/icons/navigation-bar/black/dashboard_black.png';
-    this.groupsIcon = '../../../assets/icons/navigation-bar/black/groupe_black.png';
-    this.contactIcon = '../../../assets/icons/navigation-bar/black/contact_black.png';
+    this.createUserIcon = '../../../assets/icons/navigation-bar/black/user_black.png';
+    this.chatIcon = '../../../assets/icons/navigation-bar/black/chat_black.png';
     this.mapIcon = '../../../assets/icons/navigation-bar/black/map_black.png';
     this.moreIcon = '../../../assets/icons/menue_black.png';
     this.evidenLogo = '../../../assets/Logo/Eviden_Black.png';
