@@ -11,11 +11,12 @@ import java.util.List;
 @RequestMapping("/squadmaster")
 public class SquadmasterController {
 
-    @GetMapping("/Squads/")
-    @Operation(description = "Returns all Squads")
+    @GetMapping("/squads")
+    @Operation(description = "Returns all Squads of Group")
     public Object getSquad() {
         return new Object();
     }
+
     @PostMapping("/squad")
     @Operation(description = "Create a squad with squadId and user-emails-array")
     public String createSquad(@RequestBody Chat chat) {

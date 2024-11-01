@@ -26,18 +26,20 @@ public class GroupmasterController {
     }
 
     @PostMapping("/user")
-    @Operation(description = "Creates new user with format { userEmail, username, firstname, lastname, temporaryPassword } in Group")
+    @Operation(description = "Creates new user in format { userEmail, username, firstname, lastname, temporaryPassword } in Group")
     public String createUser(@RequestBody User userModel){
+        userModel.getLastname();
         try {
-            userService.addUser(userModel);
+            throw new Exception("not implemented");
+            //userService.addUser(userModel);
         } catch (Exception e) {
-            return "Failed to Add User";
+            return "Failed to Add User!";
         }
-        return "User Added Successfully.";
+        //return "User Added Successfully.";
     }
 
 
-    @PostMapping("/group")
+    @PostMapping("/subgroup")
     @Operation(description = "")
     public String createSubGroup(@RequestBody Group group) {
         return "not Successful";
