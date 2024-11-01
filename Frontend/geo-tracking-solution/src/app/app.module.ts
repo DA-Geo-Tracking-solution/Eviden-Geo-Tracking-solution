@@ -12,6 +12,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { KeycloakService } from './services/keycloak/keycloak.service';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 export function kcFactory(KeycloakService: KeycloakService) {
   return () => KeycloakService.init();
 }
@@ -28,6 +30,7 @@ export function kcFactory(KeycloakService: KeycloakService) {
   ],
   imports: [
     BrowserModule,
+    FontAwesomeModule,
     AppRoutingModule
   ],
   providers: [

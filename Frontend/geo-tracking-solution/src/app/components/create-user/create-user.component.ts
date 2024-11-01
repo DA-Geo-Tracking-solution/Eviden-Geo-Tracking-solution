@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ThemeService } from '../../services/Theme/theme.service';
 import { Subscription } from 'rxjs';
+import { faCheck, faUser, faEnvelope, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-create-user',
@@ -12,6 +13,10 @@ export class CreateUserComponent implements OnInit, OnDestroy {
   // TODO: Noch passendes Background Image für light/dark mode finden
   backgroundImage: string = '';
   private themeSubscription: Subscription | undefined;
+
+  // * Icons:
+  faEnvelope = faEnvelope;
+  faUser = faUser;
 
   constructor(private themeService: ThemeService) { }
 
