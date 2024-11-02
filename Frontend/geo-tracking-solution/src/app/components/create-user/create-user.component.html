@@ -84,6 +84,7 @@
                     <fa-icon [icon]="faCheck"></fa-icon>
                 </span>
             </div>
+            <!-- TODO: Noch einfügen was genau beim Password beachtet werden muss -->
             <p class="help is-danger" *ngIf="form.controls['password'].hasError('passwordStrength')">
                 {{ form.controls['password'].getError('passwordStrength') }}
             </p>
