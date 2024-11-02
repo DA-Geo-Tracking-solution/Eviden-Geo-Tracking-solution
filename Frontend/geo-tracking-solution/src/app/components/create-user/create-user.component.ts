@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ThemeService } from '../../services/Theme/theme.service';
 import { from, Subscription } from 'rxjs';
-import { faCheck, faUser, faEnvelope, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faUser, faEnvelope, faExclamationTriangle, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 
 @Component({
@@ -11,7 +11,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 })
 export class CreateUserComponent implements OnInit, OnDestroy {
 
-  // TODO: Noch passendes Background Image für light/dark mode finden
   backgroundImage: string = '';
   private themeSubscription: Subscription | undefined;
 
@@ -19,12 +18,16 @@ export class CreateUserComponent implements OnInit, OnDestroy {
   faEnvelope = faEnvelope;
   faUser = faUser;
   faExclamationTriangle = faExclamationTriangle;
+  faKey = faKey;
+  faCheck = faCheck;
 
   // * Form 
   form: FormGroup;
 
   constructor(private themeService: ThemeService, private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
+      firstname: [''], // Hinzugefügt
+      lastname: [''], // Hinzugefügt
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/[A-Z]/)]]

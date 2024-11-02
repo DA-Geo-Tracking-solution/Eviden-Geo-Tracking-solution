@@ -9,14 +9,14 @@
         <div class="field">
             <label class="label">Firstname</label>
             <div class="control">
-                <input class="input" type="text" placeholder="Firstname">
+                <input class="input" type="text" placeholder="Firstname" formControlName="firstname">
             </div>
         </div>
 
         <div class="field">
             <label class="label">Lastname</label>
             <div class="control">
-                <input class="input" type="text" placeholder="Lastname">
+                <input class="input" type="text" placeholder="Lastname" formControlName="lastname">
             </div>
         </div>
 
@@ -28,6 +28,14 @@
                     [ngClass]="{'is-success': form.controls['username'].valid, 'is-danger': form.controls['username'].invalid && form.controls['username'].dirty}">
                 <span class="icon is-small is-left">
                     <fa-icon [icon]="faUser"></fa-icon>
+                </span>
+                <span class="icon is-small is-right"
+                    *ngIf="form.controls['username'].invalid && form.controls['username'].dirty">
+                    <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+                </span>
+                <span class="icon is-small is-right"
+                    *ngIf="form.controls['username'].valid">
+                    <fa-icon [icon]="faCheck"></fa-icon>
                 </span>
             </div>
             <p class="help is-danger" *ngIf="form.controls['username'].invalid && form.controls['username'].dirty">
@@ -48,6 +56,10 @@
                     *ngIf="form.controls['email'].invalid && form.controls['email'].dirty">
                     <fa-icon [icon]="faExclamationTriangle"></fa-icon>
                 </span>
+                <span class="icon is-small is-right"
+                    *ngIf="form.controls['email'].valid">
+                    <fa-icon [icon]="faCheck"></fa-icon>
+                </span>
             </div>
             <p class="help is-danger" *ngIf="form.controls['email'].invalid && form.controls['email'].dirty">
                 This email is invalid
@@ -57,9 +69,20 @@
         <!-- Password -->
         <div class="field">
             <label class="label">Temporary Password</label>
-            <div class="control">
+            <div class="control has-icons-left has-icons-right">
                 <input class="input" type="password" placeholder="Temporary Password" formControlName="password"
                     [ngClass]="{'is-success': form.controls['password'].valid, 'is-danger': form.controls['password'].invalid && form.controls['password'].dirty}">
+                <span class="icon is-small is-left">
+                    <fa-icon [icon]="faKey"></fa-icon>
+                </span>
+                <span class="icon is-small is-right"
+                *ngIf="form.controls['password'].invalid && form.controls['password'].dirty">
+                <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+            </span>
+            <span class="icon is-small is-right"
+                    *ngIf="form.controls['password'].valid">
+                    <fa-icon [icon]="faCheck"></fa-icon>
+                </span>
             </div>
             <p class="help is-danger" *ngIf="form.controls['password'].hasError('passwordStrength')">
                 {{ form.controls['password'].getError('passwordStrength') }}
