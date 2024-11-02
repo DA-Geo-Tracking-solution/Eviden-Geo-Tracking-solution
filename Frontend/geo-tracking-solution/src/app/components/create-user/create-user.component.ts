@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ThemeService } from '../../services/Theme/theme.service';
-import { Subscription } from 'rxjs';
+import { from, Subscription } from 'rxjs';
 import { faCheck, faUser, faEnvelope, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 
 @Component({
   selector: 'app-create-user',
@@ -17,8 +18,18 @@ export class CreateUserComponent implements OnInit, OnDestroy {
   // * Icons:
   faEnvelope = faEnvelope;
   faUser = faUser;
+  faExclamationTriangle = faExclamationTriangle;
 
-  constructor(private themeService: ThemeService) { }
+  // * Form 
+  form: FormGroup;
+
+  constructor(private themeService: ThemeService, private formBuilder: FormBuilder) {
+    this.form = this.formBuilder.group({
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/[A-Z]/)]]
+    }, { updateOn: 'change' });
+  }
 
   ngOnInit(): void {
     this.themeSubscription = this.themeService.currentTheme.subscribe((theme: string) => {
@@ -29,8 +40,13 @@ export class CreateUserComponent implements OnInit, OnDestroy {
   updateBackgroundImage(theme: string) {
     if (theme === 'dark') {
       this.backgroundImage = '../../../assets/background/BI-1-DEEP_BLUE_CLOSE_UP_2.jpg';
-    } else {
+    } else if (theme === 'light') {
       this.backgroundImage = '../../../assets/background/BI-1-ORANGE_CLOSE_UP_2.jpg';
+    } else {
+      // Optional: Default oder systemabhängige Logik
+      this.backgroundImage = window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? '../../../assets/background/BI-1-DEEP_BLUE_CLOSE_UP_2.jpg'
+        : '../../../assets/background/BI-1-ORANGE_CLOSE_UP_2.jpg';
     }
   }
 
@@ -39,4 +55,10 @@ export class CreateUserComponent implements OnInit, OnDestroy {
       this.themeSubscription.unsubscribe();
     }
   }
+
+  // Getter
+  get username() { return this.form.get('username'); }
+  get email() { return this.form.get('email'); }
+  get password() { return this.form.get('password'); }
+
 }

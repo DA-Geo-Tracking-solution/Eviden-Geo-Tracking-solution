@@ -13,6 +13,8 @@ import { KeycloakService } from './services/keycloak/keycloak.service';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 export function kcFactory(KeycloakService: KeycloakService) {
   return () => KeycloakService.init();
@@ -31,6 +33,7 @@ export function kcFactory(KeycloakService: KeycloakService) {
   imports: [
     BrowserModule,
     FontAwesomeModule,
+    ReactiveFormsModule,
     AppRoutingModule
   ],
   providers: [
