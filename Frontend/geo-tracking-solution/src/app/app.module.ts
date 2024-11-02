@@ -11,6 +11,11 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { KeycloakService } from './services/keycloak/keycloak.service';
+import { CreateUserComponent } from './components/create-user/create-user.component';
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 export function kcFactory(KeycloakService: KeycloakService) {
   return () => KeycloakService.init();
@@ -23,12 +28,15 @@ export function kcFactory(KeycloakService: KeycloakService) {
     ConfigurationBarComponent,
     LoginComponent,
     HomeComponent,
-    FooterComponent
+    FooterComponent,
+    CreateUserComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FontAwesomeModule,
+    ReactiveFormsModule,
+    AppRoutingModule
   ],
   providers: [
     provideClientHydration(),
