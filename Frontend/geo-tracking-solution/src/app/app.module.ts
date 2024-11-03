@@ -16,6 +16,8 @@ import { CreateUserComponent } from './components/create-user/create-user.compon
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from './components/settings/settings.component';
+import { UserComponent } from './components/settings/user/user.component';
+import { ChangeLanguageComponent } from './components/settings/change-language/change-language.component';
 
 
 export function kcFactory(KeycloakService: KeycloakService) {
@@ -31,7 +33,9 @@ export function kcFactory(KeycloakService: KeycloakService) {
     HomeComponent,
     FooterComponent,
     CreateUserComponent,
-    SettingsComponent
+    SettingsComponent,
+    UserComponent,
+    ChangeLanguageComponent
   ],
   imports: [
     BrowserModule,

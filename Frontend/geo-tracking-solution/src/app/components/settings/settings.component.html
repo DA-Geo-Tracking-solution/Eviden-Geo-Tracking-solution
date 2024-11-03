@@ -1,1 +1,22 @@
-<p>settings works!</p>
+<div class="tabs is-centered is-boxed">
+    <ul>
+        <li [class.is-active]="isActiveTab('user')">
+            <a routerLink="user" (click)="setActiveTab('user')">
+                <span class="icon is-small">
+                    <fa-icon [icon]="faUser"></fa-icon>
+                </span>
+                <span>User</span>
+            </a>
+        </li>
+        <li [class.is-active]="isActiveTab('language')">
+            <a routerLink="language" (click)="setActiveTab('language')">
+                <span class="icon is-small"><i class="fas fa-language" aria-hidden="true"></i></span>
+                <span>Change Language</span>
+            </a>
+        </li>
+        <!-- Weitere Tabs -->
+    </ul>
+</div>
+
+<!-- Hier wird der Inhalt der untergeordneten Routen angezeigt -->
+<router-outlet></router-outlet> <!-- Notwendig für untergeordnete Routen -->
