@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AddChatAlertComponent } from '../add-chat-alert/add-chat-alert.component';
+import { AddChatAlertComponent } from './add-chat-alert/add-chat-alert.component';
 import { subscribe } from 'node:diagnostics_channel';
 
 @Component({
