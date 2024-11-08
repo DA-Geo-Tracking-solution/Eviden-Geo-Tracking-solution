@@ -11,7 +11,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { ConfigurationBarComponent } from './components/configuration-bar/configuration-bar.component';
 import { ContactChatComponent } from './components/contact/contact-chat/contact-chat.component';
-import { ContactListComponent } from './components/contact-list/contact-list.component';
+import { ContactListComponent } from './components/contact/contact-list/contact-list.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { LowerBarComponent } from './components/lower-bar/lower-bar.component';
 import { AddChatAlertComponent } from './components/lower-bar/add-chat-alert/add-chat-alert.component';

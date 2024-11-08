@@ -22,6 +22,7 @@ body {
 
 /* Navbar for contact section */
 .contact-navbar {
+    /* TODO: Neue Passende Farbe für Navbar einfügen */
     background-color: yellow;
     color: brown;
     padding: 1rem;
