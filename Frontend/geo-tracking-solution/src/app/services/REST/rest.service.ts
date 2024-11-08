@@ -22,7 +22,11 @@ export class RestService {
   }
 
   // POST
-
+  async POST(path: string): Promise<Observable<any>>{
+    const token = this.keycloakService.profile?.token;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post(`${this.url}/${path}`, { headers });
+  }
 
   // Fehlerbehandlung
   private handleError(error: HttpErrorResponse) {
