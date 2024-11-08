@@ -1,7 +1,0 @@
-.background-container {
-    height: 100vh;               /* Volle Höhe des Bildschirms */
-    background-size: cover;       /* Bild skaliert proportional, um den Container zu füllen */
-    background-position: center;  /* Zentriert das Bild */
-    background-repeat: no-repeat; /* Bild wird nicht wiederholt */
-  }
-  

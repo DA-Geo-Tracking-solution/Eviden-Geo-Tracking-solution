@@ -11,10 +11,12 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { KeycloakService } from './services/keycloak/keycloak.service';
-import { CreateUserComponent } from './components/create-user/create-user.component';
+import { CreateUserComponent } from './components/user-group/create-user/create-user.component';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UserGroupComponent } from './components/user-group/user-group.component';
+import { CreateGroupComponent } from './components/user-group/create-group/create-group.component';
 
 
 export function kcFactory(KeycloakService: KeycloakService) {
@@ -29,7 +31,9 @@ export function kcFactory(KeycloakService: KeycloakService) {
     LoginComponent,
     HomeComponent,
     FooterComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    UserGroupComponent,
+    CreateGroupComponent
   ],
   imports: [
     BrowserModule,
