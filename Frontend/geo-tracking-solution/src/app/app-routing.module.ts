@@ -14,8 +14,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
     path: 'create', component: UserGroupComponent, children: [
-      { path: 'user', component: CreateUserComponent },
-      { path: 'group', component: CreateGroupComponent }
+      { path: 'user', component: CreateUserComponent, data: {width: '100%', maxWidth: '500px'} },
+      { path: 'group', component: CreateGroupComponent, data: {width: '100%', maxWidth: '500px'} }
     ]
   }
 ];

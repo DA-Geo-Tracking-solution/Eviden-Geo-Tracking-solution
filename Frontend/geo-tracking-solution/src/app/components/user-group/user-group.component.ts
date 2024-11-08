@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ThemeService } from '../../services/Theme/theme.service';
 import { from, Subscription } from 'rxjs';
-import { faCheck, faUser, faEnvelope, faExclamationTriangle, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Router, ActivatedRoute } from '@angular/router';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -13,14 +14,29 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 export class UserGroupComponent {
   backgroundImage: string = '';
   private themeSubscription: Subscription | undefined;
+  activeTab: string = 'user'
 
-  constructor(private themeService: ThemeService) {
-  }
+  faUser = faUser;
+
+  // Variablen für dynamisches Styling
+  width: string = '100%';
+  maxWidth: string = 'none';
+  containerClass: string = 'container box';
+
+  constructor(private themeService: ThemeService, private route: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.themeSubscription = this.themeService.currentTheme.subscribe((theme: string) => {
       this.updateBackgroundImage(theme);
     });
+
+
+    const routeData = this.activatedRoute.snapshot.firstChild?.data;
+    if (routeData) {
+      this.width = routeData['width'] || '100%';
+      this.maxWidth = routeData['maxWidth'] || 'none';
+    }
+
   }
 
   updateBackgroundImage(theme: string) {
@@ -40,6 +56,14 @@ export class UserGroupComponent {
     if (this.themeSubscription) {
       this.themeSubscription.unsubscribe();
     }
+  }
+
+  setActiveTab(tab: string) {
+    this.activeTab = tab;
+  }
+
+  isActiveTab(tab: string): boolean {
+    return this.activeTab == tab;
   }
 
 }

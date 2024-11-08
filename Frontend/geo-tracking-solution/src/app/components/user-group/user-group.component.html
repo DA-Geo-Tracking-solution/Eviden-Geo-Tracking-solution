@@ -1,8 +1,32 @@
-<app-navigation-bar></app-navigation-bar>
+<app-navigation-bar />
 
 <div class="background-container is-flex is-justify-content-center is-align-items-center"
     [ngStyle]="{'background-image': 'url(' + backgroundImage + ')', 'min-height': '100vh'}">
+        
+        <li [class.is-active]="isActiveTab('user')">
+            <a routerLink="user" (click)="setActiveTab('user')">
+                <span class="icon is-small">
+                    <fa-icon [icon]="faUser"></fa-icon>
+                </span>
+                <span>User</span>
+            </a>
+        </li>
+        <li [class.is-active]="isActiveTab('group')">
+            <a routerLink="group" (click)="setActiveTab('group')">
+                <span class="icon is-small">
+                    <fa-icon [icon]="faUser"></fa-icon>
+                </span>
+                <span>Group</span>
+            </a>
+        </li>
+    <!-- <app-create-user class="container box" style="width: 100%; max-width: 500px;" /> -->
 
-    <app-create-user/>
+
+    <!-- Inhalt der untergeordneten Routen -->
+    <div *ngIf="activeTab === 'user' || activeTab === 'group'" [ngStyle]="{ 'width': width, 'max-width': maxWidth}"
+        [ngClass]="containerClass"> <!-- Dynamische Klassen hier anwenden -->
+        <router-outlet></router-outlet>
+        <!-- Der Inhalt der jeweiligen Komponente (CreateUser oder CreateGroup) wird hier geladen -->
+    </div>
 
 </div>
