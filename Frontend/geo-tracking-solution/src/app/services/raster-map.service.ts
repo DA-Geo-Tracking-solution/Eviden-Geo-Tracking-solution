@@ -13,12 +13,17 @@ export class RasterMapService {
   private userLocations: { [key: string]: [number, number][] } = {};
 
   private allLocations: any;
+  private drawnItems = new L.FeatureGroup();
+  //temporary to store coordinates from map should later be pushed to backend
+  private drawingCoordinates: any;
 
   constructor() { }
 
   setMap(map: L.Map): void {
     this.map = map;
-  } drawUserMarkers(users: User[]) {
+  }
+
+  drawUserMarkers(users: User[]) {
     if (this.map) {
       for (const user of users) {
         if (this.rastermarkers[user.id]) {
@@ -72,6 +77,48 @@ export class RasterMapService {
       }
     }
   }
+
+  drawDrawings(drawingData: any) {
+    for (const figure of drawingData) {
+      if (figure.type === 'Polygon') {
+        const polygonCoordinates = [];
+        for (const coordinates of figure.coordinates[0]) {
+          polygonCoordinates.push([coordinates[1], coordinates[0]]);
+        }
+        L.polygon(polygonCoordinates, {
+          color: 'blue',
+          fillColor: '#3388ff',
+          fillOpacity: 0.5
+        }).addTo(this.drawnItems);
+      } else if (figure.type === 'Circle') {
+        const center: L.LatLngExpression = [figure.coordinates[0][1], figure.coordinates[0][0]];
+        const radius = figure.coordinates[1];
+        //factor for latitude specific factor from DegreeLongitude to meters
+        const metersPerDegreeLongitude = 111320 * Math.cos(figure.coordinates[0][1] * (Math.PI / 180));
+
+        L.circle(center, {
+          radius: radius * metersPerDegreeLongitude,
+          color: 'blue',
+          fillColor: '#3388ff',
+          fillOpacity: 0.5
+        }).addTo(this.drawnItems);
+      } else if (figure.type === 'Linestring') {
+        const linestringCoordinates = [];
+        for (const coordinates of figure.coordinates) {
+          linestringCoordinates.push([coordinates[1], coordinates[0]]);
+        }
+        L.polyline(linestringCoordinates, {
+          color: 'blue',
+          fillColor: '#3388ff',
+          fillOpacity: 0.5
+        }).addTo(this.drawnItems);
+      }else if (figure.type === 'Point') {
+        const pointCoordinates: L.LatLngExpression = [figure.coordinates[1], figure.coordinates[0]];
+        L.circleMarker(pointCoordinates, {radius: 5}).addTo(this.drawnItems);
+      }
+    }
+  }
+
   //clear the MarkersArray
   clearMarkers() {
     this.rastermarkers = [];
@@ -79,8 +126,7 @@ export class RasterMapService {
 
   initializeDrawing(): void {
     // Zeichenebene
-    const drawnItems = new L.FeatureGroup();
-    this.map.addLayer(drawnItems);
+    this.map.addLayer(this.drawnItems);
 
     // Zeichnungsoptionen
     const drawControl = new L.Control.Draw({
@@ -113,7 +159,7 @@ export class RasterMapService {
         }
       },
       edit: {
-        featureGroup: drawnItems, // Set feature group for editing
+        featureGroup: this.drawnItems, // Set feature group for editing
         remove: true, // Enable delete button at the bottom
       }
     });
@@ -121,9 +167,9 @@ export class RasterMapService {
     this.map.addControl(drawControl);
 
     // Ereignisse, um auf die gezeichneten Formen zu reagieren
-    this.map.on(L.Draw.Event.CREATED, function (event) {
+    this.map.on(L.Draw.Event.CREATED, (event) => {
       const layer = event.layer;
-      drawnItems.addLayer(layer);
+      this.drawnItems.addLayer(layer);
 
       let coordinates;
 
@@ -132,5 +178,9 @@ export class RasterMapService {
         console.log(coordinates);
       }
     });
+  }
+
+  getDrawingData(): void {
+    return this.drawingCoordinates;
   }
 }

@@ -5,19 +5,24 @@ import maplibregl from 'maplibre-gl';
 // Importing User class to get user information
 import User from '../classes/User';
 import MaplibreTerradrawControl from '@watergis/maplibre-gl-terradraw';
+import { FeatureCollection, Feature, Polygon, GeoJsonProperties } from 'geojson';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class VectorMapService {
 
+export class VectorMapService {
   private map!: maplibregl.Map; // Declaring a Map property as an optional field
   private drawControl!: MaplibreTerradrawControl;
   private vectormarkers: { [key: number]: maplibregl.Marker } = []; // Creating a dictionary to store markers
   private userLocations: { [key: string]: [number, number][] } = {}; // Creating a dictionary to store user locations
 
   private allLocations: any; // Storing the return value of the drawUserMarkers method
+  private geojsonData: FeatureCollection<Polygon, GeoJsonProperties> = {
+    'type': 'FeatureCollection',
+    'features': []
+  };
 
   //temporary to store coordinates from map should later be pushed to backend
   private drawingCoordinates: any;
@@ -102,55 +107,138 @@ export class VectorMapService {
     }
   }
 
+  drawDrawings(drawingData: any) {
+    for (const figure of drawingData) {
+      if (figure.type === 'Polygon') {
+        const polygonCoordinates: [number, number][] = [];
+        for (const coordinates of figure.coordinates[0]) {
+          polygonCoordinates.push([coordinates[0], coordinates[1]]);
+        }
+        this.addPolygon(polygonCoordinates, drawingData.findIndex((drawing: any) => drawing === figure));
+      } else if (figure.type === 'Circle') {
+        const center = [figure.coordinates[0][0], figure.coordinates[0][1]];
+        const radius = figure.coordinates[1];
+        //factor for latitude specific factor from DegreeLongitude to meters
+        //const metersPerDegreeLongitude = 111320 * Math.cos(figure.coordinates[0][1] * (Math.PI / 180));
+
+        /*L.circle(center, {
+          radius: radius * metersPerDegreeLongitude,
+          color: 'blue',
+          fillColor: '#3388ff',
+          fillOpacity: 0.5
+        }).addTo(this.drawnItems);*/
+      } else if (figure.type === 'Linestring') {
+        const linestringCoordinates = [];
+        for (const coordinates of figure.coordinates) {
+          linestringCoordinates.push([coordinates[1], coordinates[0]]);
+        }
+        /*L.polyline(linestringCoordinates, {
+          color: 'blue',
+          fillColor: '#3388ff',
+          fillOpacity: 0.5
+        }).addTo(this.drawnItems);*/
+      } else if (figure.type === 'Point') {
+        const pointCoordinates: L.LatLngExpression = [figure.coordinates[1], figure.coordinates[0]];
+        /*L.circleMarker(pointCoordinates, {radius: 5}).addTo(this.drawnItems);*/
+      }
+    }
+    if (this.map) {
+      this.map.addSource("5ae", {
+        'type': 'geojson',
+        'data': this.geojsonData
+      });
+      this.map.addLayer({
+        'id': '5ae',
+        'type': 'fill',
+        'source': '5ae',
+        'paint': {
+          'fill-color': '#ff0000',
+          'fill-opacity': 0.8
+        }
+      });
+    }
+  }
+
+
+  addPolygon(coordinates: [number, number][], id: number) {
+    const newPolygon: Feature<Polygon> = {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [coordinates]
+      },
+      "properties": {
+        "id": id
+      }
+    };
+    this.geojsonData.features.push(newPolygon);
+  }
+
+
   //clear the MarkersArray
   clearMarkers() {
     this.vectormarkers = [];
   }
 
   initializeDrawControl(): void {
-    this.drawControl = new MaplibreTerradrawControl({
-      //defaultMode: 'polygon',
-      // You may define additional options here
-      /*modes: [
-        // Define available modes here
-        'point',
-        'linestring',
-        'polygon',
-        'rectangle',
-        'circle',
-        'freehand',
-        'angled-rectangle',
-        'select',
-        'render',
-      ],*/
-    });
+    this.drawControl = new MaplibreTerradrawControl();
 
     // Zeichnungskontrolle der Karte hinzufügen
     this.map.addControl(this.drawControl, 'bottom-left');
 
     this.map.on('load', (event) => {
-      console.log('draw.create event fired');
-
-      // Retrieve the TerraDraw instance
-      const terraDrawInstance = this.drawControl.getTerraDrawInstance();
+      let data = [];
+      const terraDrawInstance = this.drawControl.getTerraDrawInstance(); //get Drawings data
 
       terraDrawInstance.on('finish', (event) => {
-        //debug
-        console.log("drawing complete: ", event);
-
-        // Access the stored features from the Map
-        const storedFeatures = terraDrawInstance["_store"]["store"];
-        
-        // Loop through each feature in the store
-        for (const key in storedFeatures) {
+        data = [];
+        const storedFeatures = terraDrawInstance["_store"]["store"]; // Access the stored features from the Map
+        for (const key in storedFeatures) { // iterate for every figure
           if (storedFeatures.hasOwnProperty(key)) {
             const feature = storedFeatures[key];
-            const coordinates = feature.geometry.coordinates;
-            //debug
-            console.log(feature.properties.mode,' Coordinates:', coordinates);
+
+            if (["polygon", "rectangle", "angled-rectangle", "freehand"].includes(feature.properties.mode)) {
+              data.push({
+                type: "Polygon",
+                coordinates: feature.geometry.coordinates
+              });
+            } else if (["circle"].includes(feature.properties.mode)) {
+              let lngcoordinates = 0;
+              let latcoordinates = 0;
+
+              for (let i = 0; i < feature.geometry.coordinates[0].length - 1; i++) {
+                lngcoordinates += Number(feature.geometry.coordinates[0][i][0]);
+                latcoordinates += Number(feature.geometry.coordinates[0][i][1]);
+              }
+
+              const avglng = lngcoordinates / (feature.geometry.coordinates[0].length - 1);
+              const avglat = latcoordinates / (feature.geometry.coordinates[0].length - 1);
+              //caculate radius (first Longitude - the Longitude on the opposit side of the circle)
+              const radius = (Number(feature.geometry.coordinates[0][0][0]) - Number(feature.geometry.coordinates[0][(feature.geometry.coordinates[0].length - 1) / 2][0])) / 2;
+
+              data.push({
+                type: "Circle",
+                coordinates: [[avglng, avglat], radius]
+              });
+            } else if (["linestring"].includes(feature.properties.mode)) {
+              data.push({
+                type: "Linestring",
+                coordinates: feature.geometry.coordinates
+              });
+            } else if (["point"].includes(feature.properties.mode)) {
+              data.push({
+                type: "Point",
+                coordinates: feature.geometry.coordinates
+              });
+            }
           }
         }
+        this.drawingCoordinates = data;
       });
     });
+  }
+
+  getDrawingData(): void {
+    return this.drawingCoordinates;
   }
 }

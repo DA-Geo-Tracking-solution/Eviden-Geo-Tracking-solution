@@ -22,21 +22,17 @@ const iconDefault = L.icon({
 });
 L.Marker.prototype.options.icon = iconDefault;
 
-interface MapType {
-  value: string;
-  viewValue: string;
-}
-
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrl: './map.component.css'
 })
 export class MapComponent {
-  private _selectedMap: string | undefined;
   //parameter to declare maptype ('vector', 'raster', 'satellite') default should be vector because best performance
+  private _selectedMap: string | undefined;
   //TODO remove any type
   private map: any; //maplibregl.Map | L.DrawMap;
+  private drawingData: any;
 
   @Input()
   //array to store user information
@@ -64,12 +60,17 @@ export class MapComponent {
   changeMapType(): void {
     switch (this._selectedMap) {
       case 'vector':
+        //TODO implement getDrawingData so it returns something
+        //this.drawingData = this.rasterMapService.getDrawingData();
         this.vectorService.drawUserMarkers(this.users);
-        this.vectorService.drawUserLines(this.users);
+        this.vectorService.drawUserLines(this.users);        
+        this.vectorService.drawDrawings(this.drawingData);
         break;
       case 'raster':
+        this.drawingData = this.vectorService.getDrawingData();
         this.rasterMapService.drawUserMarkers(this.users);
         this.rasterMapService.drawUserLines(this.users);
+        this.rasterMapService.drawDrawings(this.drawingData);
         break;
     }
   }
