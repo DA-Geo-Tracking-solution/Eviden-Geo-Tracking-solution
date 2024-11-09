@@ -3,7 +3,7 @@ import { ThemeService } from '../../services/Theme/theme.service';
 import { from, Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router, ActivatedRoute } from '@angular/router';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -17,6 +17,7 @@ export class UserGroupComponent {
   activeTab: string = 'user'
 
   faUser = faUser;
+  faUserGroup = faUserGroup;
 
   // Variablen für dynamisches Styling
   width: string = '100%';
