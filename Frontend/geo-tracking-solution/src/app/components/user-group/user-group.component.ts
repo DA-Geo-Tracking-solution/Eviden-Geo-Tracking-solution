@@ -1,43 +1,43 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ThemeService } from '../../services/Theme/theme.service';
 import { from, Subscription } from 'rxjs';
-import { faCheck, faUser, faEnvelope, faExclamationTriangle, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Router, ActivatedRoute } from '@angular/router';
+import { faUser, faUserGroup } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
-  selector: 'app-create-user',
-  templateUrl: './create-user.component.html',
-  styleUrl: './create-user.component.css'
+  selector: 'app-user-group',
+  templateUrl: './user-group.component.html',
+  styleUrl: './user-group.component.css'
 })
-export class CreateUserComponent implements OnInit, OnDestroy {
-
+export class UserGroupComponent {
   backgroundImage: string = '';
   private themeSubscription: Subscription | undefined;
+  activeTab: string = 'user'
 
-  // * Icons:
-  faEnvelope = faEnvelope;
   faUser = faUser;
-  faExclamationTriangle = faExclamationTriangle;
-  faKey = faKey;
-  faCheck = faCheck;
+  faUserGroup = faUserGroup;
 
-  // * Form 
-  form: FormGroup;
+  // Variablen für dynamisches Styling
+  width: string = '100%';
+  maxWidth: string = 'none';
+  containerClass: string = 'container box';
 
-  constructor(private themeService: ThemeService, private formBuilder: FormBuilder) {
-    this.form = this.formBuilder.group({
-      firstname: [''], // Hinzugefügt
-      lastname: [''], // Hinzugefügt
-      username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/[A-Z]/)]]
-    }, { updateOn: 'change' });
-  }
+  constructor(private themeService: ThemeService, private route: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.themeSubscription = this.themeService.currentTheme.subscribe((theme: string) => {
       this.updateBackgroundImage(theme);
     });
+
+
+    const routeData = this.activatedRoute.snapshot.firstChild?.data;
+    if (routeData) {
+      this.width = routeData['width'] || '100%';
+      this.maxWidth = routeData['maxWidth'] || 'none';
+    }
+
   }
 
   updateBackgroundImage(theme: string) {
@@ -59,9 +59,13 @@ export class CreateUserComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Getter
-  get username() { return this.form.get('username'); }
-  get email() { return this.form.get('email'); }
-  get password() { return this.form.get('password'); }
+  setActiveTab(tab: string) {
+    this.activeTab = tab;
+  }
+
+  isActiveTab(tab: string): boolean {
+    return this.activeTab == tab;
+  }
 
 }
+

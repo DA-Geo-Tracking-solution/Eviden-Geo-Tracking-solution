@@ -1,0 +1,5 @@
+.container.box {
+  width: 100% !important;
+  max-width: 600px !important;
+  margin: 0 auto;
+}

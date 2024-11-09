@@ -1,0 +1,74 @@
+<form [formGroup]="form"> 
+
+    <div class="field">
+        <label class="label">Username</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input is-fullwidth" type="text" placeholder="Username" formControlName="username"
+                [ngClass]="{'is-success': form.controls['username'].valid, 'is-danger': form.controls['username'].invalid && form.controls['username'].dirty}">
+            <span class="icon is-small is-left">
+                <fa-icon [icon]="faUser"></fa-icon>
+            </span>
+            <span class="icon is-small is-right" *ngIf="form.controls['username'].invalid && form.controls['username'].dirty">
+                <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+            </span>
+            <span class="icon is-small is-right" *ngIf="form.controls['username'].valid">
+                <fa-icon [icon]="faCheck"></fa-icon>
+            </span>
+        </div>
+        <p class="help is-danger" *ngIf="form.controls['username'].invalid && form.controls['username'].dirty">
+            Username is required
+        </p>
+    </div>
+
+    <div class="field">
+        <label class="label">Email</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input is-fullwidth" type="email" placeholder="Email" formControlName="email"
+                [ngClass]="{'is-success': form.controls['email'].valid, 'is-danger': form.controls['email'].invalid && form.controls['email'].dirty}">
+            <span class="icon is-small is-left">
+                <fa-icon [icon]="faEnvelope"></fa-icon>
+            </span>
+            <span class="icon is-small is-right" *ngIf="form.controls['email'].invalid && form.controls['email'].dirty">
+                <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+            </span>
+            <span class="icon is-small is-right" *ngIf="form.controls['email'].valid">
+                <fa-icon [icon]="faCheck"></fa-icon>
+            </span>
+        </div>
+        <p class="help is-danger" *ngIf="form.controls['email'].invalid && form.controls['email'].dirty">
+            This email is invalid
+        </p>
+    </div>
+
+    <div class="field">
+        <label class="label">Add Memebers</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input is-fullwidth" type="password" placeholder="Temporary Password" formControlName="password"
+                [ngClass]="{'is-success': form.controls['password'].valid, 'is-danger': form.controls['password'].invalid && form.controls['password'].dirty}">
+            <span class="icon is-small is-left">
+                <fa-icon [icon]="faKey"></fa-icon>
+            </span>
+            <span class="icon is-small is-right" *ngIf="form.controls['password'].invalid && form.controls['password'].dirty">
+                <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+            </span>
+            <span class="icon is-small is-right" *ngIf="form.controls['password'].valid">
+                <fa-icon [icon]="faCheck"></fa-icon>
+            </span>
+        </div>
+        <p class="help is-danger" *ngIf="form.controls['password'].hasError('passwordStrength')">
+            {{ form.controls['password'].getError('passwordStrength') }}
+        </p>
+        <p class="help is-danger" *ngIf="form.controls['password'].hasError('passwordLength')">
+            {{ form.controls['password'].getError('passwordLength') }}
+        </p>
+    </div>
+
+    <div class="field is-grouped is-justify-content-center">
+        <div class="control">
+            <button class="button is-link" type="submit" [disabled]="form.invalid">Submit</button>
+        </div>
+        <div class="control">
+            <button class="button is-link is-light" (click)="form.reset()">Cancel</button>
+        </div>
+    </div>
+</form>
