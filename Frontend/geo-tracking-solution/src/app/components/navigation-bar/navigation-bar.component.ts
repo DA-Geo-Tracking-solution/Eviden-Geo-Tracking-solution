@@ -1,12 +1,13 @@
-import { Component, Renderer2, ElementRef, ViewChild } from '@angular/core';
+import { Component, Renderer2, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { ThemeService } from '../../services/Theme/theme.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-navigation-bar',
   templateUrl: './navigation-bar.component.html',
   styleUrls: ['./navigation-bar.component.css']
 })
-export class NavigationBarComponent {
+export class NavigationBarComponent implements AfterViewInit {
   @ViewChild('navbar') navbar!: ElementRef;
 
   dashboardIcon: string = '../../../assets/icons/navigation-bar/black/dashboard_black.png';
@@ -17,21 +18,22 @@ export class NavigationBarComponent {
   evidenLogo: string = '../../../assets/Logo/Eviden_Black.png';
 
   themeIcon: string = '../../../assets/icons/theme/monitor.png';
-
   currentTheme: string = 'system';
-
-  // Neue Variable zum Steuern des Burger-Menüs
   navbarOpen: boolean = false;
 
-  constructor(private renderer: Renderer2, private themeService: ThemeService) { }
+  constructor(private renderer: Renderer2, private themeService: ThemeService, private cookieService: CookieService) { }
 
-  ngOnInit() {
+  ngAfterViewInit() {
+    // Hole das Theme direkt aus den Cookies
+    const savedTheme = this.cookieService.get('theme') || 'system';
+    this.themeService.setTheme(savedTheme);
+
+    // Setze das initiale Theme
     this.themeService.currentTheme.subscribe(theme => {
       this.currentTheme = theme;
-      this.updateThemeIcons(theme); // Passe das Icon basierend auf dem Theme an
-      this.applyTheme(theme);  // Wende das Theme in der UI an
+      this.updateThemeIcons(theme);
+      this.applyTheme(theme); // Wende das Theme an
     });
-
   }
 
   changeTheme(theme: string) {
@@ -42,11 +44,9 @@ export class NavigationBarComponent {
     if (theme === 'dark') {
       this.themeIcon = '../../../assets/icons/theme/dark.png';
       this.updateIconsForDarkTheme();
-
     } else if (theme === 'light') {
       this.themeIcon = '../../../assets/icons/theme/sonne.png';
       this.updateIconsForLightTheme();
-      
     } else {
       this.themeIcon = '../../../assets/icons/theme/monitor.png';
       this.applySystemTheme();
@@ -54,37 +54,25 @@ export class NavigationBarComponent {
   }
 
   applyTheme(theme: string) {
-    if (theme === 'dark') {
-      this.applyDarkTheme();
-    } else if (theme === 'light') {
-      this.applyLightTheme();
-    } else {
-      this.applySystemTheme();
+    if (this.navbar) {
+      this.renderer.setAttribute(this.navbar.nativeElement, 'data-theme', theme);
+      theme === 'dark' ? this.applyDarkTheme() : this.applyLightTheme();
     }
   }
 
   applyDarkTheme() {
-
     this.renderer.setAttribute(this.navbar.nativeElement, 'data-theme', 'dark');
-    this.renderer.removeClass(this.navbar.nativeElement, 'navbar-light');
-    this.renderer.addClass(this.navbar.nativeElement, 'navbar-dark');
-
-    // ! Brauch ich das????
-    this.renderer.setStyle(this.navbar.nativeElement, 'color', 'white');
-
     this.updateIconsForDarkTheme();
   }
 
   applyLightTheme() {
-
     this.renderer.setAttribute(this.navbar.nativeElement, 'data-theme', 'light');
-    this.renderer.removeClass(this.navbar.nativeElement, 'navbar-dark');
-    this.renderer.addClass(this.navbar.nativeElement, 'navbar-light');
-
-    // ! Brauch ich das???
-    this.renderer.setStyle(this.navbar.nativeElement, 'color', 'black');
-
     this.updateIconsForLightTheme();
+  }
+
+  applySystemTheme() {
+    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    this.applyTheme(isDarkMode ? 'dark' : 'light');
   }
 
   updateIconsForDarkTheme() {
@@ -105,17 +93,6 @@ export class NavigationBarComponent {
     this.evidenLogo = '../../../assets/Logo/Eviden_Black.png';
   }
 
-  applySystemTheme() {
-    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (isDarkMode) {
-      this.applyDarkTheme();
-    } else {
-      this.applyLightTheme();
-    }
-  }
-
-  // Neue Methode zum Umschalten des Burger-Menüs
   toggleNavbar() {
     this.navbarOpen = !this.navbarOpen;
   }
