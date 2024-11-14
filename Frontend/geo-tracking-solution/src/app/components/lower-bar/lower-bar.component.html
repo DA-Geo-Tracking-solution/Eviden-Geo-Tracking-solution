@@ -1,0 +1,18 @@
+<div>
+    <nav class="navbar">
+        <div class="navbar-menu">
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="button" (click)="openDialog()">
+                            Add Chat
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <app-add-chat-alert  *ngIf="isAlertVisibel"/>
+
+</div>

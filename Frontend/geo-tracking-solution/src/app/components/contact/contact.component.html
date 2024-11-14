@@ -1,0 +1,18 @@
+<app-navigation-bar/>
+
+<!-- TODO: Muss dann auf system und co. geändert werden -->
+ <!-- TODO: grid oder Flexbox -->
+<div data-theme="light">
+    <div class="columns is-gapless is-multiline">
+        <!-- Sidebar (Contact List) -->
+        <div class="column is-one-third is-fullheight contact">
+            <app-contact-list (contactSelected)="onContactSelected($event)" />
+        </div>
+
+        <!-- Chat (this will take up more space in mobile view) -->
+        <div class="column chat is-fullheight is-two-thirds-mobile is-fullwidth-tablet">
+            <app-contact-chat [contact]="selectedContact" />
+        </div>
+    </div>
+</div>
+<!-- TODO: Bislang funktioniert noch nicht das es richtig übergeben wird von List zum Chat -->

@@ -1,0 +1,77 @@
+.chat {
+    background-color: #303030;
+    color: white;
+    flex: 1;
+    /* * Chatbereich nimmt den Rest der Breite ein */
+    height: 100vh;
+    /* * Volle Höhe */
+    overflow-y: auto;
+    /* * Scrollen, falls nötig */
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: white;
+}
+
+.chat-container .messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #383838;
+    color: white;
+}
+
+.chat-container .input-container {
+    padding: 10px;
+    background-color: #2d2d2d;
+    border-top: 1px solid #444;
+}
+
+/* In deiner contact-chat.component.css Datei */
+
+
+
+.left-message,
+.right-message {
+    word-wrap: break-word;
+    /* Langes Wort wird umbrochen */
+    white-space: pre-wrap;
+    /* Zeilenumbruch für längere Texte */
+    overflow-wrap: break-word;
+    /* Umbruch, wenn nötig */
+    max-width: 70%;
+    /* Maximalbreite für den Nachrichten-Container */
+    padding: 10px;
+    border-radius: 15px;
+    margin-bottom: 8px;
+}
+
+/* Stil für die Nachricht vom anderen Kontakt, auf der linken Seite */
+.left-message {
+    align-self: flex-start;
+    background-color: #f1f1f1;
+}
+
+/* Stil für die eigene Nachricht, auf der rechten Seite */
+.right-message {
+    align-self: flex-end;
+    background-color: #f1f1f1;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.message-content {
+    padding-top: 5px;
+}

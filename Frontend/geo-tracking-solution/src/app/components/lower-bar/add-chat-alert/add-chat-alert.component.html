@@ -1,0 +1,38 @@
+<div class="notification" style="border-radius: 0;">
+
+  <!-- * https://bulmajs.tomerbe.co.uk/docs/0.12/2-core-components/alert/ -->
+  <!-- TODO: Noch einen passenden Alert hinzufügen wo dann der Nutzer einen chat mit wem anderen starten kann -->
+
+  <p>Chat wurde erfolgreich hinzugefügt!</p>
+
+  <!-- Search Bar -->
+  <div class="field has-addons">
+    <div class="control is-expanded">
+      <input class="input" type="text" placeholder="search" [(ngModel)] = "serchTerm" (keyup)="filterContacts()">
+    </div>
+    <div class="control">
+      <button class="button is-info" (click)="filterContacts()">
+        Search
+      </button>
+    </div>
+  </div>
+
+  <!-- TODO: Soll später dann automatisch geupdated werden wenn die Suche funktioniert -->
+   <!-- ! is-striped eventuell das noch hinzufügen -->
+  <table class="table is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <th> <abbr title="Name">Name</abbr></th>
+        <th> <abbr title="Name">Email</abbr></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contact of filteredContacts" (click)="selectContact(contact)">
+        <td>{{ contact.name}}</td>
+        <td>{{ contact.email}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button class="button" (click)="closeDialog()">Close</button>
+</div>

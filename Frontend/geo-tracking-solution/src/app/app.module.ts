@@ -1,6 +1,11 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+
 import { HttpClientModule } from '@angular/common/http';
+
+import { FormsModule } from '@angular/forms';
+import { ScrollerModule } from 'primeng/scroller';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +24,14 @@ import { UserGroupComponent } from './components/user-group/user-group.component
 import { CreateGroupComponent } from './components/user-group/create-group/create-group.component';
 
 
+import { ContactChatComponent } from './components/contact/contact-chat/contact-chat.component';
+import { ContactListComponent } from './components/contact/contact-list/contact-list.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { LowerBarComponent } from './components/lower-bar/lower-bar.component';
+import { AddChatAlertComponent } from './components/lower-bar/add-chat-alert/add-chat-alert.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
+
 export function kcFactory(KeycloakService: KeycloakService) {
   return () => KeycloakService.init();
 }
@@ -33,14 +46,23 @@ export function kcFactory(KeycloakService: KeycloakService) {
     FooterComponent,
     CreateUserComponent,
     UserGroupComponent,
-    CreateGroupComponent
+    CreateGroupComponent,
+    ContactChatComponent,
+    ContactListComponent,
+    ContactComponent,
+    LowerBarComponent,
+    AddChatAlertComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FontAwesomeModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ScrollerModule,
+    NgScrollbarModule,
+    FormsModule,
+    MatDialogModule
   ],
   providers: [
     provideClientHydration(),
