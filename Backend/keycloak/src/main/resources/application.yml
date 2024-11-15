@@ -16,3 +16,14 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: "http://localhost:8081/realms/geo-tracking-solution"
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework: DEBUG
+
+keycloak:
+  auth-server-url: http://localhost:8081
+  realm: geo-tracking-solution
+  client-id: java-spring
+  client-secret: OySDKuu1HlxIW2c4Ptk4wOsfMZ8vljhb
