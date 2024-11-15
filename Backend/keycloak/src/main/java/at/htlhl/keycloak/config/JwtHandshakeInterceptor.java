@@ -1,18 +1,16 @@
 package at.htlhl.keycloak.config;
 
-import org.springframework.http.server.ServerHttpRequest;
-import org.springframework.http.server.ServerHttpResponse;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.stereotype.Component;
+import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.server.HandshakeInterceptor;
+import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
 import java.util.Map;
 
-@Component
-public class JwtHandshakeInterceptor implements HandshakeInterceptor {
+public class JwtHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 
     private final JwtDecoder jwtDecoder;
 
@@ -21,25 +19,26 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
     }
 
     @Override
-    public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) {
-        // Extract token from headers (or parameters if necessary)
-        String authToken = request.getHeaders().getFirst("Authorization");
-        if (authToken != null && authToken.startsWith("Bearer ")) {
-            authToken = authToken.substring(7);
+    public boolean beforeHandshake(
+            org.springframework.http.server.ServerHttpRequest request,
+            org.springframework.http.server.ServerHttpResponse response,
+            WebSocketHandler wsHandler,
+            Map<String, Object> attributes) throws Exception {
+
+        var authHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            response.setStatusCode(HttpStatus.UNAUTHORIZED);
+            return false;
         }
 
-        // Decode and authenticate JWT
-        if (authToken != null) {
-            var jwt = jwtDecoder.decode(authToken);
-            var auth = new UsernamePasswordAuthenticationToken(jwt.getSubject(), null, new KeycloakJwtAuthenticationConverter().convert(jwt).getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(auth);
+        try {
+            String token = authHeader.substring(7);
+            Jwt jwt = jwtDecoder.decode(token);
+            attributes.put("user", jwt.getSubject()); // Store user info for later use
+            return true;
+        } catch (JwtException e) {
+            response.setStatusCode(HttpStatus.UNAUTHORIZED);
+            return false;
         }
-
-        return true;
-    }
-
-    @Override
-    public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {
-        // Clear context if needed
     }
 }
