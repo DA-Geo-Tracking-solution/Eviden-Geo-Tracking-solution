@@ -25,21 +25,45 @@ public class UserService {
     @Value("${keycloak.realm}")
     private String realm;
 
+
+    public List<UserRepresentation> getGroupMembers() {
+        List<GroupRepresentation> groups = getUserGroups();
+
+        if (!groups.isEmpty()) {
+            String groupId = groups.get(0).getId();
+            return keycloak.realm(realm).groups().group(groupId).members();
+        }
+        return List.of();
+    }
+
     public UserRepresentation getUserByEmail(String userEmail) {
         System.out.println(userEmail);
         List<UserRepresentation> users = keycloak.realm(realm).users().searchByEmail(userEmail, true);
         return users.stream().findFirst().orElse(null);
     }
 
-
     public String createUser(UserRepresentation user) {
+        List<GroupRepresentation> groups = getUserGroups();
+        if (groups.isEmpty()) {
+            return "Invalid Request! User is in no group! >8[)";
+        }
+        List<String> groupNames = List.of(groups.get(0).getName());
+        user.setGroups(groupNames);
+
         Response response = keycloak.realm(realm).users().create(user);
         try {
-            if (response.getStatus() == 201) {
+            int status = response.getStatus();
+            if (status == 400) {
+                return ("Wrong User Input!");
+            } else if (status == 409) {
+                return ("Username or Email already in Use!");
+            } else if (status == 201) {
+                return "Successful created user :)";
                 //String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
-                return "Successful created user";
             } else {
-                return ("Failed to create user: " + response.getStatus());
+                String errorResponse = response.readEntity(String.class);
+                System.err.println("Error response from Keycloak: " + errorResponse);
+                return "Keycloak: " + status + " - " + errorResponse;
             }
         } finally {
             response.close();
@@ -54,48 +78,14 @@ public class UserService {
         keycloak.realm(realm).users().get(userId).remove();
     }
 
-    public String getUserId() {
+    private String getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (String) ((Jwt) authentication.getPrincipal()).getClaims().get(StandardClaimNames.SUB);
     }
 
-    public List<GroupRepresentation> getUserGroups() {
+    private List<GroupRepresentation> getUserGroups() {
         return keycloak.realm(realm).users().get(getUserId()).groups();
     }
 
-    public List<UserRepresentation> getGroupMembers() {
-        List<GroupRepresentation> groups = getUserGroups();
-
-        if (!groups.isEmpty()) {
-            String groupId = groups.get(0).getId();
-            return keycloak.realm(realm).groups().group(groupId).members();
-        }
-        return List.of();
-    }
-
-    /*public void addUser(User userModel) throws Exception{
-        CredentialRepresentation credential = createPasswordCredentials(userModel.getPassword());
-        UserRepresentation user = new UserRepresentation();
-        user.setUsername(userModel.getUserName());
-        user.setFirstName(userModel.getFirstname());
-        user.setLastName(userModel.getLastName());
-        user.setEmail(userModel.getEmailId());
-        user.setCredentials(Collections.singletonList(credential));
-        user.setEnabled(true);
-
-        RealmResource realmResource = keycloak.realm(KeycloakConfig.realm);
-        UsersResource usersResource = realmResource.users();
-
-
-        usersResource.create(user);
-    }
-
-
-    public static CredentialRepresentation createPasswordCredentials(String password) {
-        CredentialRepresentation passwordCredentials = new CredentialRepresentation();
-        passwordCredentials.setTemporary(false);
-        passwordCredentials.setType(CredentialRepresentation.PASSWORD);
-        passwordCredentials.setValue(password);
-        return passwordCredentials;
-    }*/
+    
 }

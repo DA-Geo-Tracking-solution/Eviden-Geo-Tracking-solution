@@ -4,6 +4,7 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 
 import java.util.List;
+import java.util.Map;
 
 public class User {
     private String username;
@@ -58,12 +59,21 @@ public class User {
         this.lastname = lastname;
     }
 
-    public static UserRepresentation getUserRepresentation(User user, String password) {
+    public static User MapToUser(Map<String, Object> userMap ) {
+        return new User(
+            (String) userMap.get("username"),
+            (String) userMap.get("userEmail"),
+            (String) userMap.get("firstname"),
+            (String) userMap.get("lastname")
+        );
+    }
+
+    public UserRepresentation getUserRepresentation(String password) {
         UserRepresentation userRepresentation = new UserRepresentation();
-        userRepresentation.setUsername(user.getUsername());
-        userRepresentation.setEmail(user.getEmail());
-        userRepresentation.setFirstName(user.getFirstname());
-        userRepresentation.setLastName(user.getLastname());
+        userRepresentation.setUsername(this.getUsername());
+        userRepresentation.setEmail(this.getEmail());
+        userRepresentation.setFirstName(this.getFirstname());
+        userRepresentation.setLastName(this.getLastname());
         userRepresentation.setEnabled(true);
 
         CredentialRepresentation credential = new CredentialRepresentation();
