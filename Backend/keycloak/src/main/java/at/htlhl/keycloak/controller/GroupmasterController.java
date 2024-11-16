@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -26,28 +27,31 @@ public class GroupmasterController {
     }
 
     @PostMapping("/user")
-    @Operation(description = "Creates new user in format { userEmail, username, firstname, lastname, temporaryPassword } in Group")
-    public String createUser(@RequestBody User userModel){
-        userModel.getLastname();
-        try {
-            throw new Exception("not implemented");
-            //userService.addUser(userModel);
-        } catch (Exception e) {
-            return "Failed to Add User!";
-        }
-        //return "User Added Successfully.";
+    @Operation(description = "Creates new user in format { {username, userEmail, firstname, lastname}, temporaryPassword } in group")
+    public String createUser(@RequestBody Map<String, Object> request) {
+        
+        User userModel = User.MapToUser((Map<String, Object>) request.get("user"));
+        String temporaryPassword = (String) request.get("temporaryPassword");
+
+        return userService.createUser(userModel.getUserRepresentation(temporaryPassword));
     }
 
-
     @PostMapping("/subgroup")
-    @Operation(description = "")
-    public String createSubGroup(@RequestBody Group group) {
-        return "not Successful";
+    @Operation(description = "Creates new subrgoup in format { name, groupmasterEmail } and adds a groupmaster")
+    public String createSubGroup(@RequestBody Map<String, Object> request) {
+        String name = (String) request.get("name");
+        String groupmasterEmail = (String) request.get("groupmasterEmail");
+        try {
+            groupService.createSubGroupWithRoles(name, groupmasterEmail);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+        return "not completely implemented";
     }
 
     @GetMapping("/subgroups")
     @Operation(description = "optionally")
     public Object getSubGroups() {
-        return "get all subgroups as a tree";
+        return "get all subgroups as a tree (not implemented)";
     }
 }
