@@ -68,6 +68,7 @@ export class ContactChatComponent implements OnInit {
       };
       this.messages.push(chatMessage);  // Die Nachricht wird ins Nachrichtenarray gepusht
       this.webService.send(chatMessage);  // Nachricht über WebSocket senden
+      // ! Das geht nicht
       this.message = '';  // Eingabefeld nach dem Senden leeren
     }
   }

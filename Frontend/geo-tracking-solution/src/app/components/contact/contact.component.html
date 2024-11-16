@@ -1,8 +1,8 @@
-<app-navigation-bar/>
+<app-navigation-bar style="z-index: 1200;"/>
 
 <!-- TODO: Muss dann auf system und co. geändert werden -->
  <!-- TODO: grid oder Flexbox -->
-<div data-theme="light">
+<div [attr.data-theme] = "currentTheme">
     <div class="columns is-gapless is-multiline">
         <!-- Sidebar (Contact List) -->
         <div class="column is-one-third is-fullheight contact">
@@ -11,7 +11,7 @@
 
         <!-- Chat (this will take up more space in mobile view) -->
         <div class="column chat is-fullheight is-two-thirds-mobile is-fullwidth-tablet">
-            <app-contact-chat [contact]="selectedContact" />
+            <app-contact-chat [contact]="selectedContact" style="z-index: 1000;"/>
         </div>
     </div>
 </div>
