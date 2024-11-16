@@ -1,6 +1,8 @@
 import { Component} from '@angular/core';
 import { faCheck, faUser, faEnvelope, faExclamationTriangle, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { RestService } from '../../../services/REST/rest.service';
+import { TemplatePortal } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-create-user',
@@ -19,7 +21,7 @@ export class CreateUserComponent {
   // * Form 
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private restService: RestService) {
     this.form = this.formBuilder.group({
       firstname: [''], // Hinzugefügt
       lastname: [''], // Hinzugefügt
@@ -34,4 +36,32 @@ export class CreateUserComponent {
   get email() { return this.form.get('email'); }
   get password() { return this.form.get('password'); }
 
+  createUser(): void {  
+    const user = this.form["value"]
+    this.restService.POST("groupmaster/user", {
+      "user": {
+          "username": user["username"],
+          "userEmail": user["email"],    
+          "firstname": user["firstname"],
+          "lastname": user["lastname"]
+      },
+      "temporaryPassword": user["password"]
+    }).then(observable => {
+      observable.subscribe({
+          next: (line) => {
+           console.log(line)
+          },
+          error: (err) => {
+            console.error("Error in Observable:", err);
+          },
+          complete: () => {
+            console.log("Observable completed");
+          },
+        });
+      }).catch(err => {
+          console.error("Error resolving promise:", err);
+      });
+      
+
+  }
 }

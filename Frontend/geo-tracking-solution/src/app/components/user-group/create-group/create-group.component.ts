@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { faCheck, faUser, faEnvelope, faExclamationTriangle, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { RestService } from '../../../services/REST/rest.service';
 
 @Component({
   selector: 'app-create-group',
@@ -19,7 +20,7 @@ export class CreateGroupComponent {
   // * Form 
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private restService: RestService) {
     this.form = this.formBuilder.group({
       groupname:['', Validators.required], 
       groupmaster:['', Validators.required] 
@@ -28,5 +29,28 @@ export class CreateGroupComponent {
 
    get groupname() {return this.form.get('groupname');}
    get groupmaster(){return this.form.get('groupmaster');}
+
+
+   createSubGroup(): void {  
+    const user = this.form["value"]
+    this.restService.POST("groupmaster/subgroup", {
+      name: this.groupname,
+      groupmasterEmail: this.groupmaster
+    }).then(observable => {
+      observable.subscribe({
+          next: (line) => {
+           console.log(line)
+          },
+          error: (err) => {
+            console.error("Error in Observable:", err);
+          },
+          complete: () => {
+            console.log("Observable completed");
+          },
+        });
+      }).catch(err => {
+          console.error("Error resolving promise:", err);
+      });
+  }
 
 }
