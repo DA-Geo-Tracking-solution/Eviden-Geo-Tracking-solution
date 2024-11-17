@@ -128,3 +128,5 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+Backend/MapServer/osm-2020-02-10-v3.11_europe_austria.mbtiles

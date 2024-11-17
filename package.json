@@ -1,6 +1,11 @@
 {
   "dependencies": {
     "bulma": "^1.0.2",
-    "bulma-list": "^2.1.0"
+    "bulma-list": "^2.1.0",
+    "@types/leaflet-draw": "^1.0.11",
+    "@watergis/maplibre-gl-terradraw": "^0.1.1",
+    "leaflet": "^1.9.4",
+    "leaflet-draw": "^1.0.4",
+    "maplibre-gl": "^4.7.0"
   }
 }

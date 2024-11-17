@@ -9,6 +9,7 @@ import { CreateUserComponent } from './components/user-group/create-user/create-
 import { UserGroupComponent } from './components/user-group/user-group.component';
 import { CreateGroupComponent } from './components/user-group/create-group/create-group.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { MapTableComponent } from './components/map-table/map-table.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [authGuard] },
@@ -19,7 +20,8 @@ const routes: Routes = [
       { path: 'group', component: CreateGroupComponent, data: {width: '100%', maxWidth: '500px'}, canActivate: [authGuard] }
     ]
   },
-  {path:'chat', component:ContactComponent, canActivate: [authGuard]}
+  {path:'chat', component:ContactComponent, canActivate: [authGuard]},
+  {path:'map', component: MapTableComponent, canActivate: [authGuard]}
 ];
 
 @NgModule({

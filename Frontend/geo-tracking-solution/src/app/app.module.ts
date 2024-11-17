@@ -23,7 +23,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UserGroupComponent } from './components/user-group/user-group.component';
 import { CreateGroupComponent } from './components/user-group/create-group/create-group.component';
 
-
 import { ContactChatComponent } from './components/contact/contact-chat/contact-chat.component';
 import { ContactListComponent } from './components/contact/contact-list/contact-list.component';
 import { ContactComponent } from './components/contact/contact.component';
@@ -31,6 +30,14 @@ import { LowerBarComponent } from './components/lower-bar/lower-bar.component';
 import { AddChatAlertComponent } from './components/lower-bar/add-chat-alert/add-chat-alert.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
+import { MapComponent } from './components/map/map.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { MapTableComponent } from './components/map-table/map-table.component';
+import { SplitterModule } from 'primeng/splitter';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 export function kcFactory(KeycloakService: KeycloakService) {
   return () => KeycloakService.init();
@@ -41,6 +48,8 @@ export function kcFactory(KeycloakService: KeycloakService) {
     AppComponent,
     NavigationBarComponent,
     ConfigurationBarComponent,
+    MapComponent,
+    MapTableComponent,
     LoginComponent,
     HomeComponent,
     FooterComponent,
@@ -62,7 +71,13 @@ export function kcFactory(KeycloakService: KeycloakService) {
     ScrollerModule,
     NgScrollbarModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    SplitterModule,
+    MatSortModule,
+    MatTableModule,
   ],
   providers: [
     provideClientHydration(),

@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'bulma-list/css/bulma-list.css';
+@import "leaflet/dist/leaflet.css";
+@import "maplibre-gl/src/css/maplibre-gl.css";
 
 html,
 body {
@@ -11,4 +13,3 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-

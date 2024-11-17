@@ -1,0 +1,28 @@
+.table-responsive {
+    display: block;
+    max-height: calc(100% - 60px);
+    overflow: auto;
+
+    margin: 30px;
+    width: 100%;
+
+
+}
+
+table {
+    width: 100%;
+}
+
+th.mat-sort-header-sorted {
+    color: black;
+}
+
+.col {
+    margin: 5px;
+    width: 100%;
+}
+
+::ng-deep .p-splitter .p-splitter-gutter {
+    background-color: #ccc;
+    border: 1px solid #999;
+}
