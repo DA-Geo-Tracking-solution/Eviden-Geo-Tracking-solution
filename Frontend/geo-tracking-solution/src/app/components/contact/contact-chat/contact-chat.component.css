@@ -1,14 +1,16 @@
+/* Hauptcontainer für den Chat */
 .chat {
     background-color: #303030;
     color: white;
     flex: 1;
     height: calc(100vh - 160px);
-    /* Adjusted height */
+    /* Dynamische Anpassung der Höhe */
     overflow: hidden;
-    /* Prevent scrolling */
+    /* Verhindert Scrollen */
     box-sizing: border-box;
 }
 
+/* Innerer Container des Chats */
 .chat-container {
     display: flex;
     flex-direction: column;
@@ -21,9 +23,10 @@
     padding: 10px;
     background-color: #383838;
     color: white;
-    overflow: hidden;
-    /* Prevent scrolling */
+    overflow-y: auto;
+    /* Scrollen erlauben bei langen Nachrichten */
     box-sizing: border-box;
+    gap: 10px;
 }
 
 .chat-container .input-container {
@@ -32,46 +35,60 @@
     border-top: 1px solid #444;
 }
 
-/* In deiner contact-chat.component.css Datei */
+/* Nachrichten Styling */
 .left-message,
 .right-message {
     word-wrap: break-word;
     white-space: pre-wrap;
     overflow-wrap: break-word;
     max-width: 70%;
+    /* Maximale Breite der Nachrichten */
     padding: 10px;
     border-radius: 15px;
     margin-bottom: 8px;
 }
 
-/* Stil für die Nachricht vom anderen Kontakt, auf der linken Seite */
+/* Nachricht des anderen Kontakts */
 .left-message {
     align-self: flex-start;
     background-color: #f1f1f1;
+    color: #000;
 }
 
-/* Stil für die eigene Nachricht, auf der rechten Seite */
+/* Eigene Nachricht */
 .right-message {
     align-self: flex-end;
     background-color: #f1f1f1;
+    /* Blau für eigene Nachrichten */
+    color: #000;
 }
 
+/* Nachrichtenliste */
 .messages {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
+/* Nachrichtenkopf (Autor und Zeitstempel) */
 .message-header {
     display: flex;
     justify-content: space-between;
+    font-size: 0.8rem;
+    color: #aaa;
 }
 
 .message-content {
     padding-top: 5px;
 }
 
+/* Navbar-Stil */
 .chat-container .navbar {
     z-index: 500;
     position: relative;
+}
+
+.navbar-color {
+    background-color: #ececed;
+    color: black;
 }

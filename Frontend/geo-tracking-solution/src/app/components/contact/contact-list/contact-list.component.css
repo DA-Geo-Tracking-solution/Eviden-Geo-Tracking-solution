@@ -23,8 +23,8 @@ body {
 /* Navbar for contact section */
 .contact-navbar {
     /* TODO: Neue Passende Farbe für Navbar einfügen */
-    background-color: yellow;
-    color: brown;
+    /* background-color: yellow; */
+    background-color: #ececed;
     padding: 1rem;
 }
 
