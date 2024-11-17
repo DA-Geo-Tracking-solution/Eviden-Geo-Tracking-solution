@@ -1,0 +1,109 @@
+<div class="container">
+    <div class="columns">
+        <!-- Frontend Section -->
+        <div class="column">
+            <div class="section">
+                <h2 class="title is-4">Frontend</h2>
+                <div class="columns is-multiline">
+                    <div class="column is-half" *ngFor="let card of frontendCards">
+                        <div class="card is-small">
+                            <div class="card-image">
+                                <figure class="image is-4by3">
+                                    <img [src]="card.image" alt="Placeholder image" />
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-32x32">
+                                            <img [src]="card.avatar" alt="Avatar" />
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-6">{{ card.title }}</p>
+                                        <p class="subtitle is-7">{{ card.subtitle }}</p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <a href="#">{{ card.tag }}</a>
+                                    <br />
+                                    <time [attr.datetime]="card.date">{{ card.date }}</time>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Backend Section -->
+        <div class="column">
+            <div class="section">
+                <h2 class="title is-4">Backend</h2>
+                <div class="columns is-multiline">
+                    <div class="column is-half" *ngFor="let card of backendCards">
+                        <div class="card is-small">
+                            <div class="card-image">
+                                <figure class="image is-4by3">
+                                    <img [src]="card.image" alt="Placeholder image" />
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-32x32">
+                                            <img [src]="card.avatar" alt="Avatar" />
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-6">{{ card.title }}</p>
+                                        <p class="subtitle is-7">{{ card.subtitle }}</p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <a href="#">{{ card.tag }}</a>
+                                    <br />
+                                    <time [attr.datetime]="card.date">{{ card.date }}</time>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Betreuer Section -->
+    <div class="section">
+        <h2 class="title is-4">Betreuer</h2>
+        <div class="columns">
+            <div class="column is-one-third">
+                <div class="card is-small">
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                            <img [src]="betreuerCards[0].image" alt="Placeholder image" />
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-32x32">
+                                    <img [src]="betreuerCards[0].avatar" alt="Avatar" />
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <p class="title is-6">{{ betreuerCards[0].title }}</p>
+                                <p class="subtitle is-7">{{ betreuerCards[0].subtitle }}</p>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <a href="#">{{ betreuerCards[0].tag }}</a>
+                            <br />
+                            <time [attr.datetime]="betreuerCards[0].date">{{ betreuerCards[0].date }}</time>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

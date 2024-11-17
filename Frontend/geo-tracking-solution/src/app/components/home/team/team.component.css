@@ -1,0 +1,28 @@
+.card.is-small {
+    padding: 0.5rem;
+    /* Weniger Padding für kleinere Karten */
+}
+
+.card-content {
+    padding: 0.5rem;
+}
+
+.card-image figure {
+    max-height: 150px;
+    /* Höhe des Bildes reduzieren */
+}
+
+.image.is-32x32 {
+    max-width: 32px;
+    /* Avatar-Bild kleiner machen */
+}
+
+.title.is-6 {
+    font-size: 1rem;
+    /* Überschrift der Karte kleiner machen */
+}
+
+.subtitle.is-7 {
+    font-size: 0.85rem;
+    /* Untertitel der Karte kleiner machen */
+}
