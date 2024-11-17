@@ -29,7 +29,7 @@ L.Marker.prototype.options.icon = iconDefault;
 })
 export class MapComponent {
   //parameter to declare maptype ('vector', 'raster', 'satellite') default should be vector because best performance
-  private _selectedMap: string | undefined;
+  private _selectedMap: string = 'vector';
   //TODO remove any type
   private map: any; //maplibregl.Map | L.DrawMap;
   private drawingData: any;
@@ -42,7 +42,7 @@ export class MapComponent {
     this._selectedMap = value;
     this.reloadMap(this._selectedMap);
   }
-  
+
 
   constructor(private rasterMapService: RasterMapService, private vectorService: VectorMapService) { }
 
@@ -51,7 +51,7 @@ export class MapComponent {
     this.changeMapType();
   }
 
-  //TODO: make it change when new data is reseived from backend to avoid Error ERROR TypeError: this.map is undefined
+  //TODO: make it change when new data is received from backend to avoid Error ERROR TypeError: this.map is undefined
   //draw new Lines and Markers when something changes
   ngOnChanges(changes: SimpleChanges): void {
     this.changeMapType();
@@ -60,11 +60,14 @@ export class MapComponent {
   changeMapType(): void {
     switch (this._selectedMap) {
       case 'vector':
+        this.vectorService.initializeDrawControl();
         //TODO implement getDrawingData so it returns something
         //this.drawingData = this.rasterMapService.getDrawingData();
         this.vectorService.drawUserMarkers(this.users);
-        this.vectorService.drawUserLines(this.users);        
-        this.vectorService.drawDrawings(this.drawingData);
+        //this.vectorService.drawUserLines(this.users);
+        if (this.drawingData) {
+          this.vectorService.drawPreviousFigures(this.drawingData);
+        }
         break;
       case 'raster':
         this.drawingData = this.vectorService.getDrawingData();
@@ -96,7 +99,7 @@ export class MapComponent {
     this.map.remove();
     this.initMap();
   }
-  
+
   //Initialize Raster map
   private initRastermap() {
     this.rasterMapService.clearMarkers();
@@ -148,6 +151,5 @@ export class MapComponent {
     }, 0);
 
     this.vectorService.setMap(this.map);
-    this.vectorService.initializeDrawControl();
   }
 }

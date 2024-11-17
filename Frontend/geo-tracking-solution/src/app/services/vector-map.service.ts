@@ -1,11 +1,8 @@
-//Comments are written by Olama 7b from Zagreb for testing reasons
 import { Injectable } from '@angular/core';
-// Importing maplibre-gl library for creating a map
 import maplibregl from 'maplibre-gl';
-// Importing User class to get user information
 import User from '../classes/User';
 import MaplibreTerradrawControl from '@watergis/maplibre-gl-terradraw';
-import { FeatureCollection, Feature, Polygon, GeoJsonProperties } from 'geojson';
+import { GeoJSONStoreFeatures, TerraDraw } from 'terra-draw';
 
 
 @Injectable({
@@ -13,34 +10,36 @@ import { FeatureCollection, Feature, Polygon, GeoJsonProperties } from 'geojson'
 })
 
 export class VectorMapService {
-  private map!: maplibregl.Map; // Declaring a Map property as an optional field
+  private map!: maplibregl.Map;
   private drawControl!: MaplibreTerradrawControl;
-  private vectormarkers: { [key: number]: maplibregl.Marker } = []; // Creating a dictionary to store markers
-  private userLocations: { [key: string]: [number, number][] } = {}; // Creating a dictionary to store user locations
+  private vectormarkers: { [key: number]: maplibregl.Marker } = [];
+  private userLocations: { [key: string]: [number, number][] } = {};
 
-  private allLocations: any; // Storing the return value of the drawUserMarkers method
-  private geojsonData: FeatureCollection<Polygon, GeoJsonProperties> = {
-    'type': 'FeatureCollection',
-    'features': []
-  };
-
+  private allLocations: any;
+  private terraDrawInstance!: TerraDraw;
+  private geojsonData: GeoJSONStoreFeatures[] = [];
   //temporary to store coordinates from map should later be pushed to backend
   private drawingCoordinates: any;
 
   constructor() { }
 
-  setMap(map: maplibregl.Map): void { // Method for setting the map property
+  setMap(map: maplibregl.Map): void {
     this.map = map;
   }
 
-  drawUserMarkers(users: User[]): any { // Method for drawing user markers on the map
-    if (this.map) { // Checking if the map property is set
-      for (const user of users) { // Iterating through the users array
-        if (this.vectormarkers[user.id]) { // Checking if a marker already exists for this user
-          this.vectormarkers[user.id].setLngLat([user.location.longitude, user.location.latitude]); // Updating the existing marker's location
-        } else { // If no marker exists yet, creating one and adding it to the map
+  //a method to draw the Markers of Users, which are received from the backend and draws them depending on where they are in real live.
+  //Also updates the position whenever changes from the Backend come in
+  drawUserMarkers(users: User[]): any {
+    if (this.map) {
+      for (const user of users) {
+        // when there already is a marker for a User change its position
+        if (this.vectormarkers[user.id]) {
+          this.vectormarkers[user.id].setLngLat([user.location.longitude, user.location.latitude]);
+        }
+        // when there currently is no marker for a User add a new one to the map
+        else {
           const marker = new maplibregl.Marker().setLngLat([user.location.longitude, user.location.latitude]).addTo(this.map);
-          this.vectormarkers[user.id] = marker; // Storing the newly created marker in the vectormarkers dictionary
+          this.vectormarkers[user.id] = marker;
         }
       }
       if (Object.keys(this.vectormarkers).length > users.length) { // Checking if any markers are left over after drawing new markers
@@ -49,27 +48,27 @@ export class VectorMapService {
         }
       }
     }
-    return this.allLocations; // Returning the value of the allLocations property
+    return this.allLocations;
   }
 
-  drawUserLines(users: User[]): void { // Method for drawing lines connecting user locations on the map
-    for (const user of users) { // Iterating through the users array
-      const lat = user.location.latitude; // Getting the latitude and longitude coordinates of the current user's location
+  //a method to draw trails behind the markers to show the previous path of the user
+  drawUserLines(users: User[]): void {
+    for (const user of users) {
+      const lat = user.location.latitude;
       const lng = user.location.longitude;
-      if (!this.userLocations[user.id]) { // Checking if this user has any locations stored in the userLocations dictionary
-        this.userLocations[user.id] = []; // Creating a new array to store their locations
+      // when a user doesn' have previous locations create a new array for them
+      if (!this.userLocations[user.id]) {
+        this.userLocations[user.id] = [];
       }
-
-      this.userLocations[user.id].push([lng, lat]); // Adding the current location to the user's array of locations in the userLocations dictionary
-
-      if (this.userLocations[user.id].length > 10) { // Checking if there are more than 10 locations stored for this user
-        this.userLocations[user.id].shift(); // Removing the oldest location from the array
+      this.userLocations[user.id].push([lng, lat]);
+      // if the user already has the maximum number of stored locations (at the moment 10) remove the oldest
+      if (this.userLocations[user.id].length > 10) {
+        this.userLocations[user.id].shift();
       }
       const lineId = `line-${user.id}`; // Creating a unique ID for each line, using the user's ID as the prefix
-      if (this.map) { // Checking if the map property is set
-        //debug
-        //console.log(this.userLocations[user.id]);
-
+      //finally draw the line onto the map
+      if (this.map) {
+        //generate geojson
         const lineData: GeoJSON.FeatureCollection<GeoJSON.LineString> = {
           'type': 'FeatureCollection',
           'features': [
@@ -83,11 +82,12 @@ export class VectorMapService {
             }
           ]
         };
-
-        if (this.map.getSource(lineId)) { // Checking if the line is already on the map
-          const source = this.map.getSource(lineId) as maplibregl.GeoJSONSource; // Getting the existing line's GeoJSON data
-          source.setData(lineData); // Updating the existing line with new data
-        } else { // If no line exists yet, creating a new one and adding it to the map
+        // when there already is a line for a specific user just update it
+        if (this.map.getSource(lineId)) {
+          const source = this.map.getSource(lineId) as maplibregl.GeoJSONSource;
+          source.setData(lineData);
+          // if there is no line for a user create a new one
+        } else {
           this.map.addSource(lineId, {
             'type': 'geojson',
             'data': lineData
@@ -107,71 +107,116 @@ export class VectorMapService {
     }
   }
 
-  drawDrawings(drawingData: any) {
+  //draw the figures already drawn on the other maptypes
+  //gets all previous figures in a json format
+  drawPreviousFigures(drawingData: any) {
     for (const figure of drawingData) {
+      const id: number = drawingData.findIndex((drawing: any) => drawing === figure);
+      // when the type is 'Polygon' reformat it and call addPolygon method
       if (figure.type === 'Polygon') {
         const polygonCoordinates: [number, number][] = [];
         for (const coordinates of figure.coordinates[0]) {
           polygonCoordinates.push([coordinates[0], coordinates[1]]);
         }
-        this.addPolygon(polygonCoordinates, drawingData.findIndex((drawing: any) => drawing === figure));
-      } else if (figure.type === 'Circle') {
-        const center = [figure.coordinates[0][0], figure.coordinates[0][1]];
-        const radius = figure.coordinates[1];
-        //factor for latitude specific factor from DegreeLongitude to meters
-        //const metersPerDegreeLongitude = 111320 * Math.cos(figure.coordinates[0][1] * (Math.PI / 180));
-
-        /*L.circle(center, {
-          radius: radius * metersPerDegreeLongitude,
-          color: 'blue',
-          fillColor: '#3388ff',
-          fillOpacity: 0.5
-        }).addTo(this.drawnItems);*/
-      } else if (figure.type === 'Linestring') {
-        const linestringCoordinates = [];
-        for (const coordinates of figure.coordinates) {
-          linestringCoordinates.push([coordinates[1], coordinates[0]]);
-        }
-        /*L.polyline(linestringCoordinates, {
-          color: 'blue',
-          fillColor: '#3388ff',
-          fillOpacity: 0.5
-        }).addTo(this.drawnItems);*/
-      } else if (figure.type === 'Point') {
-        const pointCoordinates: L.LatLngExpression = [figure.coordinates[1], figure.coordinates[0]];
-        /*L.circleMarker(pointCoordinates, {radius: 5}).addTo(this.drawnItems);*/
+        this.addPolygon(polygonCoordinates, id);
       }
-    }
-    if (this.map) {
-      this.map.addSource("5ae", {
-        'type': 'geojson',
-        'data': this.geojsonData
-      });
-      this.map.addLayer({
-        'id': '5ae',
-        'type': 'fill',
-        'source': '5ae',
-        'paint': {
-          'fill-color': '#ff0000',
-          'fill-opacity': 0.8
+      // when the type is 'Circle' reformat it and call addCircle method
+      else if (figure.type === 'Circle') {
+        const center: [number, number] = [figure.coordinates[0][0], figure.coordinates[0][1]];
+        const radius: number = figure.coordinates[1];
+        this.addCircle(center, radius, id);
+
+      }
+      // when the type is 'Linestring' reformat it and call addLineString method
+      else if (figure.type === 'Linestring') {
+        const linestringCoordinates: [number, number][] = [];
+        for (const coordinates of figure.coordinates) {
+          linestringCoordinates.push([coordinates[0], coordinates[1]]);
         }
-      });
+        this.addLineString(linestringCoordinates, id);
+
+      }
+      // when the type is 'Point' reformat it and call addPoint method
+      else if (figure.type === 'Point') {
+        const pointCoordinates: [number, number] = [figure.coordinates[0], figure.coordinates[1]];
+        this.addPoint(pointCoordinates, id);
+      }
     }
   }
 
-
+  //a method to create a new polygon feature and add it to geojsonData array
   addPolygon(coordinates: [number, number][], id: number) {
-    const newPolygon: Feature<Polygon> = {
+    const newPolygon: GeoJSONStoreFeatures = {
       "type": "Feature",
       "geometry": {
         "type": "Polygon",
         "coordinates": [coordinates]
       },
       "properties": {
-        "id": id
+        mode: "polygon",
+        id: id
       }
     };
-    this.geojsonData.features.push(newPolygon);
+    this.geojsonData.push(newPolygon);
+  }
+
+  //a method to calculate the corners of the polygon, create a new polygon feature and add it to geojsonData array
+  addCircle(center: [number, number], radius: number, id: number) {
+    const vertices: [number, number][] = [];
+    for (let i = 0; i < 64; i++) {
+      const angle = (2 * Math.PI * i) / 64;
+      // Calculate the coordinates for each vertex
+      const latitude = center[1] + (radius * Math.cos(angle));
+      const longitude = center[0] + (radius * Math.sin(angle)) / Math.cos(center[1] * (Math.PI / 180));
+      vertices.push([parseFloat(longitude.toFixed(9)), parseFloat(latitude.toFixed(9))]);
+    }
+    // Close the polygon by repeating the first point at the end
+    vertices.push(vertices[0]);
+
+    const newCircle: GeoJSONStoreFeatures = {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [vertices]
+      },
+      "properties": {
+        mode: "polygon",
+        id: id
+      }
+    };
+    this.geojsonData.push(newCircle);
+  }
+
+  //a method to create a new linestring feature and add it to geojsonData array
+  addLineString(coordinates: [number, number][], id: number) {
+    const newPolyLine: GeoJSONStoreFeatures = {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": coordinates
+      },
+      "properties": {
+        mode: "linestring",
+        id: id
+      }
+    };
+    this.geojsonData.push(newPolyLine);
+  }
+
+  //a method to create a new point feature and add it to geojsonData array
+  addPoint(coordinates: [number, number], id: number) {
+    const newPoint: GeoJSONStoreFeatures = {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": coordinates
+      },
+      "properties": {
+        mode: "point",
+        id: id
+      }
+    };
+    this.geojsonData.push(newPoint);
   }
 
 
@@ -180,29 +225,33 @@ export class VectorMapService {
     this.vectormarkers = [];
   }
 
+  //initialize the drawControl and configure it to fit our needs
   initializeDrawControl(): void {
     this.drawControl = new MaplibreTerradrawControl();
-
-    // Zeichnungskontrolle der Karte hinzufügen
     this.map.addControl(this.drawControl, 'bottom-left');
-
+    //when the map is loaded draw all the previous figures
     this.map.on('load', (event) => {
       let data = [];
-      const terraDrawInstance = this.drawControl.getTerraDrawInstance(); //get Drawings data
+      this.terraDrawInstance = this.drawControl.getTerraDrawInstance();
+      this.terraDrawInstance.addFeatures(this.geojsonData);
 
-      terraDrawInstance.on('finish', (event) => {
+      //when a figure is finished drawing extract the important data and add it to the data array
+      this.terraDrawInstance.on('finish', (event) => {
         data = [];
-        const storedFeatures = terraDrawInstance["_store"]["store"]; // Access the stored features from the Map
-        for (const key in storedFeatures) { // iterate for every figure
+        const storedFeatures = this.terraDrawInstance["_store"]["store"]; // Access the stored features from the Map
+
+        for (const key in storedFeatures) {
           if (storedFeatures.hasOwnProperty(key)) {
             const feature = storedFeatures[key];
-
+            //categorize all sorts of polygons into polygons and add them to the data array
             if (["polygon", "rectangle", "angled-rectangle", "freehand"].includes(feature.properties.mode)) {
               data.push({
                 type: "Polygon",
                 coordinates: feature.geometry.coordinates
               });
-            } else if (["circle"].includes(feature.properties.mode)) {
+            }
+            //calculate the center and the radius in meters of the circle and add them to the data array
+            else if (["circle"].includes(feature.properties.mode)) {
               let lngcoordinates = 0;
               let latcoordinates = 0;
 
@@ -220,12 +269,16 @@ export class VectorMapService {
                 type: "Circle",
                 coordinates: [[avglng, avglat], radius]
               });
-            } else if (["linestring"].includes(feature.properties.mode)) {
+            }
+            //get the coordinates of linestrings and add them to the data array
+            else if (["linestring"].includes(feature.properties.mode)) {
               data.push({
                 type: "Linestring",
                 coordinates: feature.geometry.coordinates
               });
-            } else if (["point"].includes(feature.properties.mode)) {
+            } 
+            //get the coordinates of points and add them to the data array
+            else if (["point"].includes(feature.properties.mode)) {
               data.push({
                 type: "Point",
                 coordinates: feature.geometry.coordinates
@@ -238,6 +291,7 @@ export class VectorMapService {
     });
   }
 
+  //returns the coordinates of all drawn figures
   getDrawingData(): void {
     return this.drawingCoordinates;
   }
