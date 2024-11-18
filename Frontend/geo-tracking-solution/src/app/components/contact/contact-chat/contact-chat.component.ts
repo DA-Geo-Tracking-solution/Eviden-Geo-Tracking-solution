@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WebsocketService } from '../../../services/websocket.service';
+import { WebsocketService } from '../../../services/websocket/websocket.service';
 
 export interface ChatMessage {
   timestamp: number,

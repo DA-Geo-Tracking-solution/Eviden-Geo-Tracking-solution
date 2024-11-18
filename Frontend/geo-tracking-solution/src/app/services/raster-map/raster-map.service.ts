@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as L from 'leaflet';
-import User from '../classes/User';
+import User from '../../classes/User';
 import 'leaflet-draw';
 
 @Injectable({

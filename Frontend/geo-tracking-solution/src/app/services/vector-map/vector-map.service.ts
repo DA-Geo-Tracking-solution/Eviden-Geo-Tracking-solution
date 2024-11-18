@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import maplibregl from 'maplibre-gl';
-import User from '../classes/User';
+import User from '../../classes/User';
 import MaplibreTerradrawControl from '@watergis/maplibre-gl-terradraw';
 import { GeoJSONStoreFeatures, TerraDraw } from 'terra-draw';
 
