@@ -1,0 +1,6 @@
+.is-fullheight-with-navbar {
+    /* TODO: Höhe von der Navbar muss noch passend zum Chat hinzugefügt werden */
+    min-height: calc(100vh - 3.25rem); /* 3.25rem entspricht der Standardhöhe der Bulma Navbar */
+    display: flex;
+    flex-direction: column;
+  }

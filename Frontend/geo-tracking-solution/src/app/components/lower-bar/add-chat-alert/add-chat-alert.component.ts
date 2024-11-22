@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ThemeService } from '../../../services/Theme/theme.service';
 
 @Component({
   selector: 'app-add-chat-alert',
   templateUrl: './add-chat-alert.component.html',
   styleUrl: './add-chat-alert.component.css'
 })
-export class AddChatAlertComponent {
+export class AddChatAlertComponent implements OnInit{
 
   contacts = [
     { name: 'Bob Boblio', email: 'bobo@lio.com' },
@@ -16,10 +17,11 @@ export class AddChatAlertComponent {
 
   filteredContacts = this.contacts;
   serchTerm = ''; //Suchtext
+  currentTheme = '';
 
   @Output() contactSelected = new EventEmitter<{ name: string; email: string }>();
 
-  constructor(public matDialogRef: MatDialogRef<AddChatAlertComponent>) { }
+  constructor(public matDialogRef: MatDialogRef<AddChatAlertComponent>, private themeService:ThemeService) { }
 
   closeDialog() {
     this.matDialogRef.close();
@@ -36,6 +38,12 @@ export class AddChatAlertComponent {
     this.filteredContacts = this.contacts.filter(contact => 
       contact.name.toLowerCase().includes(term) || contact.email.toLowerCase().includes(term)
     );
+  }
+
+  ngOnInit(): void {
+      this.themeService.currentTheme.subscribe((theme) => {
+        this.currentTheme = theme;
+      });
   }
 
 }

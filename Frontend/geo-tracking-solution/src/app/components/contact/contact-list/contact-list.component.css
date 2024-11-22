@@ -22,10 +22,13 @@ body {
 
 /* Navbar for contact section */
 .contact-navbar {
-    /* TODO: Neue Passende Farbe für Navbar einfügen */
-    /* background-color: yellow; */
+    color: #303030;
     background-color: #ececed;
     padding: 1rem;
+}
+
+.contact-navbar h1 {
+    color: #303030;
 }
 
 /* Search bar adjustments */
@@ -123,4 +126,10 @@ body {
 .list-item:hover {
     background-color: #f0f0f0;
     /* Beispielhintergrundfarbe beim Hover */
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-width: 100vh;
 }

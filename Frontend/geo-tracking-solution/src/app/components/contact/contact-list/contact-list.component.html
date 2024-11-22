@@ -1,8 +1,8 @@
-<div data-theme="">
+<div class="">
     <div>
         <nav class="navbar contact-navbar is-flex" role="navigation" aria-label="main navigation" style="height: 80px;">
             <div class="navbar-brand">
-                <h1 class="title" style="padding-top: 15%;">Chat</h1>
+                <h1 class="title" style="padding-top: 15%; color: black;">Chat</h1>
             </div>
         </nav>
     </div>
@@ -10,7 +10,8 @@
     <!-- Search Bar -->
     <div class="field has-addons">
         <div class="control is-expanded">
-            <input class="input" type="text" [(ngModel)]="searchContact" placeholder="search" (keyup)="filterContacts()">
+            <input class="input" type="text" [(ngModel)]="searchContact" placeholder="search"
+                (keyup)="filterContacts()">
         </div>
         <div class="control">
             <button class="button is-info" (click)="filterContacts()">
@@ -40,7 +41,6 @@
             </div>
         </ng-scrollbar>
 
-        <!-- TODO: Muss permanent unter der Kontaktliste angezeigt werden -->
-        <app-lower-bar (contactAdded)="addNewContact($event)"></app-lower-bar>
+        <app-lower-bar (contactAdded)="addNewContact($event)" ></app-lower-bar>
     </div>
 </div>
