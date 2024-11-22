@@ -21,11 +21,15 @@ export class RestService {
     return this.http.get(`${this.url}/${path}`, { headers });
   }
 
-  // POST
-  async POST(path: string): Promise<Observable<any>>{
+  async POST(path: string, body: any): Promise<Observable<any>> {
     const token = this.keycloakService.profile?.token;
+  
+   
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post(`${this.url}/${path}`, { headers });
+  
+console.log(body)
+
+    return this.http.post(`${this.url}/${path}`, body, { headers });
   }
 
   // Fehlerbehandlung

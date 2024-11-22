@@ -26,8 +26,8 @@ import { CreateGroupComponent } from './components/user-group/create-group/creat
 import { ContactChatComponent } from './components/contact/contact-chat/contact-chat.component';
 import { ContactListComponent } from './components/contact/contact-list/contact-list.component';
 import { ContactComponent } from './components/contact/contact.component';
-import { LowerBarComponent } from './components/lower-bar/lower-bar.component';
-import { AddChatAlertComponent } from './components/lower-bar/add-chat-alert/add-chat-alert.component';
+import { LowerBarComponent } from './components/contact/contact-list/lower-bar/lower-bar.component';
+import { AddChatAlertComponent } from './components/contact/contact-list/lower-bar/add-chat-alert/add-chat-alert.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { MapComponent } from './components/map/map.component';

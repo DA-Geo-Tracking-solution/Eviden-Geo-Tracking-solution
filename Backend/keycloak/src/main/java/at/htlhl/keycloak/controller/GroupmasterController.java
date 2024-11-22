@@ -33,7 +33,7 @@ public class GroupmasterController {
         User userModel = User.MapToUser((Map<String, Object>) request.get("user"));
         String temporaryPassword = (String) request.get("temporaryPassword");
 
-        return userService.createUser(userModel.getUserRepresentation(temporaryPassword));
+        return "{ \"message\": \"" + userService.createUser(userModel.getUserRepresentation(temporaryPassword)) + "\" }";
     }
 
     @PostMapping("/subgroup")
