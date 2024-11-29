@@ -22,7 +22,7 @@ public class JwtHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
         this.jwtDecoder = jwtDecoder;
     }
 
-    @Override
+   /* @Override
     public boolean beforeHandshake( ServerHttpRequest request, ServerHttpResponse response, 
                 WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
 
@@ -49,7 +49,7 @@ public class JwtHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
             response.setStatusCode(HttpStatus.UNAUTHORIZED);
             return false;
         }
-    }
+    }*/
 
     // @Override
     // public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) {

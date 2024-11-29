@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Client, IMessage, StompConfig } from '@stomp/stompjs';
+import { Client, IMessage, Stomp, StompConfig } from '@stomp/stompjs';
 // import * as SockJS from 'sockjs-client';
 import SockJS from 'sockjs-client';
 import { BehaviorSubject } from 'rxjs';
@@ -25,6 +25,55 @@ export class WebsocketService {
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
     });
+
+    /*const socket = new SockJS("/ws");
+    const stompClient2 = Stomp.over(socket);
+    stompClient2.connect({Authorization: `Bearer ${token}`}, (frame:any) => {
+        console.log(frame);
+
+        stompClient2.subscribe("/user/topic", (message) => {
+            const data = JSON.parse(message.body);
+            console.log(data);
+
+            //$("#tbody").append(`<tr><td>${data.message}</td><td>${data.from}</td></tr>`)
+
+        });
+    });*/
+    
+    
+    /*const socket = new WebSocket('ws://localhost:8080/ws');
+    const stompClient = Stomp.over(socket);
+    stompClient.debug = (str) => console.log(str);
+    stompClient.connect(
+      { 'X-Authorization': token }, // Pass JWT as header
+      onConnect,                       // Callback for successful connection
+      onError                          // Callback for errors
+    );
+
+    // Callback for successful connection
+    function onConnect(frame: string) {
+        console.log('Connected: ' + frame);
+
+        // Subscribe to a topic
+        stompClient.subscribe(
+            '/topic/someTopic',         // Topic to subscribe to
+            (onMessageReceived),
+            { 'X-Authorization': token }
+        );
+
+        //sendMessage('/app/wherever', { content: 'Hello, WebSocket!' });
+    }
+
+    // Callback for connection errors
+    function onError(error: any) {
+        console.error('Error connecting to WebSocket:', error);
+    }
+
+    function onMessageReceived(message: any) {
+      console.log('Message received:', message.body);
+      // Process the message here
+    }*/
+  
 
     this.stompClient.onConnect = () => {
       console.log('Connected');
