@@ -1,6 +1,8 @@
 package at.htlhl.keycloak.config;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,7 +47,15 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                         System.out.println(token);
 
                         Jwt jwt = jwtDecoder().decode(token);
-                        //attributes.put("jwt", jwt); // Store user info for later use
+                        Map<String, Object> sessionAttributes = accessor.getSessionAttributes();
+                        if (sessionAttributes == null) {
+                            sessionAttributes = new HashMap<>();
+                            accessor.setSessionAttributes(sessionAttributes);
+                        }
+
+                        // Add JWT to session attributes
+                        sessionAttributes.put("jwt", jwt);
+
                         System.out.println("JWT successfully added to session attributes: " + jwt.getSubject());
                         var auth = new UsernamePasswordAuthenticationToken(jwt.getSubject(), null,
                                new KeycloakJwtAuthenticationConverter().convert(jwt).getAuthorities());
@@ -64,7 +74,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 
                            
-                        try {
+                        /*try {
                             // Decode the JWT token
                             Jwt jwt = jwtDecoder.decode(token);
                             
@@ -74,7 +84,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                         } catch (Exception e) {
                             System.out.println("Invalid token: " + e.getMessage());
                             throw new SecurityException("Unauthorized: Invalid JWT token");
-                        }
+                        }**/
                     
                     } else {
                         // Handle case where no Authorization header is found
