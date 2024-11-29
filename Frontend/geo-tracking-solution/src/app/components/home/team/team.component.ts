@@ -29,7 +29,7 @@ export class TeamComponent {
     {
       title: 'Charlie Brown',
       subtitle: 'backenddev',
-      image: 'https://bulma.io/assets/images/placeholders/1280x960.png',
+      image: '../../../../assets/images/ebertz.png',
       avatar: 'https://bulma.io/assets/images/placeholders/96x96.png',
       tag: '#backend',
       date: '2024-11-17'
