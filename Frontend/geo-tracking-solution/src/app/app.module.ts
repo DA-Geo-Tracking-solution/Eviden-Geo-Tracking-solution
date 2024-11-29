@@ -10,6 +10,7 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { KeycloakService } from './services/keycloak/keycloak.service';
+import { WebsocketComponent } from './components/websocket/websocket/websocket.component';
 
 export function kcFactory(KeycloakService: KeycloakService) {
   return () => KeycloakService.init();
@@ -22,7 +23,8 @@ export function kcFactory(KeycloakService: KeycloakService) {
     ConfigurationBarComponent,
     LoginComponent,
     HomeComponent,
-    FooterComponent
+    FooterComponent,
+    WebsocketComponent
   ],
   imports: [
     BrowserModule,

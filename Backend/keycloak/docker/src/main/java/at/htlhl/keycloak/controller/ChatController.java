@@ -17,6 +17,9 @@ public class ChatController {
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/public")
     public ChatMessage sendMessage(ChatMessage message, SimpMessageHeaderAccessor headerAccessor) {
+        System.out.println("sendMessage method triggered.");
+        System.out.println("Session Attributes: " + headerAccessor.getSessionAttributes());
+
         Jwt jwt = (Jwt) headerAccessor.getSessionAttributes().get("jwt");
 
         if (jwt != null) {

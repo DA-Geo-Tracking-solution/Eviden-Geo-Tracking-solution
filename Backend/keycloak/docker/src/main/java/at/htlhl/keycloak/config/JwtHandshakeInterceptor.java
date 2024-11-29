@@ -23,13 +23,14 @@ public class JwtHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
     }
 
     @Override
-    public boolean beforeHandshake(
-            org.springframework.http.server.ServerHttpRequest request,
-            org.springframework.http.server.ServerHttpResponse response,
-            WebSocketHandler wsHandler,
-            Map<String, Object> attributes) throws Exception {
+    public boolean beforeHandshake( ServerHttpRequest request, ServerHttpResponse response, 
+                WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
 
         var authHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        System.out.println(request.getHeaders());
+        System.out.println(request.getURI().getQuery());
+
+        //System.out.println("Headers" + authHeader);
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             response.setStatusCode(HttpStatus.UNAUTHORIZED);
             return false;
@@ -38,7 +39,8 @@ public class JwtHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
         try {
             String token = authHeader.substring(7);
             Jwt jwt = jwtDecoder.decode(token);
-            attributes.put("user", jwt.getSubject()); // Store user info for later use
+            attributes.put("jwt", jwt); // Store user info for later use
+            System.out.println("JWT successfully added to session attributes: " + jwt.getSubject());
             var auth = new UsernamePasswordAuthenticationToken(jwt.getSubject(), null,
                     new KeycloakJwtAuthenticationConverter().convert(jwt).getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);

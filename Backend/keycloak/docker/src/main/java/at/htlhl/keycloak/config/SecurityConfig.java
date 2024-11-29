@@ -13,11 +13,6 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class SecurityConfig {
 
-    @Bean
-    public JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withJwkSetUri("http://localhost:8081/realms/geo-tracking-solution/protocol/openid-connect/certs" + //
-                        "").build();
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -26,7 +21,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/", "/public/**").permitAll()
-                        .requestMatchers("/ws", "/ws/chat**").permitAll()
+                        .requestMatchers("/ws", "/ws/chat/**").permitAll()
                         .requestMatchers("/v3/**", "/swagger-ui/**").permitAll() // Todo delete on production
                         .requestMatchers("/member/**").hasRole("member")
                         .requestMatchers("/squadmaster/**").hasRole("squadmaster")
