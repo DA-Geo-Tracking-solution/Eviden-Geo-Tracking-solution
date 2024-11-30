@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WebsocketService } from '../../../services/websocketservice/websocketservice.service';
 import { KeycloakService } from '../../../services/keycloak/keycloak.service';
+import { ServerDataService } from '../../../services/server-data/server-data.service';
 
 @Component({
   selector: 'app-websocket',
@@ -12,26 +13,20 @@ export class WebsocketComponent implements OnInit, OnDestroy {
   
   messages: string[] = [];
 
-  constructor(private websocketService: WebsocketService, private keycloakService: KeycloakService) {}
+  constructor(private serverDataService: ServerDataService, private keycloakService: KeycloakService) {}
 
   ngOnInit(): void {
-    if (this.token) {
-      console.log(this.token)
-      this.websocketService.connect(this.token);
-      console.log("iinit")
-
-      this.websocketService.subscribe('/topic/public', (message) => {
-        console.log(message.body);
-        this.messages.push(message.body);
-      });
-    }
+    this.serverDataService.getChatMessage(2, (message) => {
+      console.log(message);
+      this.messages.push(message.content);
+    });
   }
 
   sendMessage(content: string): void {
-    this.websocketService.send('/app/chat.sendMessage', { content });
+    //this.websocketService.send('/app/chat.sendMessage', { content });
   }
 
   ngOnDestroy(): void {
-    this.websocketService.disconnect();
+    this.serverDataService.close();
   }
 }
