@@ -15,6 +15,7 @@ export interface ChatMessage {
 })
 export class ContactChatComponent implements OnInit {
   @Input() contact!: { name: string; email: string };
+  @Input() currentTheme!: string;
 
   public messages: ChatMessage[] = [];
   public message: string = '';
