@@ -13,11 +13,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 
 @Service
 public class GroupService {
@@ -27,7 +31,6 @@ public class GroupService {
 
     @Autowired
     private Keycloak keycloak;
-
 
     public static final List<String> ALL_ROLE_NAMES = Arrays.asList("groupmaster", "squadmaster", "member");
 
@@ -56,6 +59,12 @@ public class GroupService {
         userResource.roles().realmLevel().add(roles);
 
         System.out.println("User " + userEmail + " has been added to group " + group.getName() + " and assigned roles.");
+    }
+
+
+    public void addUserToGroup(String userId, String groupId, String realm) {
+        // Assign the user to the group
+        keycloak.realm(realm).users().get(userId).joinGroup(groupId);
     }
 
     public GroupRepresentation createSubGroupWithRoles(String groupName, String groupmasterEmail) throws Exception{

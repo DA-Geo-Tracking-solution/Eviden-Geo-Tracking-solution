@@ -16,6 +16,7 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { KeycloakService } from './services/keycloak/keycloak.service';
+
 import { CreateUserComponent } from './components/user-group/create-user/create-user.component';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -39,6 +40,9 @@ import { SplitterModule } from 'primeng/splitter';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 
+import { WebsocketComponent } from './components/websocket/websocket/websocket.component';
+
+
 export function kcFactory(KeycloakService: KeycloakService) {
   return () => KeycloakService.init();
 }
@@ -60,7 +64,8 @@ export function kcFactory(KeycloakService: KeycloakService) {
     ContactListComponent,
     ContactComponent,
     LowerBarComponent,
-    AddChatAlertComponent
+    AddChatAlertComponent,
+    WebsocketComponent
   ],
   imports: [
     BrowserModule,

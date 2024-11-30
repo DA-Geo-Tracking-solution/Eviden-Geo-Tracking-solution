@@ -25,7 +25,6 @@ public class UserService {
     @Value("${keycloak.realm}")
     private String realm;
 
-
     public List<UserRepresentation> getGroupMembers() {
         List<GroupRepresentation> groups = getUserGroups();
 
@@ -78,6 +77,7 @@ public class UserService {
         keycloak.realm(realm).users().get(userId).remove();
     }
 
+
     private String getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (String) ((Jwt) authentication.getPrincipal()).getClaims().get(StandardClaimNames.SUB);
@@ -86,6 +86,4 @@ public class UserService {
     private List<GroupRepresentation> getUserGroups() {
         return keycloak.realm(realm).users().get(getUserId()).groups();
     }
-
-    
 }
