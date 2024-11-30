@@ -59,9 +59,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                         System.out.println("JWT successfully added to session attributes: " + jwt.getSubject());
                         var auth = new UsernamePasswordAuthenticationToken(jwt.getSubject(), null,
                                new KeycloakJwtAuthenticationConverter().convert(jwt).getAuthorities());
+                        accessor.setUser(auth);
                         System.out.println(auth);
+                        
                         //SecurityContextHolder.getContext().setAuthentication(auth);
-
                         /*try {
                             Jwt jwt = jwtDecoder().decode(token);
                             Collection<? extends GrantedAuthority> authorities = new KeycloakJwtAuthenticationConverter().convert(jwt).getAuthorities();
@@ -71,9 +72,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                             System.out.println("Invalid token: " + e.getMessage());
                             throw new AuthenticationException("Invalid token") {};
                         }*/
-
-
-                           
                         /*try {
                             // Decode the JWT token
                             Jwt jwt = jwtDecoder.decode(token);
@@ -87,10 +85,17 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                         }**/
                     
                     } else {
-                        // Handle case where no Authorization header is found
                         System.out.println("No Authorization header found");
-                        // Optionally, throw an exception or reject connection here
                         throw new AuthenticationException("No Authorization header found") {};
+                    }
+                } else if (StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
+                    String destination = accessor.getDestination();
+                    if (destination != null && destination.startsWith("/topic/restricted")) {
+                        UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) accessor.getUser();
+                        if (auth == null || auth.getAuthorities().stream().noneMatch(
+                                authority -> authority.getAuthority().equals("ROLE_ALLOWED_TO_SUBSCRIBE"))) {
+                            throw new AuthenticationException("User not authorized to subscribe to " + destination) {};
+                        }
                     }
                 }
                 return message;
@@ -107,8 +112,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws/chat")
-                .setAllowedOriginPatterns("*")
-                .addInterceptors(new JwtHandshakeInterceptor(jwtDecoder())); // Allow all origins
+                .setAllowedOriginPatterns("*");
+                //.addInterceptors(new JwtHandshakeInterceptor(jwtDecoder())); // Allow all origins
                 //.withSockJS(); // SockJS fallback
     }
     

@@ -21,6 +21,7 @@ export class WebsocketComponent implements OnInit, OnDestroy {
       console.log("iinit")
 
       this.websocketService.subscribe('/topic/public', (message) => {
+        console.log(message.body);
         this.messages.push(message.body);
       });
     }

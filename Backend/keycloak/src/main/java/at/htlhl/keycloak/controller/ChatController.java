@@ -39,6 +39,7 @@ public class ChatController {
         } else {
             throw new SecurityException("Unauthorized: Missing JWT in WebSocket session");
         }
+        messagingTemplate.convertAndSend("/public", message);
 
         return message;
     }

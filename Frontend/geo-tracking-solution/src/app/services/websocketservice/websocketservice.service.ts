@@ -98,7 +98,10 @@ export class WebsocketService {
     if (this.stompClient && this.stompClient.connected) {
       this.stompClient.subscribe(destination, callback);
     } else {
-      console.error('Cannot subscribe, client is not connected');
+      this.stompClient.onConnect = () => {
+        this.stompClient.subscribe(destination, callback);
+        this.connectedSubject.next(true);
+      };
     }
   }
 
