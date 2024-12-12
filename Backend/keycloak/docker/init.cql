@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS gps_data (
 CREATE TABLE IF NOT EXISTS user_by_squad (
     squadID UUID,
     user_email TEXT,
-    PRIMARY KEY (squadID, uid)
+    PRIMARY KEY (squadID, user_email)
 );
 
 -- Table: Messages by Chat
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS messages_by_chat (
     user_email TEXT,
     message TEXT,
     timestamp TIMESTAMP,
-    PRIMARY KEY (chat_id, message_id)
+    PRIMARY KEY (chat_id, timestamp, message_id)
 ) WITH CLUSTERING ORDER BY (timestamp DESC);
 
 -- Table: Chats by User
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS chats_by_user (
 CREATE TABLE IF NOT EXISTS users_by_chat (
     chat_id UUID,
     user_email TEXT,
-    PRIMARY KEY (chat_id, user_id)
+    PRIMARY KEY (chat_id, user_email)
 );
 
 

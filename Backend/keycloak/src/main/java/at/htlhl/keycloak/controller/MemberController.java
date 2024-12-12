@@ -2,7 +2,9 @@ package at.htlhl.keycloak.controller;
 
 import at.htlhl.keycloak.model.Chat;
 import at.htlhl.keycloak.model.ChatMessage;
-import at.htlhl.keycloak.model.User;
+import at.htlhl.keycloak.model.GPSData;
+import at.htlhl.keycloak.model.keycloak.User;
+import at.htlhl.keycloak.service.GPSDataService;
 import at.htlhl.keycloak.service.GroupService;
 import at.htlhl.keycloak.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +27,14 @@ public class MemberController {
 
     private GroupService groupService;
     private UserService userService;
+    private GPSDataService gpsDataService;
     private final SimpMessagingTemplate messagingTemplate;
 
     @Autowired
-    public MemberController(GroupService groupService, UserService userService, SimpMessagingTemplate messagingTemplate) {
+    public MemberController(GroupService groupService, UserService userService, GPSDataService gpsDataService, SimpMessagingTemplate messagingTemplate) {
         this.groupService = groupService;
         this.userService = userService;
+        this.gpsDataService = gpsDataService;
         this.messagingTemplate = messagingTemplate;
     }
 
@@ -53,9 +58,17 @@ public class MemberController {
 
     // TODO this can only be done with a running Database ---------------------
 
+    @GetMapping("/user-location")
+    @Operation(description = "Returns some users location data in format { userId, { longitude, latitude }, timestamp } of your group")
+    public List<GPSData> getCoordinates(@RequestParam String userEmail, @RequestParam Instant earliestTime) {
+        //return gpsDataService.getGPSDataOf(userEmail, earliestTime);
+        return gpsDataService.getAllGPSData();
+    }
+
     @GetMapping("/group-members-locations")
     @Operation(description = "Returns some users location data in format { userId, { longitude, latitude }, timestamp } of your group")
-    public List<Object> getCoordinates(List<Object> users, DateTime earliestTime) {
+    public List<Object> getGroupmembersCoordinates( DateTime earliestTime) {
+        userService.getGroupMembers();
         return new ArrayList<>();
     }
 

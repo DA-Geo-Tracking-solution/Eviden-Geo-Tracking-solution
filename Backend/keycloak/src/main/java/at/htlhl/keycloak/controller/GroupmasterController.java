@@ -1,7 +1,7 @@
 package at.htlhl.keycloak.controller;
 
-import at.htlhl.keycloak.model.Group;
-import at.htlhl.keycloak.model.User;
+import at.htlhl.keycloak.model.keycloak.Group;
+import at.htlhl.keycloak.model.keycloak.User;
 import at.htlhl.keycloak.service.GroupService;
 import at.htlhl.keycloak.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
