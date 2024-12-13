@@ -5,8 +5,6 @@
 
     margin: 30px;
     width: 100%;
-
-
 }
 
 table {
@@ -18,11 +16,58 @@ th.mat-sort-header-sorted {
 }
 
 .col {
-    margin: 5px;
     width: 100%;
 }
 
 ::ng-deep .p-splitter .p-splitter-gutter {
-    background-color: #ccc;
-    border: 1px solid #999;
+    background-color: #002d3c;
+}
+
+::ng-deep .p-splitter-gutter-handle {
+    height: 10rem;
+    background-color: #ff6d43;
+}
+
+.full-height {
+    margin: -1px;
+    height: calc(100% - 3.25rem);
+}
+
+@media (prefers-color-scheme: light) {
+    .table-color {
+        background-color: #d2af14;
+        color: white;
+    }
+
+    ::ng-deep .p-splitter-gutter-handle {
+        height: 10rem;
+        background-color: #ff6d43;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .table-color {
+        background-color: #242424;
+        color: white;
+    }
+}
+
+.dark-theme {
+    background-color: #14161A;
+    color: white;
+}
+
+.light-theme {
+    background-color: white;
+    color: black;
+}
+
+.dark-theme ::ng-deep .p-splitter-gutter-handle {
+    height: 10rem;
+    background-color: #002d3c;
+}
+
+.light-theme ::ng-deep .p-splitter-gutter-handle {
+    height: 10rem;
+    background-color: #ff6d43;
 }
