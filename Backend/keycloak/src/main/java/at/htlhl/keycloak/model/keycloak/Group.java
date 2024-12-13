@@ -1,4 +1,4 @@
-package at.htlhl.keycloak.model;
+package at.htlhl.keycloak.model.keycloak;
 
 import java.util.List;
 

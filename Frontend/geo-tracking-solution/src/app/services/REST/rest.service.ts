@@ -26,8 +26,12 @@ export class RestService {
   
    
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    console.log('Making POST request to:', `${this.url}/${path}`);
+    console.log('Headers:', headers);
+    console.log('Body:', body);
   
-console.log(body)
+    console.log(body)
 
     return this.http.post(`${this.url}/${path}`, body, { headers });
   }

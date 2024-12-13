@@ -1,4 +1,4 @@
-package at.htlhl.keycloak.model;
+package at.htlhl.keycloak.model.keycloak;
 
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;

@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WebsocketService } from '../../../services/websocket/websocket.service';
+import { ServerDataService } from '../../../services/server-data/server-data.service';
+import { RestService } from '../../../services/REST/rest.service';
 
 export interface ChatMessage {
   timestamp: number,
-  author: string,
-  message: string,
-  chatId: number
+  sender: string,
+  content: string,
 }
 
 @Component({
@@ -20,39 +20,14 @@ export class ContactChatComponent implements OnInit {
   public messages: ChatMessage[] = [];
   public message: string = '';
   public navbarOpen: boolean = false;  // Burger-Menü Zustand
+  private chatId: number = 0; // 0 = Global Chat?
 
-  constructor(private webService: WebsocketService) { }
+  constructor(private restService: RestService, private serverDataService: ServerDataService) { }
 
   ngOnInit(): void {
-    // Testdaten
-    this.messages = [
-      {
-        timestamp: Date.now(),
-        author: 'Test User 1',
-        message: 'Hallo! Wie geht es dir?',
-        chatId: 1
-      },
-      {
-        timestamp: Date.now(),
-        author: 'Test User 2',
-        message: 'Mir geht es gut, danke! Und dir?',
-        chatId: 1
-      },
-      {
-        timestamp: Date.now(),
-        author: 'Test User 1',
-        message: 'Auch gut! Was machst du gerade?',
-        chatId: 1
-      },
-      { timestamp: Date.now(), 
-        author: 'Ich', 
-        message: 'Noch eine längere Nachricht, die zeigt, wie Zeilenumbruch funktioniert, wenn der Text besonders lang ist und somit über die max-Breite hinausgeht.', 
-        chatId: 1 
-      }
-    ];
-
-    this.webService.connect('').subscribe((data: any) => {
-      if (data.timestamp && data.author && data.message && data.chatid) {
+    this.serverDataService.getChatMessage(this.chatId, (data: any) => {
+      console.log(data);
+      if (data.sender && data.content && data.timestamp) {
         this.messages.push(data);
       }
     });
@@ -60,16 +35,22 @@ export class ContactChatComponent implements OnInit {
 
   // Nachricht senden
   sendMessage(): void {
-    if (this.message.trim()) {  // Nachricht nur senden, wenn das Eingabefeld nicht leer ist
-      const chatMessage: ChatMessage = {
-        timestamp: Date.now(),
-        author: 'Ich',  // Beispiel: Benutzername kann hier dynamisch sein
-        message: this.message.trim(),
-        chatId: 1
-      };
-      this.messages.push(chatMessage);  // Die Nachricht wird ins Nachrichtenarray gepusht
-      this.webService.send(chatMessage);  // Nachricht über WebSocket senden
-      // ! Das geht nicht
+    if (this.message.trim()) {
+      this.restService.POST(`member/chat/${this.chatId}`, this.message).then(observable => {
+        observable.subscribe({
+            next: (line) => {
+             console.log(line)
+            },
+            error: (err) => {
+              console.error("Error in Observable:", err);
+            },
+            complete: () => {
+              console.log("Observable completed");
+            },
+          });
+        }).catch(err => {
+            console.error("Error resolving promise:", err);
+        });
       this.message = '';  // Eingabefeld nach dem Senden leeren
     }
   }

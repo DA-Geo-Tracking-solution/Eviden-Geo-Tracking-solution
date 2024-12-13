@@ -215,6 +215,144 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "SendMessage",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "subgroup1",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/member/chat/0",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"member",
+								"chat",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetMessagesFromChat",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/member/chat/0/messages",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"member",
+								"chat",
+								"0",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetChats",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/member/chats",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"member",
+								"chats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUserLocation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/member/user-location?userEmail=user@example.com&earliestTime=2024-12-01T00:00:00Z",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"member",
+								"user-location"
+							],
+							"query": [
+								{
+									"key": "userEmail",
+									"value": "user@example.com"
+								},
+								{
+									"key": "earliestTime",
+									"value": "2024-12-01T00:00:00Z"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -282,7 +420,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"subgroup1\",\n    \"groupmasterEmail\": \"user1@example.com\"\n}",
+							"raw": "{\n    \"name\": \"subgroup17\",\n    \"groupmasterEmail\": \"user1@example7.com\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"

@@ -51,14 +51,14 @@
   <!-- Nachrichtenbereich -->
   <div class="messages is-overflow-auto p-3">
     <div *ngFor="let msg of messages"
-      [ngClass]="{'left-message': msg.author !== 'Ich', 'right-message': msg.author === 'Ich'}"
+      [ngClass]="{'left-message': msg.sender !== 'Ich', 'right-message': msg.sender === 'Ich'}"
       class="notification mb-2">
 
       <div class="message-header">
-        <span class="author" style="font-weight: bold;">{{ msg.author }}</span>
+        <span class="author" style="font-weight: bold;">{{ msg.sender }}</span>
         <span class="timestamp" style="font-size: 0.8rem; color: gray;">{{ msg.timestamp | date:'short' }}</span>
       </div>
-      <div class="message-content">{{ msg.message }}</div>
+      <div class="message-content">{{ msg.content }}</div>
     </div>
   </div>
 

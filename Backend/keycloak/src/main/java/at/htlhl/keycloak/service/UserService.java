@@ -80,8 +80,22 @@ public class UserService {
 
     private String getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (String) ((Jwt) authentication.getPrincipal()).getClaims().get(StandardClaimNames.SUB);
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        return (String) jwt.getClaims().get(StandardClaimNames.SUB);
     }
+
+    public String getUserEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        return (String) jwt.getClaims().get("email");
+    }
+
+    public String getUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        return (String) jwt.getClaims().get("preferred_username");
+    }
+    
 
     private List<GroupRepresentation> getUserGroups() {
         return keycloak.realm(realm).users().get(getUserId()).groups();
