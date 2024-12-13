@@ -33,21 +33,9 @@ th.mat-sort-header-sorted {
     height: calc(100% - 3.25rem);
 }
 
-@media (prefers-color-scheme: light) {
-    .table-color {
-        background-color: #d2af14;
-        color: white;
-    }
-
-    ::ng-deep .p-splitter-gutter-handle {
-        height: 10rem;
-        background-color: #ff6d43;
-    }
-}
-
 @media (prefers-color-scheme: dark) {
     .table-color {
-        background-color: #242424;
+        background-color: #363636;
         color: white;
     }
 }
@@ -64,10 +52,17 @@ th.mat-sort-header-sorted {
 
 .dark-theme ::ng-deep .p-splitter-gutter-handle {
     height: 10rem;
-    background-color: #002d3c;
+    background-color: #484848;
 }
-
 .light-theme ::ng-deep .p-splitter-gutter-handle {
     height: 10rem;
     background-color: #ff6d43;
+}
+
+.dark-theme ::ng-deep .p-splitter-gutter {
+    background-color: #14161A;
+}
+
+.light-theme ::ng-deep .p-splitter-gutter {
+    background-color: white;
 }
