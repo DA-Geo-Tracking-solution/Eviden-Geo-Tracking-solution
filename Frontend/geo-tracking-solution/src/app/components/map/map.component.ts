@@ -109,7 +109,7 @@ export class MapComponent {
       worldCopyJump: true
     });
 
-    const tiles = L.tileLayer('http://localhost:8080/styles/basic-preview/512/{z}/{x}/{y}.png', {
+    const tiles = L.tileLayer('http://localhost:8082/styles/basic-preview/512/{z}/{x}/{y}.png', {
       maxZoom: 18,
       minZoom: 3,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -133,7 +133,7 @@ export class MapComponent {
 
     this.map = new maplibregl.Map({
       container: "map",
-      style: 'http://localhost:8080/styles/basic-preview/style.json',
+      style: 'http://localhost:8082/styles/basic-preview/style.json',
       center: [16.1, 48.627],
       zoom: 8,
       minZoom: 3,

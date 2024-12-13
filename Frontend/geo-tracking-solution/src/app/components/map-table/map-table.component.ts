@@ -1,14 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import User from '../../classes/User';
+import { ThemeService } from '../../services/Theme/theme.service';
 
 // interface to store the maptypes
 interface MapType {
   value: string;
   viewValue: string;
 }
-
-
 
 @Component({
   selector: 'app-map-table',
@@ -23,8 +22,7 @@ export class MapTableComponent {
 
   dataSource = new MatTableDataSource(this.users);
 
-
-
+  currentTheme: string = '';
   //parameter to declare maptype ('vector', 'raster', 'satellite') default should be vector because best performance
   public selectedMap: string = 'vector';
 
@@ -34,6 +32,15 @@ export class MapTableComponent {
     { value: 'raster', viewValue: 'Raster' },
     { value: 'satellite', viewValue: 'Satelit' },
   ];
+
+  constructor(private themeService: ThemeService) { }
+
+  ngOnInit(): void {
+    this.themeService.currentTheme.subscribe((theme) => {
+      this.currentTheme = theme;
+    });
+  }
+
 
   //delete current Map and make init of new chosen Map
   changeMapType(selectedMap: string) {
