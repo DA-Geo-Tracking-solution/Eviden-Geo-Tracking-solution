@@ -1,0 +1,23 @@
+<div class="section">
+    <div class="container">
+        <div class="columns is-centered is-multiline">
+
+            <!-- Card -->
+            <div class="column is-one-quarter" *ngFor="let card of cards">
+                <div class="card">
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                            <img [src]="card.image" [alt]="card.title">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <p class="title is-6">{{ card.title }}</p>
+                        <p>{{ card.description }}</p>
+                        <a href="#" class="button is-link mt-3">Mehr erfahren!</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -32,6 +32,7 @@ import { AddChatAlertComponent } from './components/lower-bar/add-chat-alert/add
 import { MatDialogModule } from '@angular/material/dialog';
 import { TeamComponent } from './components/home/team/team.component';
 import { AboutTheProjectComponent } from './components/home/about-the-project/about-the-project.component';
+import { CardsComponent } from './components/home/cards/cards.component';
 
 
 export function kcFactory(KeycloakService: KeycloakService) {
@@ -55,7 +56,8 @@ export function kcFactory(KeycloakService: KeycloakService) {
     LowerBarComponent,
     AddChatAlertComponent,
     TeamComponent,
-    AboutTheProjectComponent
+    AboutTheProjectComponent,
+    CardsComponent
   ],
   imports: [
     BrowserModule,
