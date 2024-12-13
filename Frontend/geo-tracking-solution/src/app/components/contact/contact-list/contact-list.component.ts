@@ -14,12 +14,7 @@ export class ContactListComponent {
     { name: 'Kontakt 2', email: 'kontact2@mail.com' },
     { name: 'Kontakt 3', email: 'kontact3@mail.com' },
     { name: 'Kontakt 4', email: 'kontact4@mail.com' },
-    { name: 'Kontakt 5', email: 'kontact5@mail.com' },
-    { name: 'Kontakt 6', email: 'kontact6@mail.com' },
-    { name: 'Kontakt 7', email: 'kontact7@mail.com' },
-    { name: 'Kontakt 8', email: 'kontact8@mail.com' },
-    { name: 'Kontakt 9', email: 'kontact9@mail.com' },
-    { name: 'Kontakt 10', email: 'kontact10@mail.com' },
+    { name: 'Kontakt 5', email: 'kontact5@mail.com' }
   ];
 
   filteredContacts = this.contacts;  // Kopie der Kontakte für die Anzeige

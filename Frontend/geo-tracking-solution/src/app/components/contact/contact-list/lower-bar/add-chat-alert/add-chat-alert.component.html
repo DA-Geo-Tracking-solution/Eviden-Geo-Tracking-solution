@@ -1,4 +1,4 @@
-<div class="notification" style="border-radius: 0;" [attr.data-theme] = "currentTheme">
+<div class="notification" style="border-radius: 0;" [attr.data-theme]="currentTheme">
 
   <!-- * https://bulmajs.tomerbe.co.uk/docs/0.12/2-core-components/alert/ -->
   <!-- TODO: Noch einen passenden Alert hinzufügen wo dann der Nutzer einen chat mit wem anderen starten kann -->
@@ -8,7 +8,7 @@
   <!-- Search Bar -->
   <div class="field has-addons">
     <div class="control is-expanded">
-      <input class="input" type="text" placeholder="search" [(ngModel)] = "serchTerm" (keyup)="filterContacts()">
+      <input class="input" type="text" placeholder="search" [(ngModel)]="serchTerm" (keyup)="filterContacts()">
     </div>
     <div class="control">
       <button class="button is-info" (click)="filterContacts()">
@@ -18,18 +18,25 @@
   </div>
 
   <!-- TODO: Soll später dann automatisch geupdated werden wenn die Suche funktioniert -->
-   <!-- ! is-striped eventuell das noch hinzufügen -->
+  <!-- ! is-striped eventuell das noch hinzufügen -->
   <table class="table is-hoverable is-fullwidth">
     <thead>
       <tr>
         <th> <abbr title="Name">Name</abbr></th>
         <th> <abbr title="Name">Email</abbr></th>
+        <th> <abbr title="Name"> </abbr></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let contact of filteredContacts" (click)="selectContact(contact)">
-        <td>{{ contact.name}}</td>
-        <td>{{ contact.email}}</td>
+
+        <td>{{ contact.name}} </td>
+        <td>{{ contact.email}} </td>
+        <td>
+          <div class="checkbox">
+            <input type="checkbox">
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -39,4 +46,3 @@
 
 
 <!-- TODO: Extra Noch angeben wie der chat heißen soll (Eventuell extra alert) -->
-
