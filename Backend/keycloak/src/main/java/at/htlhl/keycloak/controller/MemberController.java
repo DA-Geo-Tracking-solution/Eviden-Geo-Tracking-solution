@@ -61,8 +61,8 @@ public class MemberController {
     @GetMapping("/user-location")
     @Operation(description = "Returns some users location data in format { userId, { longitude, latitude }, timestamp } of your group")
     public List<GPSData> getCoordinates(@RequestParam String userEmail, @RequestParam Instant earliestTime) {
-        //return gpsDataService.getGPSDataOf(userEmail, earliestTime);
-        return gpsDataService.getAllGPSData();
+        return gpsDataService.getGPSDataOf(userEmail, earliestTime);
+        //return gpsDataService.getAllGPSData();
     }
 
     @GetMapping("/group-members-locations")

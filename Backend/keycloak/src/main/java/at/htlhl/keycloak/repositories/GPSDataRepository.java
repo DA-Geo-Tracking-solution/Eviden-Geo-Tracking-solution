@@ -15,6 +15,6 @@ import at.htlhl.keycloak.model.GPSData.GPSDataKey;
 public interface GPSDataRepository extends CassandraRepository<GPSData, GPSDataKey> {
 
     @Query("SELECT * FROM gps_data WHERE user_email = ?0 AND timestamp > ?1")
-    List<GPSData> findGPSDataOfUser(String userEmail, Instant timestamp);
+    List<GPSData> findGPSDataOfUser(String user_email, Instant timestamp);
 
 }
