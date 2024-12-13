@@ -1,7 +1,7 @@
 spring:
-  data:
-    cassandra:
-      contact-points: cassandra
+  # data:
+  #   cassandra:
+  #     contact-points: cassandra
   security:
     oauth2:
 #      client:
