@@ -1,6 +1,6 @@
 <div class="">
     <div>
-        <nav class="navbar contact-navbar is-flex" role="navigation" aria-label="main navigation" style="height: 80px;">
+        <nav class="navbar contact-navbar is-flex" role="navigation" aria-label="main navigation" style="height: 4.3rem;">
             <div class="navbar-brand">
                 <h1 class="title" style="padding-top: 15%; color: black;">Chat</h1>
             </div>
@@ -8,7 +8,7 @@
     </div>
 
     <!-- Search Bar -->
-    <div class="field has-addons">
+    <div class="field has-addons" style="margin-bottom: 0px;">
         <div class="control is-expanded">
             <input class="input" type="text" [(ngModel)]="searchContact" placeholder="search"
                 (keyup)="filterContacts()">
@@ -21,11 +21,11 @@
     </div>
 
     <!-- List Container -->
-    <div class="list-container" style="display: flex; flex-direction: column; height: calc(100vh - 160px);">
+    <div class="list-container" style="display: flex; flex-direction: column;">
         <!-- Adjust height as needed -->
         <!-- List with scrollbar -->
         <!-- * https://github.com/MurhafSousli/ngx-scrollbar/wiki -->
-        <ng-scrollbar class="scrollable-content" style="flex: 1;">
+        <ng-scrollbar class="scrollable-content" style="flex: 1; margin-bottom: 0px;">
             <div class="list has-hoverable-list-items">
                 <div class="list-item" *ngFor="let contact of filteredContacts" (click)="selectContact(contact)">
                     <div class="list-item-image">

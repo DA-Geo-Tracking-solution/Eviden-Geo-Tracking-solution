@@ -1,8 +1,8 @@
-<div class="chat-container box is-flex is-flex-direction-column" style="height: 100vh; border-radius: 0;">
+<div class="chat-container is-flex-direction-column" style="height: 42.45rem; border-radius: 0; padding-left: 0.75rem;">
 
   <!-- Responsive Navbar -->
   <div style="top: 0; width: 100%; z-index: 1;">
-    <nav class="navbar navbar-color" style="margin: 0; padding: 0; height: 80px; z-index: 1;">
+    <nav class="navbar navbar-color" style="margin: 0; padding: 0; height: 4.3rem; z-index: 1;">
       <div class="navbar-brand" style="display: flex; align-items: center; padding-left: 10px;">
         <!-- Bild -->
         <figure class="image is-64x64" style="margin-right: 10px;">
@@ -49,7 +49,7 @@
   </div>
 
   <!-- Nachrichtenbereich -->
-  <div class="messages is-flex-grow-1 is-overflow-auto p-3">
+  <div class="messages is-overflow-auto p-3">
     <div *ngFor="let msg of messages"
       [ngClass]="{'left-message': msg.author !== 'Ich', 'right-message': msg.author === 'Ich'}"
       class="notification mb-2">

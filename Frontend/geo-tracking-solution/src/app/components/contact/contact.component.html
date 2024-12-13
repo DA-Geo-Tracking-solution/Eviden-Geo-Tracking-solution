@@ -2,15 +2,15 @@
 
 <!-- TODO: Muss dann auf system und co. geändert werden -->
  <!-- TODO: grid oder Flexbox -->
-<div [attr.data-theme] = "currentTheme" class="is-fullheight-with-navbar">
-    <div class="columns is-gapless is-multiline">
+<div [attr.data-theme] = "currentTheme" class="full-height">
+    <div class="columns is-gapless is-multiline ">
         <!-- Sidebar (Contact List) -->
-        <div class="column is-one-third contact">
+        <div class="column is-one-third full-height">
             <app-contact-list (contactSelected)="onContactSelected($event)" />
         </div>
 
         <!-- Chat (this will take up more space in mobile view) -->
-        <div class="column chat is-two-thirds-mobile is-fullwidth-tablet">
+        <div class="column is-two-thirds full-height">
             <app-contact-chat [contact]="selectedContact" [currentTheme]="currentTheme" style="z-index: -250;"/>
         </div>
     </div>

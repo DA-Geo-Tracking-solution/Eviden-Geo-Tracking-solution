@@ -1,13 +1,22 @@
+/* HTML und Body auf volle Bildschirmhöhe setzen */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 /* Hauptcontainer für den Chat */
 .chat {
     background-color: #303030;
     color: white;
     flex: 1;
-    height: calc(100vh - 160px);
-    /* Dynamische Anpassung der Höhe */
+    height: 100vh;
+    /* Exakt die gleiche Höhe wie .columns */
     overflow: hidden;
-    /* Verhindert Scrollen */
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Innerer Container des Chats */
@@ -15,6 +24,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    /* Passt sich an den Chat-Container an */
     color: white;
 }
 
@@ -59,7 +69,6 @@
 .right-message {
     align-self: flex-end;
     background-color: #f1f1f1;
-    /* Blau für eigene Nachrichten */
     color: #000;
 }
 
@@ -91,4 +100,82 @@
 .navbar-color {
     background-color: #ececed;
     color: black;
+}
+
+/* Columns sollten ebenfalls die volle Bildschirmhöhe einnehmen */
+.columns {
+    height: 100vh;
+    /* Gleiche Höhe wie .chat */
+    display: flex;
+}
+
+/* Styling für die linke und rechte Spalte */
+.contact-list {
+    background-color: #ECECED;
+    color: black;
+    padding: 1rem;
+    height: 100%;
+    /* Nimmt die volle Höhe des übergeordneten .columns ein */
+    overflow-y: auto;
+}
+
+.chat {
+    /* In der .columns Klasse: Setze explizit gleiche Höhe */
+    height: 100%;
+    /* Wichtig: Konsistenz mit .chat aus vorherigem Block */
+    background-color: #303030;
+    color: white;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+/* Für die lower-bar component */
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.scrollable-content {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 10px;
+    /* Platz für die fixe untere Leiste */
+}
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 160px);
+    /* 160px für Navbar und andere Elemente anpassen */
+}
+
+.ng-scrollbar {
+    flex: 1;
+}
+
+/* Styling für die lower-bar */
+.lower-bar {
+    background-color: #f8f8f8;
+    /* Beispielhintergrundfarbe */
+    padding: 1rem;
+    /* Beispiel-Padding */
+    border-top: 1px solid #ddd;
+    /* Beispielrahmen oben */
+}
+
+/* Optional: Wenn du Animationen hinzufügen möchtest */
+.list-item {
+    transition: background-color 0.3s;
+}
+
+.list-item:hover {
+    background-color: #f0f0f0;
+    /* Beispielhintergrundfarbe beim Hover */
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-width: 100vh;
 }
