@@ -24,11 +24,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UserGroupComponent } from './components/user-group/user-group.component';
 import { CreateGroupComponent } from './components/user-group/create-group/create-group.component';
 
-import { ContactChatComponent } from './components/contact/contact-chat/contact-chat.component';
-import { ContactListComponent } from './components/contact/contact-list/contact-list.component';
-import { ContactComponent } from './components/contact/contact.component';
-import { LowerBarComponent } from './components/contact/contact-list/lower-bar/lower-bar.component';
-import { AddChatAlertComponent } from './components/contact/contact-list/lower-bar/add-chat-alert/add-chat-alert.component';
+import { ContentChatComponent } from './components/chat/content-chat/content-chat.component';
+import { ChatListComponent } from './components/chat/chat-list/chat-list.component';
+import { ChatComponent } from './components/chat/chat.component';
+import { LowerBarComponent } from './components/chat/chat-list/lower-bar/lower-bar.component';
+import { AddChatAlertComponent } from './components/chat/chat-list/lower-bar/add-chat-alert/add-chat-alert.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { MapComponent } from './components/map/map.component';
@@ -60,9 +60,9 @@ export function kcFactory(KeycloakService: KeycloakService) {
     CreateUserComponent,
     UserGroupComponent,
     CreateGroupComponent,
-    ContactChatComponent,
-    ContactListComponent,
-    ContactComponent,
+    ContentChatComponent,
+    ChatListComponent,
+    ChatComponent,
     LowerBarComponent,
     AddChatAlertComponent,
     WebsocketComponent

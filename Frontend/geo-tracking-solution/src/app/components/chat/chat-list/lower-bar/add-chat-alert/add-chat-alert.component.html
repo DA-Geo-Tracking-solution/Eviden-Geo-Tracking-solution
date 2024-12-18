@@ -1,0 +1,49 @@
+<div class="notification" style="border-radius: 0;" [attr.data-theme]="currentTheme">
+
+<!-- TODO: Validation für den Chatnamen erstellen  -->
+
+  <!-- Chat Name Eingabe -->
+  <h2>Create New Chat</h2>
+  <input class="input" [(ngModel)]="chatName" placeholder="Chat Name" />
+
+  <!-- Search Bar -->
+  <h3>Select Members:</h3>
+  <div class="field has-addons">
+    <div class="control is-expanded">
+      <input class="input" type="text" placeholder="search" [(ngModel)]="serchTerm" (keyup)="filterContacts(serchTerm)">
+    </div>
+    <div class="control">
+      <button class="button is-info" (click)="filterContacts(serchTerm)">
+        Search
+      </button>
+    </div>
+  </div>
+
+  <!-- Kontakt Liste mit Checkboxen -->
+  <div class="contacts-list">
+    <table class="table is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+          <th> <abbr title="Name">Name</abbr></th>
+          <th> <abbr title="Email">Email</abbr></th>
+          <th> <abbr title="Add">Add</abbr></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contact of filteredContacts">
+          <td>{{ contact.name }}</td>
+          <td>{{ contact.email }}</td>
+          <td>
+            <div class="checkbox">
+              <input type="checkbox" (change)="addContact(contact)" />
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Chat erstellen Button -->
+  <button class="button is-primary" (click)="createChat()">Create Chat</button>
+  <button class="button" (click)="closeDialog()">Cancel</button>
+</div>

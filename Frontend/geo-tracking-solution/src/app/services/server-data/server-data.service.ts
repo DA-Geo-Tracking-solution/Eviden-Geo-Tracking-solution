@@ -35,7 +35,7 @@ export class ServerDataService {
     }
   }
 
-  async getChatMessage(chatid: number, callback: (Data: any) => void) {
+  async getChatMessage(chatid: string, callback: (Data: any) => void) {
     this.getData(`member/chat/${chatid}/messages`, `/topic/chat/${chatid}`, callback);
   }
 

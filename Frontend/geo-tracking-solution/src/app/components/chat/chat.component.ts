@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemeService } from '../../services/Theme/theme.service';
+import { Chat } from '../../models/interfaces';
 
 @Component({
-  selector: 'app-contact',
-  templateUrl: './contact.component.html',
-  styleUrl: './contact.component.css'
+  selector: 'app-chat',
+  templateUrl: './chat.component.html',
+  styleUrl: './chat.component.css'
 })
-export class ContactComponent implements OnInit {
+export class ChatComponent implements OnInit {
 
   //
-  selectedContact: { name: string; email: string } = { name: '', email: '' };
+  selectedChat: Chat = { chatId: '', chatName: '', users: []};
   currentTheme: string = '';
   constructor(private themeService: ThemeService) { }
 
-  onContactSelected(contact: { name: string; email: string }) {
-    this.selectedContact = contact;
+  onChatSelected(chat: Chat) {
+    this.selectedChat = chat;
   }
 
   ngOnInit(): void {

@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddChatAlertComponent } from './add-chat-alert/add-chat-alert.component';
 import { subscribe } from 'node:diagnostics_channel';
+import { Chat } from '../../../../models/interfaces';
 
 @Component({
   selector: 'app-lower-bar',
@@ -11,7 +12,7 @@ import { subscribe } from 'node:diagnostics_channel';
 export class LowerBarComponent {
 
   isAlertVisibel = false;
-  @Output() contactAdded = new EventEmitter<{ name: string, email: string }>();
+  @Output() chatAdded = new EventEmitter<Chat>();
   currentTheme = '';
 
   constructor(public matDialog: MatDialog) { }
@@ -22,8 +23,8 @@ export class LowerBarComponent {
       width: '50%',
     });
 
-    dialogRef.componentInstance.contactSelected.subscribe((contact: { name: string; email: string }) => {
-      this.contactAdded.emit(contact);
+    dialogRef.componentInstance.chatCreated.subscribe((chat: Chat) => {
+      this.chatAdded.emit(chat);
     });
   }
 

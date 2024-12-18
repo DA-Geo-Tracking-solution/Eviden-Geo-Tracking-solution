@@ -8,7 +8,7 @@ import { authGuard } from './services/guard/auth.guard';
 import { CreateUserComponent } from './components/user-group/create-user/create-user.component';
 import { UserGroupComponent } from './components/user-group/user-group.component';
 import { CreateGroupComponent } from './components/user-group/create-group/create-group.component';
-import { ContactComponent } from './components/contact/contact.component';
+import { ChatComponent } from './components/chat/chat.component';
 import { MapTableComponent } from './components/map-table/map-table.component';
 
 const routes: Routes = [
@@ -16,12 +16,12 @@ const routes: Routes = [
   //{ path: 'login', component: LoginComponent },
   {
     path: 'create', component: UserGroupComponent, canActivate: [authGuard], children: [
-      { path: 'user', component: CreateUserComponent, data: {width: '100%', maxWidth: '500px'}, canActivate: [authGuard] },
-      { path: 'group', component: CreateGroupComponent, data: {width: '100%', maxWidth: '500px'}, canActivate: [authGuard] }
+      { path: 'user', component: CreateUserComponent, data: { width: '100%', maxWidth: '500px' }, canActivate: [authGuard] },
+      { path: 'group', component: CreateGroupComponent, data: { width: '100%', maxWidth: '500px' }, canActivate: [authGuard] }
     ]
   },
-  {path:'chat', component:ContactComponent, canActivate: [authGuard]},
-  {path:'map', component: MapTableComponent, canActivate: [authGuard]}
+  { path: 'chat', component: ChatComponent, canActivate: [authGuard] },
+  { path: 'map', component: MapTableComponent, canActivate: [authGuard] }
 ];
 
 @NgModule({

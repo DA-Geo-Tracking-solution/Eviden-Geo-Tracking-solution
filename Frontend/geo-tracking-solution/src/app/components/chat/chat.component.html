@@ -6,12 +6,12 @@
     <div class="columns is-gapless is-multiline ">
         <!-- Sidebar (Contact List) -->
         <div class="column is-one-third full-height">
-            <app-contact-list (contactSelected)="onContactSelected($event)" />
+            <app-chat-list (chatSelected)="onChatSelected($event)" />
         </div>
 
         <!-- Chat (this will take up more space in mobile view) -->
         <div class="column is-two-thirds full-height">
-            <app-contact-chat [contact]="selectedContact" [currentTheme]="currentTheme" style="z-index: -250;"/>
+            <app-content-chat [chat]="selectedChat" [currentTheme]="currentTheme" style="z-index: -250;"/>
         </div>
     </div>
 </div>
