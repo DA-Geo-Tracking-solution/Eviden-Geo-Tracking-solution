@@ -10,6 +10,9 @@ import { UserGroupComponent } from './components/user-group/user-group.component
 import { CreateGroupComponent } from './components/user-group/create-group/create-group.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { MapTableComponent } from './components/map-table/map-table.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { UserComponent } from './components/settings/user/user.component';
+import { ChangeLanguageComponent } from './components/settings/change-language/change-language.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [authGuard] },
@@ -21,7 +24,11 @@ const routes: Routes = [
     ]
   },
   { path: 'chat', component: ChatComponent, canActivate: [authGuard] },
-  { path: 'map', component: MapTableComponent, canActivate: [authGuard] }
+  { path: 'map', component: MapTableComponent, canActivate: [authGuard] },
+  { path: 'settings', component: SettingsComponent, children: [
+    {path: 'user', component: UserComponent},
+    {path: 'language', component: ChangeLanguageComponent}
+  ] }
 ];
 
 @NgModule({

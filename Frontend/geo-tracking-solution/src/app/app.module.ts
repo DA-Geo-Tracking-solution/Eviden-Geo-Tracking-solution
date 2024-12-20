@@ -42,6 +42,8 @@ import { MatSortModule } from '@angular/material/sort';
 
 import { WebsocketComponent } from './components/websocket/websocket/websocket.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { UserComponent } from './components/settings/user/user.component';
+import { ChangeLanguageComponent } from './components/settings/change-language/change-language.component';
 
 
 export function kcFactory(KeycloakService: KeycloakService) {
@@ -67,7 +69,10 @@ export function kcFactory(KeycloakService: KeycloakService) {
     LowerBarComponent,
     AddChatAlertComponent,
     WebsocketComponent,
-    SettingsComponent
+
+    SettingsComponent,
+    UserComponent,
+    ChangeLanguageComponent
   ],
   imports: [
     BrowserModule,
