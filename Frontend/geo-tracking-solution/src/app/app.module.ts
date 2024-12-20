@@ -69,7 +69,6 @@ export function kcFactory(KeycloakService: KeycloakService) {
     LowerBarComponent,
     AddChatAlertComponent,
     WebsocketComponent,
-
     SettingsComponent,
     UserComponent,
     ChangeLanguageComponent
