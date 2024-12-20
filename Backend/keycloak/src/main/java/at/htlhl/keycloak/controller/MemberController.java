@@ -31,7 +31,8 @@ public class MemberController {
     private final SimpMessagingTemplate messagingTemplate;
 
     @Autowired
-    public MemberController(GroupService groupService, UserService userService, GPSDataService gpsDataService, SimpMessagingTemplate messagingTemplate) {
+    public MemberController(GroupService groupService, UserService userService, GPSDataService gpsDataService,
+            SimpMessagingTemplate messagingTemplate) {
         this.groupService = groupService;
         this.userService = userService;
         this.gpsDataService = gpsDataService;
@@ -40,7 +41,7 @@ public class MemberController {
 
     @GetMapping("/group-members")
     @Operation(description = "Returns a List of all members in the group of the requester in format { username, email, firstname, lastname }")
-    public List<User> getGroupMembers(){
+    public List<User> getGroupMembers() {
         List<UserRepresentation> userRepresentations = userService.getGroupMembers();
         List<User> users = new ArrayList<>();
         for (UserRepresentation userRep : userRepresentations) {
@@ -51,7 +52,7 @@ public class MemberController {
 
     @GetMapping(path = "/user/{userEmail}")
     @Operation(description = "Returns data of specific User (not only users in the same group)")
-    public UserRepresentation getUserByEmail(@PathVariable("userEmail") String userEmail){
+    public UserRepresentation getUserByEmail(@PathVariable("userEmail") String userEmail) {
         UserRepresentation user = userService.getUserByEmail(userEmail);
         return user;
     }
@@ -59,28 +60,33 @@ public class MemberController {
     // TODO this can only be done with a running Database ---------------------
 
     @GetMapping("/user-location")
-    @Operation(description = "Returns some users location data in format { userId, { longitude, latitude }, timestamp } of your group")
+    @Operation(description = "Returns some users location data in format { userEmail, { longitude, latitude }, timestamp } of your group")
     public List<GPSData> getCoordinates(@RequestParam String userEmail, @RequestParam Instant earliestTime) {
         return gpsDataService.getGPSDataOf(userEmail, earliestTime);
-        //return gpsDataService.getAllGPSData();
+        // return gpsDataService.getAllGPSData();
     }
 
     @GetMapping("/group-members-locations")
-    @Operation(description = "Returns some users location data in format { userId, { longitude, latitude }, timestamp } of your group")
-    public List<Object> getGroupmembersCoordinates( DateTime earliestTime) {
-        userService.getGroupMembers();
-        return new ArrayList<>();
+    @Operation(description = "Returns some users location data in format { userEmail, { longitude, latitude }, timestamp } of your group")
+    public List<GPSData> getGroupmembersCoordinates(@RequestParam Instant earliestTime) {
+        List<GPSData> userLocations = new ArrayList<>();
+        System.out.println(userService.getGroupMembers());
+        for (UserRepresentation user : userService.getGroupMembers()) {
+            System.out.println("Helo" + user.getEmail());
+            userLocations.addAll(gpsDataService.getGPSDataOf(user.getEmail(), earliestTime));
+        }
+        return userLocations;
     }
 
     @GetMapping("/chats") // Todo chats: user hinzufügen, editieren
     @Operation(description = "Returns all chats a user has in format { chatId, chatName }")
     public List<Chat> getChats() {
         String userEmail = userService.getUserEmail();
-        //TODO get actual data
+        // TODO get actual data
         ArrayList<Chat> data = new ArrayList<>();
-        data.add(new Chat("0", "Global-Chat", new String[]{"", "", "", ""}));
-        data.add(new Chat("1", "Global-Chat-2 :)", new String[]{"", "", "", ""}));
-        data.add(new Chat("2", "Please implement DB!", new String[]{"", "", "", ""}));
+        data.add(new Chat("0", "Global-Chat", new String[] { "", "", "", "" }));
+        data.add(new Chat("1", "Global-Chat-2 :)", new String[] { "", "", "", "" }));
+        data.add(new Chat("2", "Please implement DB!", new String[] { "", "", "", "" }));
         return data;
     }
 
@@ -99,19 +105,23 @@ public class MemberController {
     @GetMapping("chat/{chatId}/messages")
     @Operation(description = "Returns some messages in format { timestamp, message, author } of a chat")
     public Object getChatMessages(@PathVariable("chatId") String chatName) {
-        //TODO get actual data
+        // TODO get actual data
         ArrayList<ChatMessage> data = new ArrayList<>();
-        data.add(new ChatMessage("puzzles00z", "please implement the the method getChatMessage",  LocalDateTime.of(2024, 11, 30, 15, 30, 0)));
-        data.add(new ChatMessage("adrian00z", "please implement the the method getChatMessage",  LocalDateTime.of(2024, 11, 30, 15, 30, 0)));
-        data.add(new ChatMessage("puzzles007", "please implement the the method getChatMessage",  LocalDateTime.of(2024, 11, 30, 15, 30, 0)));
+        data.add(new ChatMessage("puzzles00z", "please implement the the method getChatMessage",
+                LocalDateTime.of(2024, 11, 30, 15, 30, 0)));
+        data.add(new ChatMessage("adrian00z", "please implement the the method getChatMessage",
+                LocalDateTime.of(2024, 11, 30, 15, 30, 0)));
+        data.add(new ChatMessage("puzzles007", "please implement the the method getChatMessage",
+                LocalDateTime.of(2024, 11, 30, 15, 30, 0)));
         return data;
     }
 
     @PostMapping("chat/{chatId}")
     @Operation(description = "Adds a message in format { message } to a chat")
     public Object addChatMessage(@PathVariable("chatId") String chatId, @RequestBody String message) {
-        //TODO check if chatId is allowed
-        messagingTemplate.convertAndSend("/topic/chat/" + chatId,  new ChatMessage(userService.getUsername(), message,  LocalDateTime.now()));
+        // TODO check if chatId is allowed
+        messagingTemplate.convertAndSend("/topic/chat/" + chatId,
+                new ChatMessage(userService.getUsername(), message, LocalDateTime.now()));
         return new ArrayList<>();
     }
 

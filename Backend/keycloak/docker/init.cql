@@ -60,7 +60,7 @@ INSERT INTO gps_data (user_email, timestamp, latitude, longitude)
 VALUES ('user1@example.com', '2024-12-01 10:10:00', 40.7148, -74.0080);
 
 INSERT INTO gps_data (user_email, timestamp, latitude, longitude)
-VALUES ('user2@example.com', '2024-12-01 10:00:00', 34.0522, -118.2437);
+VALUES ('testuser2@example.com', '2024-12-01 10:00:00', 34.0522, -118.2437);
 
 INSERT INTO gps_data (user_email, timestamp, latitude, longitude)
 VALUES ('user2@example.com', '2024-12-01 10:05:00', 34.0532, -118.2447);
