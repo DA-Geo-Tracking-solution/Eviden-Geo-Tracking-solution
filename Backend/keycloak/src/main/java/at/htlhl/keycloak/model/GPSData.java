@@ -1,8 +1,8 @@
 package at.htlhl.keycloak.model;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.core.mapping.Table;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
+import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
@@ -15,7 +15,9 @@ public class GPSData {
     @PrimaryKey
     private GPSDataKey key;
 
+    @Column("latitude")
     private float latitude;
+    @Column("longitude")
     private float longitude;
 
     // Getters and setters

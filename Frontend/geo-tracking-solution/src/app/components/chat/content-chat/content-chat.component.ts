@@ -2,6 +2,8 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/cor
 import { ServerDataService } from '../../../services/server-data/server-data.service';
 import { RestService } from '../../../services/REST/rest.service';
 import { ChatMessage, Chat } from '../../../models/interfaces';
+import { MessageService } from '../../../services/message/message.service';
+
 
 
 @Component({
@@ -17,17 +19,23 @@ export class ContentChatComponent implements OnChanges {
   public message: string = '';
   public navbarOpen: boolean = false;  // Burger-Menü Zustand
 
-  constructor(private restService: RestService, private serverDataService: ServerDataService) { }
+  constructor(private restService: RestService, private serverDataService: ServerDataService, private messageService: MessageService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['chat']) {
+
       this.messages = [];
-      this.serverDataService.getChatMessage(this.chat.chatId, (data: any) => {
+      this.messageService.getMessages(this.chat.chatId, (message: ChatMessage)=>{
+        this.messages.push(message);
+      });
+
+      /*this.messages = [];
+      this.serverDataService.getChatMessages(this.chat.chatId, (data: any) => {
         console.log(data);
         if (data.sender && data.content && data.timestamp) {
           this.messages.push(data);
         }
-      });
+      });*/
     }
   }
 
@@ -36,7 +44,7 @@ export class ContentChatComponent implements OnChanges {
   // Nachricht senden
   sendMessage(): void {
     if (this.message.trim()) {
-      this.restService.POST(`member/chat/${this.chat.chatId}`, this.message).then(observable => {
+      this.restService.POST(`member/chat/${this.chat.chatId}/message`, this.message).then(observable => {
         observable.subscribe({
           next: (line) => {
             console.log(line)

@@ -16,7 +16,7 @@ export class WebsocketComponent implements OnInit, OnDestroy {
   constructor(private serverDataService: ServerDataService, private keycloakService: KeycloakService) {}
 
   ngOnInit(): void {
-    this.serverDataService.getChatMessage('2', (message) => {
+    this.serverDataService.getChatMessages('2', (message) => {
       console.log(message);
       this.messages.push(message.content);
     });

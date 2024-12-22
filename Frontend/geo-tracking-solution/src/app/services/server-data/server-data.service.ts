@@ -26,16 +26,21 @@ export class ServerDataService {
       complete: () => console.info('complete') 
     });
     
-    if(this.websocketService.connect()){
-      this.websocketService.subscribe(websocketTopic, (message: IMessage) => {
-        const jsonData = JSON.parse(message.body);
-        console.log('Received JSON:', jsonData);
-        callback(jsonData);
-      });
+
+   
+    if (!this.websocketService.isConnected()) {
+      this.websocketService.connect();
+      console.log("--------------------------------------------------------------")
     }
+    this.websocketService.subscribe(websocketTopic, (message: IMessage) => {
+      const jsonData = JSON.parse(message.body);
+      console.log('Received JSON:', jsonData);
+      callback(jsonData);
+    });
+  
   }
 
-  async getChatMessage(chatid: string, callback: (Data: any) => void) {
+  async getChatMessages(chatid: string, callback: (Data: any) => void) {
     this.getData(`member/chat/${chatid}/messages`, `/topic/chat/${chatid}`, callback);
   }
 

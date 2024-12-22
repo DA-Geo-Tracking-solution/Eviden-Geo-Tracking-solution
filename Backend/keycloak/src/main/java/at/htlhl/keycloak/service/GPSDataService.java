@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import at.htlhl.keycloak.model.GPSData;
 import at.htlhl.keycloak.repositories.GPSDataRepository;
 
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 
@@ -21,8 +20,9 @@ public class GPSDataService {
     }
 
     public List<GPSData> getGPSDataOf(String userEmail, Instant timestamp) {
-        return gpsDataRepository.findGPSDataOfUser(userEmail, timestamp);
+        return gpsDataRepository.getGPSDataOfUser(userEmail, timestamp);
     }
+
     public GPSData saveGPSData(GPSData gpsData) {
         return gpsDataRepository.save(gpsData);
     }

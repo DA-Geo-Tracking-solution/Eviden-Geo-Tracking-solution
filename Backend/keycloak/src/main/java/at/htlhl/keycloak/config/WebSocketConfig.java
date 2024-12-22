@@ -3,12 +3,15 @@ package at.htlhl.keycloak.config;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.messaging.simp.stomp.StompCommand;
@@ -27,10 +30,20 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import at.htlhl.keycloak.service.ChatService;
+import at.htlhl.keycloak.service.GPSDataService;
+import at.htlhl.keycloak.service.GroupService;
+import at.htlhl.keycloak.service.UserService;
+
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+    private ChatService chatService;
 
+    @Autowired
+    public WebSocketConfig(ChatService chatService) {
+        this.chatService = chatService;
+    }
 
 	@Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
@@ -56,8 +69,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                         // Add JWT to session attributes
                         sessionAttributes.put("jwt", jwt);
 
+
+                        String userEmail = (String) jwt.getClaims().get("email");
+                        if (userEmail == null) {
+                            userEmail = jwt.getSubject(); 
+                        }
+
                         System.out.println("JWT successfully added to session attributes: " + jwt.getSubject());
-                        var auth = new UsernamePasswordAuthenticationToken(jwt.getSubject(), null,
+                        var auth = new UsernamePasswordAuthenticationToken(userEmail, null,
                                new KeycloakJwtAuthenticationConverter().convert(jwt).getAuthorities());
                         accessor.setUser(auth);
                         System.out.println(auth);
@@ -90,13 +109,23 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                     }
                 } else if (StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
                     String destination = accessor.getDestination();
-                    if (destination != null && destination.startsWith("/topic/restricted")) {
+                    /*if (destination != null && destination.startsWith("/topic/restricted")) {
                         UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) accessor.getUser();
                         if (auth == null || auth.getAuthorities().stream().noneMatch(
                                 authority -> authority.getAuthority().equals("ROLE_ALLOWED_TO_SUBSCRIBE"))) {
                             throw new AuthenticationException("User not authorized to subscribe to " + destination) {};
                         }
+                    }*/
+                    if (destination != null && destination.startsWith("/topic/chat/")) {
+
+                        UUID chatId = UUID.fromString(destination.substring(12));
+                        
+                        UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) accessor.getUser();
+                        if (!chatService.isUserInChat(chatId, (String) auth.getPrincipal())) {
+                            throw new AuthenticationException("User not authorized to subscribe to " + destination) {};
+                        }                         
                     }
+
                 }
                 return message;
             }
