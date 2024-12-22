@@ -1,6 +1,7 @@
 import { Component, Renderer2, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { ThemeService } from '../../services/Theme/theme.service';
 import { CookieService } from 'ngx-cookie-service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -21,7 +22,7 @@ export class NavigationBarComponent implements AfterViewInit {
   currentTheme: string = 'system';
   navbarOpen: boolean = false;
 
-  constructor(private renderer: Renderer2, private themeService: ThemeService, private cookieService: CookieService) { }
+  constructor(private renderer: Renderer2, private themeService: ThemeService, private cookieService: CookieService, private translateService: TranslateService) { }
 
   ngAfterViewInit() {
     // Hole das Theme direkt aus den Cookies

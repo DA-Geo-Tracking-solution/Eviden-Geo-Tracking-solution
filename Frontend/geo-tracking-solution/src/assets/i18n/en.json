@@ -1,0 +1,49 @@
+{
+    "NAVIGATION": {
+        "HOME": "Dashboard",
+        "CHAT": "Chat",
+        "CREATE": "Create",
+        "MAP": "Map"
+    },
+    "CHAT": {
+        "TITLE": "Chat",
+        "SEND": "Send",
+        "MESSAGE": "Message"
+    },
+    "MAP": {
+        "TITLE": "Map",
+        "USERNAME": "Username",
+        "LATITUDE": "Latitude",
+        "LONGITUDE": "Longitude"
+    },
+    "CREATE": {
+        "USERTITLE": "User",
+        "GROUPTITLE": "Group",
+        "USER": {
+            "USERNAME": "Username",
+            "PASSWORD": "Password",
+            "EMAIL": "Email",
+            "FIRSTNAME": "Firstname",
+            "LASTNAME": "Lastname",
+            "CREATE": "Create User"
+        },
+        "GROUP": {
+            "GROUPNAME": "Groupname",
+            "CREATE": "Create Group"
+        },
+        "REQUIRED": "Required",
+        "SUCCESS": {
+            "USER": "User created successfully",
+            "GROUP": "Group created successfully"
+        }
+    },
+    "SETTINGS": {
+        "TITLE": "Settings",
+        "USER": "User",
+        "LANGUAGE": {
+            "TITLE": "Language",
+            "SELECTLANGUAGE": "Select language",
+            "CHANGELANGUAGE": "Change language"
+        }
+    }
+}

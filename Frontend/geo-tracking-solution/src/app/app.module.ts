@@ -1,8 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-
-import { HttpClientModule } from '@angular/common/http';
-
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ScrollerModule } from 'primeng/scroller';
 import { NgScrollbarModule } from 'ngx-scrollbar';
@@ -40,14 +38,22 @@ import { SplitterModule } from 'primeng/splitter';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 
-import { WebsocketComponent } from './components/websocket/websocket/websocket.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { UserComponent } from './components/settings/user/user.component';
 import { ChangeLanguageComponent } from './components/settings/change-language/change-language.component';
 
+// ngx-translate Imports
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+// Funktion zur Initialisierung des KeycloakService
 export function kcFactory(KeycloakService: KeycloakService) {
   return () => KeycloakService.init();
+}
+
+// HttpLoaderFactory für ngx-translate
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
@@ -68,7 +74,6 @@ export function kcFactory(KeycloakService: KeycloakService) {
     ChatComponent,
     LowerBarComponent,
     AddChatAlertComponent,
-    WebsocketComponent,
     SettingsComponent,
     UserComponent,
     ChangeLanguageComponent
@@ -89,6 +94,15 @@ export function kcFactory(KeycloakService: KeycloakService) {
     SplitterModule,
     MatSortModule,
     MatTableModule,
+
+    // ngx-translate Module hinzufügen
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    })
   ],
   providers: [
     provideClientHydration(),
