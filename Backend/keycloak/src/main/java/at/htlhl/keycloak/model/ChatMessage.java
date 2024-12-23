@@ -1,27 +1,38 @@
 package at.htlhl.keycloak.model;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class ChatMessage {
-    private String sender;
+    private UUID message_id;
+    private String authorEmail;
     private String content;
     private LocalDateTime timestamp;
 
     public ChatMessage() {
     }
 
-    public ChatMessage(String sender, String content, LocalDateTime timestamp) {
-        this.sender = sender;
+    public ChatMessage(UUID message_id, String authorEmail, String content, LocalDateTime timestamp) {
+        this.message_id = message_id;
+        this.authorEmail = authorEmail;
         this.content = content;
         this.timestamp = timestamp;
     }
 
-    public String getSender() {
-        return sender;
+    public UUID getMessage_id() {
+        return message_id;
+    }
+    
+    public void setMessage_id(UUID message_id) {
+        this.message_id = message_id;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public String getAuthorEmail() {
+        return authorEmail;
+    }
+
+    public void setAuthorEmail(String authorEmail) {
+        this.authorEmail = authorEmail;
     }
 
     public String getContent() {

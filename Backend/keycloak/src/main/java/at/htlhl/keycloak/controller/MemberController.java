@@ -4,12 +4,15 @@ import at.htlhl.keycloak.model.Chat;
 import at.htlhl.keycloak.model.ChatByUser;
 import at.htlhl.keycloak.model.ChatMessage;
 import at.htlhl.keycloak.model.GPSData;
+import at.htlhl.keycloak.model.MessageByChat;
 import at.htlhl.keycloak.model.UserByChat;
 import at.htlhl.keycloak.model.Chat.Member;
+import at.htlhl.keycloak.model.MessageByChat.MessageByChatKey;
 import at.htlhl.keycloak.model.keycloak.User;
 import at.htlhl.keycloak.service.ChatService;
 import at.htlhl.keycloak.service.GPSDataService;
 import at.htlhl.keycloak.service.GroupService;
+import at.htlhl.keycloak.service.MessageService;
 import at.htlhl.keycloak.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.apache.james.mime4j.dom.datetime.DateTime;
@@ -35,14 +38,23 @@ public class MemberController {
     private UserService userService;
     private GPSDataService gpsDataService;
     private ChatService chatService;
+    private MessageService messageService;
     private final SimpMessagingTemplate messagingTemplate;
 
     @Autowired
-    public MemberController(GroupService groupService, UserService userService, GPSDataService gpsDataService,ChatService chatService, SimpMessagingTemplate messagingTemplate) {
+    public MemberController(
+        GroupService groupService,
+        UserService userService,
+        GPSDataService gpsDataService,
+        ChatService chatService,
+        MessageService messageService,
+        SimpMessagingTemplate messagingTemplate
+    ) {
         this.groupService = groupService;
         this.userService = userService;
         this.gpsDataService = gpsDataService;
         this.chatService = chatService;
+        this.messageService = messageService;
         this.messagingTemplate = messagingTemplate;
     }
 
@@ -81,7 +93,7 @@ public class MemberController {
     }
 
     @GetMapping("/chats") // Todo chats: user hinzufügen, editieren
-    @Operation(description = "Returns all chats a user has in format { chatId, chatName }")
+    @Operation(description = "Returns all chats a user has in format { chatId, chatName, [member] }")
     public List<Chat> getChats() {
         // Todo better Performance
         String userEmail = userService.getUserEmail();
@@ -137,11 +149,14 @@ public class MemberController {
             chatName = "Unkown ChatName";
         }
         try {
-            chatService.createChat(chatName, userEmails);
+            UUID chatId = chatService.createChat(chatName, userEmails);
+            System.out.println(chatId + "------------------------------------------");
+            addChatMessage(chatId, "Chat Created");
             return "created Succesfully";
         } catch(Exception e) {
             return e.getMessage();
         }
+        
     }
 
     @PutMapping("/chat/{chatId}")
@@ -171,20 +186,30 @@ public class MemberController {
 
     @GetMapping("chat/{chatId}/messages")
     @Operation(description = "Returns some messages in format { timestamp, message, author } of a chat")
-    public Object getChatMessages(@PathVariable("chatId") String chatName) {
+    public Object getChatMessages(@PathVariable("chatId") UUID chatId) {
+        List<MessageByChat> messageByChats = messageService.getMessagesInChat(chatId);
+        return messageByChats;
         //TODO get actual data
-        ArrayList<ChatMessage> data = new ArrayList<>();
+        /*ArrayList<ChatMessage> data = new ArrayList<>();
+
+        for (MessageByChat messageByChat: messageByChats) {
+
+        }
+
         data.add(new ChatMessage("puzzles00z", "please implement the the method getChatMessage",  LocalDateTime.of(2024, 11, 30, 15, 30, 0)));
         data.add(new ChatMessage("adrian00z", "please implement the the method getChatMessage",  LocalDateTime.of(2024, 11, 30, 15, 30, 0)));
         data.add(new ChatMessage("puzzles007", "please implement the the method getChatMessage",  LocalDateTime.of(2024, 11, 30, 15, 30, 0)));
-        return data;
+        return data;*/
     }
 
     @PostMapping("chat/{chatId}/message")
     @Operation(description = "Adds a message in format { message } to a chat")
     public Object addChatMessage(@PathVariable("chatId") UUID chatId, @RequestBody String message) {
         if (chatService.isUserInChat(chatId, userService.getUserEmail())) {
-            messagingTemplate.convertAndSend("/topic/chat/" + chatId,  new ChatMessage(userService.getUsername(), message,  LocalDateTime.now()));
+            Instant time = Instant.now();
+            String authorEmail = userService.getUserEmail();
+            UUID messagId = messageService.createMessagesInChat(chatId, authorEmail, message, time);
+            messagingTemplate.convertAndSend("/topic/chat/" + chatId,  new MessageByChat((new MessageByChatKey(chatId, time, messagId )), authorEmail, message));
         } else {
             return "You are not in this chat: " + chatId;
         }

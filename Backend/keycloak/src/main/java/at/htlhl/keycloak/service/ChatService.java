@@ -42,25 +42,21 @@ public class ChatService {
         return usersByChatRepository.isUserInChat(chatId, userEmail).size() == 1;
     }
 
-    public void createChat(String chatName, List<String> userEmails) throws Exception{
+    public UUID createChat(String chatName, List<String> userEmails) throws Exception{
         UUID chatId = UUID.randomUUID();
         try {
-            String firstUserEmail = userEmails.remove(0);
             // Inserts if uuid not exists else throws error
-            if (userService.getUserByEmail(firstUserEmail) != null) {
-                if (!usersByChatRepository.insertIfNotExists(chatId, firstUserEmail) || !chatsByUserRepository.insertIfNotExists(firstUserEmail, chatId, chatName)) {
-                    throw new Exception();
-                }
+            if (usersByChatRepository.doesChatIdExist(chatId).isPresent()) {
+                throw new Exception();
             }
 
             for (String userEmail: userEmails) {
-                // Inserts if uuid exists else throws error
                 if (userService.getUserByEmail(userEmail) != null) {
-                    if (!usersByChatRepository.insertIfExists(chatId, userEmail) || !chatsByUserRepository.insertIfExists(userEmail, chatId, chatName)) {
-                        throw new Exception();
-                    }
-                }
+                    usersByChatRepository.insertIfNotExists(chatId, userEmail);
+                    chatsByUserRepository.insertIfNotExists(userEmail, chatId, chatName);
+                }    
             }
+            return chatId;
         } catch (Exception e) {
             // Undo changes if one fails
             for (String userEmail: userEmails) {
@@ -75,9 +71,12 @@ public class ChatService {
     public void putUserInChat(String userEmail, UUID chatId, String chatName) throws Exception{
         try {
             // Inserts only if uuid exist else throws error
-            if (!usersByChatRepository.insertIfExists(chatId, userEmail) || !chatsByUserRepository.insertIfExists(userEmail, chatId, chatName)) {
+            if (!usersByChatRepository.doesChatIdExist(chatId).isPresent()) {
                 throw new Exception();
             }
+            usersByChatRepository.insertIfNotExists(chatId, userEmail);
+            chatsByUserRepository.insertIfNotExists(userEmail, chatId, chatName);
+
         } catch (Exception e) {
             // Undo changes if one fails
             revertUsersByChat(userEmail, chatId);

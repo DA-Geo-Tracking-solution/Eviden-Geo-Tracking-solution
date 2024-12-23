@@ -27,8 +27,8 @@ CREATE TABLE IF NOT EXISTS users_by_squad (
 CREATE TABLE IF NOT EXISTS messages_by_chat (
     chat_id UUID,
     message_id UUID,
-    user_email TEXT,
-    message TEXT,
+    author_email TEXT,
+    content TEXT,
     timestamp TIMESTAMP,
     PRIMARY KEY (chat_id, timestamp, message_id)
 ) WITH CLUSTERING ORDER BY (timestamp DESC);
@@ -78,14 +78,14 @@ VALUES (uuid(), 'user3@example.com');
 
 
 -- Insert into Messages by Chat Table
-INSERT INTO messages_by_chat (chat_id, message_id, user_email, message, timestamp)
-VALUES (uuid(), uuid(), 'user1@example.com', 'Hello, how are you?', '2024-12-01 10:00:00');
+INSERT INTO messages_by_chat (chat_id, message_id, author_email, content, timestamp)
+VALUES (11111111-1111-1111-1111-111111111111, uuid(), 'user1@example.com', 'Hello, how are you?', '2024-12-01 10:00:00');
 
-INSERT INTO messages_by_chat (chat_id, message_id, user_email, message, timestamp)
-VALUES (uuid(), uuid(), 'user2@example.com', 'I am good, thanks! And you?', '2024-12-01 10:05:00');
+INSERT INTO messages_by_chat (chat_id, message_id, author_email, content, timestamp)
+VALUES (11111111-1111-1111-1111-111111111111, uuid(), 'user2@example.com', 'I am good, thanks! And you?', '2024-12-01 10:05:00');
 
-INSERT INTO messages_by_chat (chat_id, message_id, user_email, message, timestamp)
-VALUES (uuid(), uuid(), 'user1@example.com', 'I am doing well, thanks for asking!', '2024-12-01 10:10:00');
+INSERT INTO messages_by_chat (chat_id, message_id, author_email, content, timestamp)
+VALUES (11111111-1111-1111-1111-111111111111, uuid(), 'user1@example.com', 'I am doing well, thanks for asking!', '2024-12-01 10:10:00');
 
 
 -- Insert into Chats by User Table

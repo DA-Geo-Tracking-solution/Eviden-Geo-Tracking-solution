@@ -13,15 +13,12 @@ export class MessageService {
   constructor(private serverDataService: ServerDataService) { }
 
   public init(chats: Chat[]): void {
-
-
-    
     for (const chat of chats) {
       this.messages.set(`${chat.chatId}`,  []);
       console.log(chat)
       this.serverDataService.getChatMessages(chat.chatId, (data: any) => {
         console.log(data);
-        if (data.sender && data.content && data.timestamp) {
+        if (data.authorEmail && data.content && data.key.timestamp) {
           this.messages.get(`${chat.chatId}`)?.push(data);
           const callback = this.callbacks.get(`${chat.chatId}`);
           console.log(chat.chatId)

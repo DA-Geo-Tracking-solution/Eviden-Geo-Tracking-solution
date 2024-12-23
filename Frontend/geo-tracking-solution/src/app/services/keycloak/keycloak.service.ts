@@ -45,6 +45,24 @@ export class KeycloakService {
     }
     return false;
   }
+
+  get roles(): string[] {
+    if (this.keycloak?.tokenParsed) {
+      const tokenParsed = this.keycloak.tokenParsed as any;
+      const realmRoles = tokenParsed.realm_access?.roles || [];
+      const resourceRoles = tokenParsed.resource_access?.['angular-client']?.roles || [];
+      return [...realmRoles, ...resourceRoles];
+    }
+    return [];
+  }
+
+  hasRole(role: string): boolean {
+    return this.roles.includes(role);
+  }
+  isGroupMaster(): boolean {return this.hasRole('groupmaster');}
+  isSquadmaster(): boolean {return this.hasRole('squadmaster');}
+  isMember(): boolean {return (this.hasRole('member') || this.isSquadmaster() || this.isGroupMaster())}
+  
   
   login() {
     return this.keycloak?.login();

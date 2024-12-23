@@ -4,6 +4,7 @@ import { from, Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router, ActivatedRoute } from '@angular/router';
 import { faUser, faUserGroup } from '@fortawesome/free-solid-svg-icons';
+import { KeycloakService } from '../../services/keycloak/keycloak.service';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class UserGroupComponent {
   maxWidth: string = 'none';
   containerClass: string = 'container box';
 
-  constructor(private themeService: ThemeService, private route: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private themeService: ThemeService, private route: Router, private activatedRoute: ActivatedRoute, private keycloakService: KeycloakService) { }
 
   ngOnInit(): void {
     this.themeSubscription = this.themeService.currentTheme.subscribe((theme: string) => {
@@ -57,6 +58,10 @@ export class UserGroupComponent {
     if (this.themeSubscription) {
       this.themeSubscription.unsubscribe();
     }
+  }
+
+  isGroupmaster(): boolean {
+    return this.keycloakService.isGroupMaster();
   }
 
   setActiveTab(tab: string) {

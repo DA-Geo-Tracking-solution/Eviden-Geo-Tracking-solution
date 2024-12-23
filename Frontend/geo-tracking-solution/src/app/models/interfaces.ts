@@ -10,7 +10,9 @@ export interface Contact {
 }
 
 export interface ChatMessage {
-    timestamp: number;
-    sender: string;
-    content: string;
+    chatId: string,
+    timestamp: number,
+    messageId: string,
+    authorEmail: string,
+    content: string
 }
