@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ChangeLanguageComponent {
 
-  languages = ['en', 'de', 'fr', 'es', 'it', 'pt', 'ru', 'zh', 'ja', 'ko'];
+  languages = ['en', 'de', 'fr', 'es', 'it', 'bih', "tur"];
   selectedLanguage: string;
   pendingLanguage: string;
 

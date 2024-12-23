@@ -8,7 +8,10 @@
     "CHAT": {
         "TITLE": "Chat",
         "SEND": "Senden",
-        "MESSAGE": "Nachricht"
+        "MESSAGE": "Nachricht",
+        "ADD CHAT": "Chat hinzufügen",
+        "SEARCH": "Suchen",
+        "ENTERYOURMESSAGE": "Geben Sie Ihre Nachricht ein..."
     },
     "MAP": {
         "TITLE": "Karte",
@@ -21,21 +24,25 @@
         "GROUPTITLE": "Gruppe",
         "USER": {
             "USERNAME": "Benutzername",
-            "PASSWORD": "Passwort",
+            "TEMPORARYPASSWORD": "Temporäres Passwort",
             "EMAIL": "E-Mail",
             "FIRSTNAME": "Vorname",
             "LASTNAME": "Nachname",
-            "CREATE": "Benutzer erstellen"
+            "CREATE": "Benutzer erstellen",
+            "USERNAMEREQUIRED": "Benutzername ist erforderlich"
         },
         "GROUP": {
             "GROUPNAME": "Gruppenname",
-            "CREATE": "Gruppe erstellen"
+            "EMAIL": "E-Mail",
+            "ADDMEMBER": "Mitglied hinzufügen"
         },
         "REQUIRED": "Erforderlich",
         "SUCCESS": {
             "USER": "Benutzer erfolgreich erstellt",
             "GROUP": "Gruppe erfolgreich erstellt"
-        }
+        },
+        "SUBMIT": "Absenden",
+        "CANCEL": "Abbrechen"
     },
     "SETTINGS": {
         "TITLE": "Einstellungen",
@@ -45,5 +52,6 @@
             "SELECTLANGUAGE": "Sprache auswählen",
             "CHANGELANGUAGE": "Sprache ändern"
         }
-    }
+    },
+    "HOME": {}
 }

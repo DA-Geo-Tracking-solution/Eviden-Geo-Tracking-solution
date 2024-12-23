@@ -14,3 +14,8 @@ export interface ChatMessage {
     sender: string;
     content: string;
 }
+
+export interface MapType {
+    value: string;
+    viewValue: string;
+}

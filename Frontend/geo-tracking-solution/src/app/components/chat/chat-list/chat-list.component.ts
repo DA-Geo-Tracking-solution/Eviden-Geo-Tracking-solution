@@ -1,6 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { RestService } from '../../../services/REST/rest.service';
 import { Chat, Contact } from '../../../models/interfaces';
+import { CookieSettingsService } from '../../../services/Cookies/cookie-settings.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-chat-list',
@@ -45,7 +47,10 @@ export class ChatListComponent implements OnInit {
   filteredChats: Chat[] = [...this.chats];
   searchContact: string = '';
 
-  constructor(private restService: RestService) { }
+  constructor(private restService: RestService, private cookieSettingsService: CookieSettingsService, private translateService: TranslateService) { 
+    this.translateService.use(this.cookieSettingsService.getLanguage());
+
+  }
 
   async ngOnInit() {
     (await this.restService.GET("member/chats")).subscribe({

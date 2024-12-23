@@ -3,6 +3,8 @@ import { faCheck, faUser, faEnvelope, faExclamationTriangle, faKey } from '@fort
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { RestService } from '../../../services/REST/rest.service';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { TranslateService } from '@ngx-translate/core';
+import { CookieSettingsService } from '../../../services/Cookies/cookie-settings.service';
 
 @Component({
   selector: 'app-create-user',
@@ -21,7 +23,7 @@ export class CreateUserComponent {
   // * Form 
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private restService: RestService) {
+  constructor(private formBuilder: FormBuilder, private restService: RestService, private cookieService: CookieSettingsService, private translateService: TranslateService) {
     this.form = this.formBuilder.group({
       firstname: [''], // Hinzugefügt
       lastname: [''], // Hinzugefügt
@@ -29,6 +31,7 @@ export class CreateUserComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/[A-Z]/)]]
     }, { updateOn: 'change' });
+    this.translateService.use(this.cookieService.getLanguage());
   }
 
   // Getter

@@ -29,7 +29,7 @@ import { LowerBarComponent } from './components/chat/chat-list/lower-bar/lower-b
 import { AddChatAlertComponent } from './components/chat/chat-list/lower-bar/add-chat-alert/add-chat-alert.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
-import { MapComponent } from './components/map/map.component';
+import { MapComponent } from './components/map-table/map/map.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';

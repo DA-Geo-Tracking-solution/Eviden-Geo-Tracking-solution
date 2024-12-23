@@ -67,7 +67,7 @@
   <!-- Eingabebereich -->
   <div class="input-container field has-addons p-3">
     <div class="control is-expanded">
-      <input class="input" [(ngModel)]="message" placeholder="Deine Nachricht eingeben..."
+      <input class="input" [(ngModel)]="message" placeholder="{{'CHAT.ENTERYOURMESSAGE' | translate}}"
         (keyup.enter)="sendMessage()" />
     </div>
     <div class="control">
@@ -75,7 +75,7 @@
         'button-theme-light': currentTheme === 'light',
         'button-theme-dark': currentTheme === 'dark'
       }" (click)="sendMessage()">
-        Senden
+        {{'CHAT.SEND' | translate}}
       </button>
     </div>
   </div>

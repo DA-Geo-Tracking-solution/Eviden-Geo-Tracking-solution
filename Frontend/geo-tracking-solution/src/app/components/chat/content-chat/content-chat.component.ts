@@ -2,7 +2,8 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/cor
 import { ServerDataService } from '../../../services/server-data/server-data.service';
 import { RestService } from '../../../services/REST/rest.service';
 import { ChatMessage, Chat } from '../../../models/interfaces';
-
+import { CookieSettingsService } from '../../../services/Cookies/cookie-settings.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-content-chat',
@@ -17,7 +18,9 @@ export class ContentChatComponent implements OnChanges {
   public message: string = '';
   public navbarOpen: boolean = false;  // Burger-Menü Zustand
 
-  constructor(private restService: RestService, private serverDataService: ServerDataService) { }
+  constructor(private restService: RestService, private serverDataService: ServerDataService, private cookieSettingsService: CookieSettingsService, private translateService: TranslateService) {
+    this.translateService.use(this.cookieSettingsService.getLanguage());
+   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['chat']) {

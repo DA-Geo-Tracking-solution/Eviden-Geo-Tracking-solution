@@ -4,6 +4,8 @@ import { from, Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router, ActivatedRoute } from '@angular/router';
 import { faUser, faUserGroup } from '@fortawesome/free-solid-svg-icons';
+import { CookieSettingsService } from '../../services/Cookies/cookie-settings.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -24,7 +26,9 @@ export class UserGroupComponent {
   maxWidth: string = 'none';
   containerClass: string = 'container box';
 
-  constructor(private themeService: ThemeService, private route: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private themeService: ThemeService, private route: Router, private activatedRoute: ActivatedRoute, private cookieService: CookieSettingsService, private translateService: TranslateService) {
+    this.translateService.use(this.cookieService.getLanguage());
+   }
 
   ngOnInit(): void {
     this.themeSubscription = this.themeService.currentTheme.subscribe((theme: string) => {
