@@ -51,8 +51,30 @@ export class ChatListComponent implements OnInit {
   }
 
   addNewChat(chat: Chat): void {
-    this.chats.push(chat);
-    this.filteredChats = [...this.chats];
+    for (const user of chat.users) {
+      console.log(user.email);
+    }
+
+    const body = {
+      "chatName": chat.chatName,
+      "userEmails": chat.users.map(user => user.email)
+    };
+
+    this.restService.POST("member/chat", body).then(observable => {
+      observable.subscribe({
+          next: (line) => {
+           console.log(line)
+          },
+          error: (err) => {
+            console.error("Error in Observable:", err);
+          },
+          complete: () => {
+            console.log("Observable completed");
+          },
+        });
+      }).catch(err => {
+          console.error("Error resolving promise:", err);
+      });
   }
 
   selectChat(chat: Chat): void {
