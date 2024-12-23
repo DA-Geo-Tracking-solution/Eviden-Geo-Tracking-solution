@@ -123,9 +123,25 @@ public class MemberController {
     }
 
     @PostMapping("/chat")
-    @Operation(description = "Create a chat with format { chatId, chatName,  [useremail] }")
-    public String createChat(Chat chat) {
-        return "not implemented!";
+    @Operation(description = "Create a chat with format { chatName, [useremail] }")
+    public String createChat( @RequestBody Map<String, Object> request) {
+        List<String> userEmails = (List<String>) request.get("userEmails");
+        if (userEmails == null) {
+            return "userEmails do not exist";
+        }
+        if (!userEmails.contains(userService.getUserEmail())) {
+            userEmails.add(userService.getUserEmail());
+        }
+        String chatName = (String)request.get("chatName");
+        if (chatName == null) {
+            chatName = "Unkown ChatName";
+        }
+        try {
+            chatService.createChat(chatName, userEmails);
+            return "created Succesfully";
+        } catch(Exception e) {
+            return e.getMessage();
+        }
     }
 
     @PutMapping("/chat/{chatId}")
@@ -136,7 +152,7 @@ public class MemberController {
 
     @PatchMapping("/chat/{chatId}/user")
     @Operation(description = "Puts a user in a chat in format { userEmail, chatName } as well if chat does not exist")
-    public String editChat(@PathVariable("chatId") UUID chatId, @RequestBody Map<String, String> request) {
+    public String putUserInChat(@PathVariable("chatId") UUID chatId, @RequestBody Map<String, String> request) {
         String userEmail = request.get("userEmail");
         if (userEmail == null || userService.getUserByEmail(userEmail) == null) {
             return "userEmail does not exist";

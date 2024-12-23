@@ -17,10 +17,10 @@ CREATE TABLE IF NOT EXISTS gps_data (
 ) WITH CLUSTERING ORDER BY (timestamp DESC);
 
 -- Table: User by Squad
-CREATE TABLE IF NOT EXISTS user_by_squad (
-    squadID UUID,
+CREATE TABLE IF NOT EXISTS users_by_squad (
+    squad_id UUID,
     user_email TEXT,
-    PRIMARY KEY (squadID, user_email)
+    PRIMARY KEY (squad_id, user_email)
 );
 
 -- Table: Messages by Chat
@@ -67,13 +67,13 @@ VALUES ('user2@example.com', '2024-12-01 10:05:00', 34.0532, -118.2447);
 
 
 -- Insert into User by Squad Table
-INSERT INTO user_by_squad (squadID, user_email)
+INSERT INTO users_by_squad (squad_id, user_email)
 VALUES (uuid(), 'user1@example.com');
 
-INSERT INTO user_by_squad (squadID, user_email)
+INSERT INTO users_by_squad (squad_id, user_email)
 VALUES (uuid(), 'user2@example.com');
 
-INSERT INTO user_by_squad (squadID, user_email)
+INSERT INTO users_by_squad (squad_id, user_email)
 VALUES (uuid(), 'user3@example.com');
 
 
@@ -90,29 +90,29 @@ VALUES (uuid(), uuid(), 'user1@example.com', 'I am doing well, thanks for asking
 
 -- Insert into Chats by User Table
 INSERT INTO chats_by_user (user_email, chat_id, chat_name)
-VALUES ('user1@example.com', uuid(), 'Group Chat A');
+VALUES ('user1@example.com', 11111111-1111-1111-1111-111111111111, 'Group Chat A');
 
 INSERT INTO chats_by_user (user_email, chat_id, chat_name)
-VALUES ('user2@example.com', uuid(), 'Group Chat A');
+VALUES ('user2@example.com', 11111111-1111-1111-1111-111111111111, 'Group Chat A');
 
 INSERT INTO chats_by_user (user_email, chat_id, chat_name)
-VALUES ('user1@example.com', uuid(), 'Group Chat B');
+VALUES ('user1@example.com', 22222222-2222-2222-2222-222222222222, 'Group Chat B');
 
 INSERT INTO chats_by_user (user_email, chat_id, chat_name)
-VALUES ('user3@example.com', uuid(), 'Group Chat B');
+VALUES ('user3@example.com', 33333333-3333-3333-3333-333333333333, 'Group Chat B');
 
 
 -- Insert into Users by Chat Table
 INSERT INTO users_by_chat (chat_id, user_email)
-VALUES (uuid(), 'user1@example.com');
+VALUES (11111111-1111-1111-1111-111111111111, 'user1@example.com');
 
 INSERT INTO users_by_chat (chat_id, user_email)
-VALUES (uuid(), 'user2@example.com');
+VALUES (11111111-1111-1111-1111-111111111111, 'user2@example.com');
 
 INSERT INTO users_by_chat (chat_id, user_email)
-VALUES (uuid(), 'user1@example.com');
+VALUES (22222222-2222-2222-2222-222222222222, 'user1@example.com');
 
 INSERT INTO users_by_chat (chat_id, user_email)
-VALUES (uuid(), 'user3@example.com');
+VALUES (33333333-3333-3333-3333-333333333333, 'user3@example.com');
 
 
