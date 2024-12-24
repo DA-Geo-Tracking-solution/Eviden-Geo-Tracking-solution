@@ -64,7 +64,6 @@ export class CreateUserComponent {
       }).catch(err => {
           console.error("Error resolving promise:", err);
       });
-      
-
+    
   }
 }
