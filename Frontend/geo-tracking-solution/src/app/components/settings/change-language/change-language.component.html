@@ -1,0 +1,20 @@
+<div class="is-flex is-justify-content-center is-align-items-center">
+    <div class="field">
+        <label class="label" for="language-select">{{ 'SETTINGS.LANGUAGE.SELECTLANGUAGE' | translate }}:</label>
+        <div class="control">
+            <div class="select">
+                <select id="language-select" [value]="pendingLanguage" (change)="changeLanguage($event)">
+                    <option *ngFor="let lang of languages" [value]="lang">
+                        {{ lang.toUpperCase() }}
+                    </option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="control">
+            <button class="button is-primary" (click)="submitChanges()">{{'SETTINGS.LANGUAGE.CHANGELANGUAGE' | translate}}</button>
+        </div>
+    </div>
+</div>

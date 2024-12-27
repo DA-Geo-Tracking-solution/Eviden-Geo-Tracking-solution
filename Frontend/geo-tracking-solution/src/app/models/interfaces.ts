@@ -25,3 +25,8 @@ export interface UserInformation {
     family_name: string,
     email: string
 }
+
+export interface MapType {
+    value: string;
+    viewValue: string;
+}

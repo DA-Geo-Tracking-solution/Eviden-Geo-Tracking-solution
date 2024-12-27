@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WebsocketComponent } from './websocket.component';
+import { UserComponent } from './user.component';
 
-describe('WebsocketComponent', () => {
-  let component: WebsocketComponent;
-  let fixture: ComponentFixture<WebsocketComponent>;
+describe('UserComponent', () => {
+  let component: UserComponent;
+  let fixture: ComponentFixture<UserComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [WebsocketComponent]
+      declarations: [UserComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(WebsocketComponent);
+
+    fixture = TestBed.createComponent(UserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

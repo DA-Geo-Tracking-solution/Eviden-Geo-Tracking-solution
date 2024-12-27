@@ -10,7 +10,7 @@
                             <div class="field" style="height: 6rem;">
                                 <div class="navbar-item">
                                     <div class="list-item-content">
-                                        <label class="list-item-title">Used map</label>
+                                        <label class="list-item-title">{{'MAP.TITLE' | translate}}</label>
                                     </div>
                                 </div>
                                 <div class="control">
@@ -34,15 +34,15 @@
                             <td mat-cell *matCellDef="let element"> {{element.id}} </td>
                         </ng-container>
                         <ng-container matColumnDef="username">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Username </th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'MAP.USERNAME' | translate}} </th>
                             <td mat-cell *matCellDef="let element"> {{element.username}} </td>
                         </ng-container>
                         <ng-container matColumnDef="longitude">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Longitude </th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'MAP.LONGITUDE' | translate}} </th>
                             <td mat-cell *matCellDef="let element"> {{element.location.longitude}} </td>
                         </ng-container>
                         <ng-container matColumnDef="latitude">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Latitude </th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'MAP.LATITUDE' | translate}} </th>
                             <td mat-cell *matCellDef="let element"> {{element.location.latitude}} </td>
                         </ng-container>
 

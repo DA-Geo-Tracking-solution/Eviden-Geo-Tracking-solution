@@ -4,8 +4,8 @@ import { RestService } from '../../../services/REST/rest.service';
 import { ChatMessage, Chat } from '../../../models/interfaces';
 import { MessageService } from '../../../services/message/message.service';
 import { KeycloakService } from '../../../services/keycloak/keycloak.service';
-
-
+import { CookieSettingsService } from '../../../services/Cookies/cookie-settings.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-content-chat',
@@ -20,7 +20,10 @@ export class ContentChatComponent implements OnChanges {
   public message: string = '';
   public navbarOpen: boolean = false;  // Burger-Menü Zustand
 
-  constructor(private keycloakService: KeycloakService, private restService: RestService, private serverDataService: ServerDataService, private messageService: MessageService) { }
+
+  constructor(private restService: RestService, private serverDataService: ServerDataService, private cookieSettingsService: CookieSettingsService, private translateService: TranslateService, private keycloakService: KeycloakService, private messageService: MessageService) {
+    this.translateService.use(this.cookieSettingsService.getLanguage());
+   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['chat']) {

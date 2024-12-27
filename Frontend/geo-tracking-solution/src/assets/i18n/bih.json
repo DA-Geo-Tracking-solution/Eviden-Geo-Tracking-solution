@@ -1,0 +1,57 @@
+{
+    "NAVIGATION": {
+        "HOME": "Nadzorna ploča",
+        "CHAT": "Razgovor",
+        "CREATE": "Kreiraj",
+        "MAP": "Mapa"
+    },
+    "CHAT": {
+        "TITLE": "Razgovor",
+        "SEND": "Pošaljite",
+        "MESSAGE": "Poruka",
+        "ADD CHAT": "Dodaj razgovor",
+        "SEARCH": "Pretraži",
+        "ENTERYOURMESSAGE": "Unesite svoju poruku..."
+    },
+    "MAP": {
+        "TITLE": "Mapa",
+        "USERNAME": "Korisničko ime",
+        "LATITUDE": "Širina",
+        "LONGITUDE": "Dužina"
+    },
+    "CREATE": {
+        "USERTITLE": "Korisnik",
+        "GROUPTITLE": "Grupa",
+        "USER": {
+            "USERNAME": "Korisničko ime",
+            "TEMPORARYPASSWORD": "Privremena lozinka",
+            "EMAIL": "E-mail",
+            "FIRSTNAME": "Ime",
+            "LASTNAME": "Prezime",
+            "CREATE": "Kreiraj korisnika",
+            "USERNAMEREQUIRED": "Korisničko ime je obavezno"
+        },
+        "GROUP": {
+            "GROUPNAME": "Naziv grupe",
+            "EMAIL": "E-mail",
+            "ADDMEMBER": "Dodaj člana"
+        },
+        "REQUIRED": "Obavezno",
+        "SUCCESS": {
+            "USER": "Korisnik uspješno kreiran",
+            "GROUP": "Grupa uspješno kreirana"
+        },
+        "SUBMIT": "Pošaljite",
+        "CANCEL": "Otkaži"
+    },
+    "SETTINGS": {
+        "TITLE": "Postavke",
+        "USER": "Korisnik",
+        "LANGUAGE": {
+            "TITLE": "Jezik",
+            "SELECTLANGUAGE": "Odaberite jezik",
+            "CHANGELANGUAGE": "Promijenite jezik"
+        }
+    },
+    "HOME": {}
+}

@@ -12,6 +12,7 @@ export class ChatComponent implements OnInit {
   //
   selectedChat: Chat = { chatId: '', chatName: '', users: []};
   currentTheme: string = '';
+
   constructor(private themeService: ThemeService) { }
 
   onChatSelected(chat: Chat) {

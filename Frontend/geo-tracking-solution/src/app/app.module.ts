@@ -1,8 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-
-import { HttpClientModule } from '@angular/common/http';
-
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ScrollerModule } from 'primeng/scroller';
 import { NgScrollbarModule } from 'ngx-scrollbar';
@@ -31,7 +29,7 @@ import { LowerBarComponent } from './components/chat/chat-list/lower-bar/lower-b
 import { AddChatAlertComponent } from './components/chat/chat-list/lower-bar/add-chat-alert/add-chat-alert.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
-import { MapComponent } from './components/map/map.component';
+import { MapComponent } from './components/map-table/map/map.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
@@ -40,11 +38,23 @@ import { SplitterModule } from 'primeng/splitter';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 
-import { WebsocketComponent } from './components/websocket/websocket/websocket.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { UserComponent } from './components/settings/user/user.component';
+import { ChangeLanguageComponent } from './components/settings/change-language/change-language.component';
 
+// ngx-translate Imports
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { SuccessAlertComponent } from './components/user-group/success-alert/success-alert.component';
 
+// Funktion zur Initialisierung des KeycloakService
 export function kcFactory(KeycloakService: KeycloakService) {
   return () => KeycloakService.init();
+}
+
+// HttpLoaderFactory für ngx-translate
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
@@ -65,7 +75,10 @@ export function kcFactory(KeycloakService: KeycloakService) {
     ChatComponent,
     LowerBarComponent,
     AddChatAlertComponent,
-    WebsocketComponent
+    SettingsComponent,
+    UserComponent,
+    ChangeLanguageComponent,
+    SuccessAlertComponent
   ],
   imports: [
     BrowserModule,
@@ -83,6 +96,15 @@ export function kcFactory(KeycloakService: KeycloakService) {
     SplitterModule,
     MatSortModule,
     MatTableModule,
+
+    // ngx-translate Module hinzufügen
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    })
   ],
   providers: [
     provideClientHydration(),

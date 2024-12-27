@@ -1,0 +1,57 @@
+{
+    "NAVIGATION": {
+        "HOME": "Tableau de bord",
+        "CHAT": "Chat",
+        "CREATE": "Créer",
+        "MAP": "Carte"
+    },
+    "CHAT": {
+        "TITLE": "Chat",
+        "SEND": "Envoyer",
+        "MESSAGE": "Message",
+        "ADD CHAT": "Ajouter un chat",
+        "SEARCH": "Rechercher",
+        "ENTERYOURMESSAGE": "Entrez votre message..."
+    },
+    "MAP": {
+        "TITLE": "Carte",
+        "USERNAME": "Nom d'utilisateur",
+        "LATITUDE": "Latitude",
+        "LONGITUDE": "Longitude"
+    },
+    "CREATE": {
+        "USERTITLE": "Utilisateur",
+        "GROUPTITLE": "Groupe",
+        "USER": {
+            "USERNAME": "Nom d'utilisateur",
+            "TEMPORARYPASSWORD": "Mot de passe temporaire",
+            "EMAIL": "E-mail",
+            "FIRSTNAME": "Prénom",
+            "LASTNAME": "Nom",
+            "CREATE": "Créer un utilisateur",
+            "USERNAMEREQUIRED": "Le nom d'utilisateur est requis"
+        },
+        "GROUP": {
+            "GROUPNAME": "Nom du groupe",
+            "EMAIL": "E-mail",
+            "ADDMEMBER": "Ajouter un membre"
+        },
+        "REQUIRED": "Requis",
+        "SUCCESS": {
+            "USER": "Utilisateur créé avec succès",
+            "GROUP": "Groupe créé avec succès"
+        },
+        "SUBMIT": "Soumettre",
+        "CANCEL": "Annuler"
+    },
+    "SETTINGS": {
+        "TITLE": "Paramètres",
+        "USER": "Utilisateur",
+        "LANGUAGE": {
+            "TITLE": "Langue",
+            "SELECTLANGUAGE": "Sélectionner la langue",
+            "CHANGELANGUAGE": "Changer de langue"
+        }
+    },
+    "HOME": {}
+}

@@ -1,0 +1,57 @@
+{
+    "NAVIGATION": {
+        "HOME": "Gösterge Paneli",
+        "CHAT": "Sohbet",
+        "CREATE": "Oluştur",
+        "MAP": "Harita"
+    },
+    "CHAT": {
+        "TITLE": "Sohbet",
+        "SEND": "Gönder",
+        "MESSAGE": "Mesaj",
+        "ADD CHAT": "Sohbet Ekle",
+        "SEARCH": "Ara",
+        "ENTERYOURMESSAGE": "Mesajınızı girin..."
+    },
+    "MAP": {
+        "TITLE": "Harita",
+        "USERNAME": "Kullanıcı Adı",
+        "LATITUDE": "Enlem",
+        "LONGITUDE": "Boylam"
+    },
+    "CREATE": {
+        "USERTITLE": "Kullanıcı",
+        "GROUPTITLE": "Grup",
+        "USER": {
+            "USERNAME": "Kullanıcı Adı",
+            "TEMPORARYPASSWORD": "Geçici Şifre",
+            "EMAIL": "E-posta",
+            "FIRSTNAME": "Ad",
+            "LASTNAME": "Soyad",
+            "CREATE": "Kullanıcı Oluştur",
+            "USERNAMEREQUIRED": "Kullanıcı adı zorunludur"
+        },
+        "GROUP": {
+            "GROUPNAME": "Grup Adı",
+            "EMAIL": "E-posta",
+            "ADDMEMBER": "Üye Ekle"
+        },
+        "REQUIRED": "Zorunlu",
+        "SUCCESS": {
+            "USER": "Kullanıcı başarıyla oluşturuldu",
+            "GROUP": "Grup başarıyla oluşturuldu"
+        },
+        "SUBMIT": "Gönder",
+        "CANCEL": "İptal"
+    },
+    "SETTINGS": {
+        "TITLE": "Ayarlar",
+        "USER": "Kullanıcı",
+        "LANGUAGE": {
+            "TITLE": "Dil",
+            "SELECTLANGUAGE": "Dil seçin",
+            "CHANGELANGUAGE": "Dili değiştir"
+        }
+    },
+    "HOME": {}
+}

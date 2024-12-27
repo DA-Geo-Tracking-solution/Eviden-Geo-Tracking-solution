@@ -2,12 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import User from '../../classes/User';
 import { ThemeService } from '../../services/Theme/theme.service';
-
-// interface to store the maptypes
-interface MapType {
-  value: string;
-  viewValue: string;
-}
+import { TranslateService } from '@ngx-translate/core';
+import { CookieSettingsService } from '../../services/Cookies/cookie-settings.service';
+import { MapType } from '../../models/interfaces';
 
 @Component({
   selector: 'app-map-table',
@@ -33,7 +30,9 @@ export class MapTableComponent {
     { value: 'satellite', viewValue: 'Satelit' },
   ];
 
-  constructor(private themeService: ThemeService) { }
+  constructor(private themeService: ThemeService, private cookieService: CookieSettingsService, private translateService: TranslateService) { 
+    this.translateService.use(this.cookieService.getLanguage());
+  }
 
   ngOnInit(): void {
     this.themeService.currentTheme.subscribe((theme) => {

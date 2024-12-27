@@ -11,7 +11,7 @@
                         <span class="icon is-small">
                             <fa-icon [icon]="faUser"></fa-icon>
                         </span>
-                        <span> User</span>
+                        <span> {{ 'CREATE.USERTITLE' | translate}}</span>
                     </a>
                 </li>
                 <li [class.is-active]="isActiveTab('group')">
@@ -19,7 +19,7 @@
                         <span class="icon is-small">
                             <fa-icon [icon]="faUserGroup"></fa-icon>
                         </span>
-                        <span> Group</span>
+                        <span> {{'CREATE.GROUPTITLE' | translate}}</span>
                     </a>
                 </li>
             </ul>

@@ -1,8 +1,8 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import * as L from 'leaflet';
-import { RasterMapService } from '../../services/raster-map/raster-map.service';
-import { VectorMapService } from '../../services/vector-map/vector-map.service';
-import User from '../../classes/User';
+import { RasterMapService } from '../../../services/raster-map/raster-map.service';
+import { VectorMapService } from '../../../services/vector-map/vector-map.service';
+import User from '../../../classes/User';
 import 'leaflet/dist/leaflet.css';
 import 'maplibre-gl/src/css/maplibre-gl.css';
 import maplibregl from 'maplibre-gl';

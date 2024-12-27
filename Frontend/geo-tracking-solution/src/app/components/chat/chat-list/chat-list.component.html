@@ -3,7 +3,7 @@
         <nav class="navbar contact-navbar is-flex" role="navigation" aria-label="main navigation"
             style="height: 4.3rem;">
             <div class="navbar-brand">
-                <h1 class="title" style="padding-top: 15%; color: black;">Chat</h1>
+                <h1 class="title" style="padding-top: 15%; color: black;">{{'CHAT.TITLE' | translate}}</h1>
             </div>
         </nav>
     </div>
@@ -15,7 +15,7 @@
         </div>
         <div class="control">
             <button class="button" style="background-color: #ff6d43;" (click)="filterChats()">
-                Search
+                {{ 'CHAT.SEARCH' | translate }}
             </button>
         </div>
     </div>
