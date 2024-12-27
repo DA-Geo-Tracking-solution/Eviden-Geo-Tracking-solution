@@ -45,6 +45,7 @@ import { ChangeLanguageComponent } from './components/settings/change-language/c
 // ngx-translate Imports
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { SuccessAlertComponent } from './components/user-group/success-alert/success-alert.component';
 
 // Funktion zur Initialisierung des KeycloakService
 export function kcFactory(KeycloakService: KeycloakService) {
@@ -76,7 +77,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AddChatAlertComponent,
     SettingsComponent,
     UserComponent,
-    ChangeLanguageComponent
+    ChangeLanguageComponent,
+    SuccessAlertComponent
   ],
   imports: [
     BrowserModule,

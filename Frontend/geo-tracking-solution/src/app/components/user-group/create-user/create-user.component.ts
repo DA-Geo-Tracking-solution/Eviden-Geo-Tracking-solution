@@ -1,10 +1,12 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { faCheck, faUser, faEnvelope, faExclamationTriangle, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { RestService } from '../../../services/REST/rest.service';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieSettingsService } from '../../../services/Cookies/cookie-settings.service';
+import { MatDialog } from '@angular/material/dialog';
+import { SuccessAlertComponent } from './../success-alert/success-alert.component';
 
 @Component({
   selector: 'app-create-user',
@@ -12,6 +14,8 @@ import { CookieSettingsService } from '../../../services/Cookies/cookie-settings
   styleUrl: './create-user.component.css'
 })
 export class CreateUserComponent {
+
+  isAlertVisible = false;
 
   // * Icons:
   faEnvelope = faEnvelope;
@@ -23,7 +27,7 @@ export class CreateUserComponent {
   // * Form 
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private restService: RestService, private cookieService: CookieSettingsService, private translateService: TranslateService) {
+  constructor(private formBuilder: FormBuilder, private restService: RestService, private cookieService: CookieSettingsService, private translateService: TranslateService, public matDialog: MatDialog) {
     this.form = this.formBuilder.group({
       firstname: [''], // Hinzugefügt
       lastname: [''], // Hinzugefügt
@@ -39,31 +43,42 @@ export class CreateUserComponent {
   get email() { return this.form.get('email'); }
   get password() { return this.form.get('password'); }
 
-  createUser(): void {  
+  createUser(): void {
     const user = this.form["value"]
     this.restService.POST("groupmaster/user", {
       "user": {
-          "username": user["username"],
-          "userEmail": user["email"],    
-          "firstname": user["firstname"],
-          "lastname": user["lastname"]
+        "username": user["username"],
+        "userEmail": user["email"],
+        "firstname": user["firstname"],
+        "lastname": user["lastname"]
       },
       "temporaryPassword": user["password"]
     }).then(observable => {
       observable.subscribe({
-          next: (line) => {
-           console.log(line)
-          },
-          error: (err) => {
-            console.error("Error in Observable:", err);
-          },
-          complete: () => {
-            console.log("Observable completed");
-          },
-        });
-      }).catch(err => {
-          console.error("Error resolving promise:", err);
+        next: (line) => {
+          console.log(line)
+        },
+        error: (err) => {
+          console.error("Error in Observable:", err);
+        },
+        complete: () => {
+          console.log("Observable completed");
+        },
       });
-    
+    }).catch(err => {
+      console.error("Error resolving promise:", err);
+    });
+
   }
+
+  openDialog() {
+    const dialogRef = this.matDialog.open(SuccessAlertComponent, {
+      width: '50%',
+    });
+  }
+
+  showAlert() {
+    this.isAlertVisible = true;
+  }
+
 }
