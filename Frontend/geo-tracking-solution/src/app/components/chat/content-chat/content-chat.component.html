@@ -53,7 +53,7 @@
   <!-- Nachrichtenbereich -->
   <div class="messages is-overflow-auto p-3">
     <div *ngFor="let msg of messages"
-      [ngClass]="{'left-message': msg.authorEmail !== 'Ich', 'right-message': msg.authorEmail === 'Ich'}"
+      [ngClass]="{'left-message': msg.authorEmail !== userEmail, 'right-message': msg.authorEmail === userEmail}"
       class="notification mb-2">
 
       <div class="message-header">

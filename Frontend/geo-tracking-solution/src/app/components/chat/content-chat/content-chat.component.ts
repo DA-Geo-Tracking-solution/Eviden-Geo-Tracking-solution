@@ -3,6 +3,7 @@ import { ServerDataService } from '../../../services/server-data/server-data.ser
 import { RestService } from '../../../services/REST/rest.service';
 import { ChatMessage, Chat } from '../../../models/interfaces';
 import { MessageService } from '../../../services/message/message.service';
+import { KeycloakService } from '../../../services/keycloak/keycloak.service';
 
 
 
@@ -19,7 +20,7 @@ export class ContentChatComponent implements OnChanges {
   public message: string = '';
   public navbarOpen: boolean = false;  // Burger-Menü Zustand
 
-  constructor(private restService: RestService, private serverDataService: ServerDataService, private messageService: MessageService) { }
+  constructor(private keycloakService: KeycloakService, private restService: RestService, private serverDataService: ServerDataService, private messageService: MessageService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['chat']) {
@@ -38,8 +39,6 @@ export class ContentChatComponent implements OnChanges {
       });*/
     }
   }
-
-  // TODO: Websockets müssen geschlossen werden, da Nachrichten mehrmals am Stück gesendet werden
 
   // Nachricht senden
   sendMessage(): void {
@@ -61,6 +60,10 @@ export class ContentChatComponent implements OnChanges {
       });
       this.message = '';  // Eingabefeld nach dem Senden leeren
     }
+  }
+
+  get userEmail(): string | undefined {
+    return this.keycloakService.user?.email;
   }
 
   // Burger-Menü Umschalten

@@ -2,6 +2,8 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import Keycloak from 'keycloak-js';
 import { UserProfile } from './user-profile';
+import User from '../../classes/User';
+import { UserInformation } from '../../models/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +56,14 @@ export class KeycloakService {
       return [...realmRoles, ...resourceRoles];
     }
     return [];
+  }
+
+  get user(): UserInformation | undefined {
+    if (this.keycloak?.tokenParsed) {
+      const tokenParsed = this.keycloak.tokenParsed as any;
+      return (tokenParsed as UserInformation);
+    } 
+    return undefined;
   }
 
   hasRole(role: string): boolean {

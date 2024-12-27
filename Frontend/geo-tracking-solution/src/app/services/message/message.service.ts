@@ -14,19 +14,22 @@ export class MessageService {
 
   public init(chats: Chat[]): void {
     for (const chat of chats) {
-      this.messages.set(`${chat.chatId}`,  []);
-      console.log(chat)
-      this.serverDataService.getChatMessages(chat.chatId, (data: any) => {
-        console.log(data);
-        if (data.authorEmail && data.content && data.key.timestamp) {
-          this.messages.get(`${chat.chatId}`)?.push(data);
-          const callback = this.callbacks.get(`${chat.chatId}`);
-          console.log(chat.chatId)
-          if (callback) {
-            callback(data);
+      console.log(this.messages.get(chat.chatId))
+      if (this.messages.get(chat.chatId) === undefined) {
+        this.messages.set(`${chat.chatId}`,  []);
+        console.log(chat)
+        this.serverDataService.getChatMessages(chat.chatId, (data: any) => {
+          console.log(data);
+          if (data.authorEmail && data.content && data.key.timestamp) {
+            this.messages.get(`${chat.chatId}`)?.push(data);
+            const callback = this.callbacks.get(`${chat.chatId}`);
+            console.log(chat.chatId)
+            if (callback) {
+              callback(data);
+            }
           }
-        }
-      });
+        });
+      }
     }
   }
 
