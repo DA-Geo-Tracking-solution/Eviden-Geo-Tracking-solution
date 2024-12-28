@@ -1,0 +1,29 @@
+.background-container {
+    width: 100%;
+    flex: 1; 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column; /* Elemente vertikal anordnen */
+    align-items: center;
+    justify-content: center;
+    position: relative; /* Hintergrund bleibt fixiert */
+}
+
+.navigation {
+    margin-bottom: 20px; /* Abstand zwischen Navigation und Formular */
+    display: flex;
+    gap: 15px; /* Abstand zwischen den <li>-Elementen */
+    color: white; /* Beispiel für Textfarbe, um die Navigation sichtbar zu machen */
+}
+
+.form-container {
+    width: 100%;
+    max-width: 500px; /* Gleiche Größe wie das Formular */
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7); /* Halbtransparenter Hintergrund für Kontrast */
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+}

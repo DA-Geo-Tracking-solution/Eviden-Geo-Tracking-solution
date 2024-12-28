@@ -44,7 +44,7 @@ export class CreateUserComponent {
   get password() { return this.form.get('password'); }
 
   createUser(): void {
-    const user = this.form["value"]
+    const user = this.form["value"];
     this.restService.POST("groupmaster/user", {
       "user": {
         "username": user["username"],

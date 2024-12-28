@@ -1,34 +1,36 @@
-<app-navigation-bar />
+<div class="parent">
+    <app-navigation-bar />
 
-<div class="background-container" [ngStyle]="{'background-image': 'url(' + backgroundImage + ')'}">
-    <!-- TODO: Ebentuell noch ein is-medium hinzufügen -->
-    <div class="tabs ">
-        <!-- Navigation (li-Elemente) -->
-        <div *ngIf="isGroupmaster()">
-            <ul class="navigation">
-                <li [class.is-active]="isActiveTab('user')">
-                    <a routerLink="user" (click)="setActiveTab('user')">
-                        <span class="icon is-small">
-                            <fa-icon [icon]="faUser"></fa-icon>
-                        </span>
-                        <span> {{ 'CREATE.USERTITLE' | translate}}</span>
-                    </a>
-                </li>
-                <li [class.is-active]="isActiveTab('group')">
-                    <a routerLink="group" (click)="setActiveTab('group')">
-                        <span class="icon is-small">
-                            <fa-icon [icon]="faUserGroup"></fa-icon>
-                        </span>
-                        <span> {{'CREATE.GROUPTITLE' | translate}}</span>
-                    </a>
-                </li>
-            </ul>
+    <div class="background-container" [ngStyle]="{'background-image': 'url(' + backgroundImage + ')'}">
+        <!-- TODO: Ebentuell noch ein is-medium hinzufügen -->
+        <div class="tabs ">
+            <!-- Navigation (li-Elemente) -->
+            <div *ngIf="isGroupmaster()">
+                <ul class="navigation">
+                    <li [class.is-active]="isActiveTab('user')">
+                        <a routerLink="user" (click)="setActiveTab('user')">
+                            <span class="icon is-small">
+                                <fa-icon [icon]="faUser"></fa-icon>
+                            </span>
+                            <span> {{ 'CREATE.USERTITLE' | translate}}</span>
+                        </a>
+                    </li>
+                    <li [class.is-active]="isActiveTab('group')">
+                        <a routerLink="group" (click)="setActiveTab('group')">
+                            <span class="icon is-small">
+                                <fa-icon [icon]="faUserGroup"></fa-icon>
+                            </span>
+                            <span> {{'CREATE.GROUPTITLE' | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
 
-    <!-- Inhalt der untergeordneten Routen (z. B. CreateUser oder CreateGroup) -->
-    <div class="form-container">
-        <router-outlet></router-outlet>
-    </div>
+        <!-- Inhalt der untergeordneten Routen (z. B. CreateUser oder CreateGroup) -->
+        <div class="form-container">
+            <router-outlet></router-outlet>
+        </div>
 
+    </div>
 </div>

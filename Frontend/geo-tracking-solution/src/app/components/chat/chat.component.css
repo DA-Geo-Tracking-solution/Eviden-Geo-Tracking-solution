@@ -1,4 +1,11 @@
-.full-height {
-  margin: -1px;
-  height: calc(100% - 3.25rem);
+.parent {
+  display: flex; 
+  flex-direction: column; 
+  height: 100%;
+}
+
+.background-container {
+  width: 100%;
+  flex: 1; 
+  border-radius: 10px;
 }

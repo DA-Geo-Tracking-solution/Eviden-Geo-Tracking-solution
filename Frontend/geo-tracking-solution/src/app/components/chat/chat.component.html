@@ -1,17 +1,19 @@
-<app-navigation-bar style="z-index: 1200;"/>
+<div class="parent">
+    <app-navigation-bar style="z-index: 1200;"/>
 
-<!-- TODO: Muss dann auf system und co. geändert werden -->
- <!-- TODO: grid oder Flexbox -->
-<div [attr.data-theme] = "currentTheme" class="full-height">
-    <div class="columns is-gapless is-multiline ">
-        <!-- Sidebar (Contact List) -->
-        <div class="column is-one-third full-height">
-            <app-chat-list (chatSelected)="onChatSelected($event)" />
-        </div>
+    <!-- TODO: Muss dann auf system und co. geändert werden -->
+    <!-- TODO: grid oder Flexbox -->
+    <div [attr.data-theme] = "currentTheme" class="background-container">
+        <div class="columns is-gapless is-multiline ">
+            <!-- Sidebar (Contact List) -->
+            <div class="column is-one-third">
+                <app-chat-list (chatSelected)="onChatSelected($event)" />
+            </div>
 
-        <!-- Chat (this will take up more space in mobile view) -->
-        <div class="column is-two-thirds full-height">
-            <app-content-chat [chat]="selectedChat" [currentTheme]="currentTheme" style="z-index: -250;"/>
+            <!-- Chat (this will take up more space in mobile view) -->
+            <div class="column is-two-thirds">
+                <app-content-chat [chat]="selectedChat" [currentTheme]="currentTheme" style="z-index: -250;"/>
+            </div>
         </div>
     </div>
 </div>
