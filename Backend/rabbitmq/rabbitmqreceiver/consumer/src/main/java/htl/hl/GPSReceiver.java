@@ -1,22 +1,25 @@
 package htl.hl;
 
-import com.rabbitmq.client.*;
-import com.datastax.oss.driver.api.core.CqlSession;
-
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.UUID;
 
+import com.datastax.oss.driver.api.core.CqlSession;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.DeliverCallback;
+
 public class GPSReceiver {
 
     private final static String QUEUE_NAME = "gps_data_queue";
-    
+
     public static void main(String[] argv) throws Exception {
         // Set up connection to Cassandra
         CqlSession session = CqlSession.builder()
                 .addContactPoint(new InetSocketAddress("localhost", 9042))  // Cassandra host and port
-                .withKeyspace("my_keyspace")  // Replace with your keyspace
+                .withKeyspace("geo_tracking_keyspace")  // Replace with your keyspace
                 .withLocalDatacenter("datacenter1")  // Replace with your local datacenter
                 .build();
 
@@ -39,12 +42,12 @@ public class GPSReceiver {
             System.out.println(" [x] Received: '" + message + "'");
 
             try {
-                // Parse the message (username:latitude,longitude)
+                // Parse the message (access_token:username:timestamp,longitude,latitude)
                 String[] parts = message.split(":");
-                String username = parts[0];
-                String[] gpsParts = parts[1].split(",");
-                double latitude = Double.parseDouble(gpsParts[0]);
-                double longitude = Double.parseDouble(gpsParts[1]);
+                String username = parts[1];  // Extract username (second part)
+                String[] gpsParts = parts[2].split(",");  // Extract timestamp and GPS data
+                double longitude = Double.parseDouble(gpsParts[0]);  // Longitude is first
+                double latitude = Double.parseDouble(gpsParts[1]);   // Latitude is second
 
                 // Insert into CassandraDB
                 session.execute("INSERT INTO users (username, created_at) VALUES (?, ?) IF NOT EXISTS",
