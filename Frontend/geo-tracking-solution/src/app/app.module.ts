@@ -28,6 +28,9 @@ import { ChatComponent } from './components/chat/chat.component';
 import { LowerBarComponent } from './components/chat/chat-list/lower-bar/lower-bar.component';
 import { AddChatAlertComponent } from './components/chat/chat-list/lower-bar/add-chat-alert/add-chat-alert.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { TeamComponent } from './components/home/team/team.component';
+import { AboutTheProjectComponent } from './components/home/about-the-project/about-the-project.component';
+import { CardsComponent } from './components/home/cards/cards.component';
 
 import { MapComponent } from './components/map-table/map/map.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -78,7 +81,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     SettingsComponent,
     UserComponent,
     ChangeLanguageComponent,
-    SuccessAlertComponent
+    SuccessAlertComponent,
+    TeamComponent,
+    AboutTheProjectComponent,
+    CardsComponent
   ],
   imports: [
     BrowserModule,

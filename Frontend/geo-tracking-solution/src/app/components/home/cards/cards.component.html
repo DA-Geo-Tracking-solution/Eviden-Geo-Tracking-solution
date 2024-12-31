@@ -1,0 +1,22 @@
+<div class="section">
+    <div class="container">
+        <div class="columns is-centered is-multiline">
+
+            <!-- Card -->
+            <div class="column is-one-quarter" *ngFor="let card of cards">
+                <div class="card" style="height: 100%;">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img [src]="card.image" [alt]="card.title">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <p class="title is-6">{{ card.title }}</p>
+                        <p>{{ card.description }}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

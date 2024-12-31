@@ -1,5 +1,22 @@
 <app-navigation-bar />
-<!-- <div>
-    <button class="button is-link is-large" (click)="onButtonClick()">Get Data</button>
-</div> -->
-<app-footer/>
+
+<div [attr.data-theme]="currentTheme">
+    <section class="pt-5" >
+        <h1 class="title has-text-centered">Geo-Tracking-Solution</h1>
+    </section>
+
+    <section>
+        <app-about-the-project />
+    </section>
+
+    <section>
+        <app-cards />
+    </section>
+
+    <section>
+        <h1 class="title has-text-centered">Team</h1>
+        <app-team />
+    </section>
+</div>
+
+<app-footer />

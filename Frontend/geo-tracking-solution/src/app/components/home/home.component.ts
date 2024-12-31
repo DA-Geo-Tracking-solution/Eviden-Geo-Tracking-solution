@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RestService } from '../../services/REST/rest.service';
-import { response } from 'express';
-import { error } from 'console';
+import { ThemeService } from '../../services/Theme/theme.service';
 
 @Component({
   selector: 'app-home',
@@ -12,8 +11,15 @@ export class HomeComponent {
 
   data: any;
   errorMsg: string | undefined;
+  currentTheme: string = '';
 
-  constructor(private restService: RestService) { }
+  constructor(private themeService: ThemeService, private restService: RestService) { }
+
+  ngOnInit(): void {
+    this.themeService.currentTheme.subscribe((theme) => {
+      this.currentTheme = theme;
+    });
+  }
 
   onButtonClick() {
     this.restService.GET("member/hello").then((response) => {
