@@ -10,23 +10,23 @@ export class CardsComponent {
   cards = [
     {
       title: 'Chat',
-      description: 'Erfassen, berechnen und analysieren Sie Daten sicher in der Edge, der Cloud und in Rechenzentren.',
-      image: 'https://via.placeholder.com/250x150'
+      description: 'Open the chat to communicate with your teammembers.',
+      image: '../../../../assets/images/chatplatzhalter.png'
     },
     {
       title: 'Map',
-      description: 'Nutzen Sie die Chancen der Cloud und gestalten Sie Ihre IT umweltfreundlicher, sicherer und effizienter.',
-      image: 'https://via.placeholder.com/250x150'
+      description: 'See the position of all groupmembers to have a better overview and be able to manage them.',
+      image: '../../../../assets/images/chatplatzhalter.png'
     },
     {
       title: 'Create User/Group',
-      description: 'Verbinden Sie logische mit physischen Elementen, um die Sicherheit und Vertraulichkeit Ihrer IT-Services zu gewährleisten.',
-      image: 'https://via.placeholder.com/250x150'
+      description: 'Create new users or groups whenever you need to.',
+      image: '../../../../assets/images/chatplatzhalter.png'
     },
     {
       title: 'Settings',
-      description: 'Vernetzen Sie Geräte effizient und nutzen Sie innovative IoT-Lösungen für eine smartere Zukunft.',
-      image: 'https://via.placeholder.com/250x150'
+      description: 'Personalize your workspace to your own taste!',
+      image: '../../../../assets/images/chatplatzhalter.png'
     }
   ];
 

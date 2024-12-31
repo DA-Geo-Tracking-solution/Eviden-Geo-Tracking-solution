@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-team',
@@ -6,52 +6,58 @@ import { Component } from '@angular/core';
   styleUrl: './team.component.css'
 })
 export class TeamComponent {
+  @Input() currentTheme!: string;
+
+  openLink(url: string): void {
+    window.open(url, '_blank');
+  }
+
   frontendCards = [
     {
-      title: 'Alice Doe',
-      subtitle: 'frontenddev',
-      image: 'https://bulma.io/assets/images/placeholders/1280x960.png',
-      avatar: 'https://bulma.io/assets/images/placeholders/96x96.png',
-      tag: '#frontend',
-      date: '2024-11-17'
+      title: 'Benjamin Suljević',
+      subtitle: 'pls follow on GitHub <3',
+      image: '../../../../assets/images/suljevic.jpg',
+      tag: '#bulma #design #ts #git',
+      date: '2024-11-17',
+      link: 'https://suljevic.at/'
     },
     {
-      title: 'Bob Smith',
+      title: 'Jonas Schwarz',
       subtitle: 'uiux',
-      image: 'https://bulma.io/assets/images/placeholders/1280x960.png',
-      avatar: 'https://bulma.io/assets/images/placeholders/96x96.png',
-      tag: '#design',
-      date: '2024-11-17'
+      image: '../../../../assets/images/schwarz.png',
+      tag: '#design #map #ts',
+      date: '2024-11-17',
+      link: 'https://suljevic.at/'
     }
   ];
 
   backendCards = [
     {
-      title: 'Charlie Brown',
-      subtitle: 'backenddev',
-      image: '../../../../assets/images/ebertz.png',
-      avatar: 'https://bulma.io/assets/images/placeholders/96x96.png',
+      title: 'Adrian Zeitlberger',
+      subtitle: 'Gewonnen !!!',
+      image: '../../../../assets/images/zeitlberger.png',
       tag: '#backend',
-      date: '2024-11-17'
+      date: '2024-11-17',
+      link: 'https://suljevic.at/'
     },
     {
-      title: 'Daisy White',
+      title: 'Felix Ebertz',
       subtitle: 'databaseadmin',
-      image: 'https://bulma.io/assets/images/placeholders/1280x960.png',
-      avatar: 'https://bulma.io/assets/images/placeholders/96x96.png',
+      image: '../../../../assets/images/ebertz.png',
       tag: '#databases',
-      date: '2024-11-17'
+      date: '2024-11-17',
+      link: 'https://www.linkedin.com/in/felix-ebertz-95889832b/'
     }
   ];
 
-  betreuerCards = [
+  supervisorCards = [
     {
-      title: 'Edward Green',
+      title: 'Martin Höfermeyer, Msc',
       subtitle: 'manager',
-      image: 'https://bulma.io/assets/images/placeholders/1280x960.png',
-      avatar: 'https://bulma.io/assets/images/placeholders/96x96.png',
+      image: '../../../../assets/images/hoefermeyer.png',
       tag: '#supervisor',
-      date: '2024-11-17'
+      date: '2024-11-17',
+      link: 'https://suljevic.at/'
     }
   ];
 }
