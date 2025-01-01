@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import at.htlhl.keycloak.model.GPSData;
+import at.htlhl.keycloak.model.GPSData.GPSDataKey;
 import at.htlhl.keycloak.service.GPSDataService;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -57,7 +58,7 @@ public class Consumer {
             GPSData gpsData = new GPSData();
 
             // Create the GPSDataKey
-            GPSData.GPSDataKey gpsDataKey = gpsData.new GPSDataKey();
+            GPSDataKey gpsDataKey = gpsData.new GPSDataKey();
             gpsDataKey.setUserEmail(userEmail);
             gpsDataKey.setTimestamp(timestamp);
 
@@ -68,7 +69,7 @@ public class Consumer {
             gpsDataService.saveGPSData(gpsData);
 
             System.out.println("[x] Received and saved: " + gpsData);
-            messagingTemplate.convertAndSend("/topic/geolocation/" + userEmail, gpsData);
+            messagingTemplate.convertAndSend("/topic/geolocation", gpsData);
         } catch (Exception e) {
             System.err.println("Error processing message: " + e.getMessage());
         }

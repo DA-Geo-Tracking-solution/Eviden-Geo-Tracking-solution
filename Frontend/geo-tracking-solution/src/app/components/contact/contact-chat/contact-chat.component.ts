@@ -26,7 +26,6 @@ export class ContactChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.serverDataService.getChatMessage(this.chatId, (data: any) => {
-      console.log(data);
       if (data.sender && data.content && data.timestamp) {
         this.messages.push(data);
       }
