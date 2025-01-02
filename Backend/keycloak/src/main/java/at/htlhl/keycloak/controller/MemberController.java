@@ -60,7 +60,7 @@ public class MemberController {
 
     @GetMapping("/group-members")
     @Operation(description = "Returns a List of all members in the group of the requester in format { username, email, firstname, lastname }")
-    public List<User> getGroupMembers(){
+    public List<User> getGroupMembers() {
         List<UserRepresentation> userRepresentations = userService.getGroupMembers();
         List<User> users = new ArrayList<>();
         for (UserRepresentation userRep : userRepresentations) {
@@ -71,7 +71,7 @@ public class MemberController {
 
     @GetMapping(path = "/user/{userEmail}")
     @Operation(description = "Returns data of specific User (not only users in the same group)")
-    public UserRepresentation getUserByEmail(@PathVariable("userEmail") String userEmail){
+    public UserRepresentation getUserByEmail(@PathVariable("userEmail") String userEmail) {
         UserRepresentation user = userService.getUserByEmail(userEmail);
         return user;
     }
@@ -79,17 +79,22 @@ public class MemberController {
     // TODO this can only be done with a running Database ---------------------
 
     @GetMapping("/user-location")
-    @Operation(description = "Returns some users location data in format { userId, { longitude, latitude }, timestamp } of your group")
+    @Operation(description = "Returns some users location data in format { userEmail, { longitude, latitude }, timestamp } of your group")
     public List<GPSData> getCoordinates(@RequestParam String userEmail, @RequestParam Instant earliestTime) {
         return gpsDataService.getGPSDataOf(userEmail, earliestTime);
-        //return gpsDataService.getAllGPSData();
+        // return gpsDataService.getAllGPSData();
     }
 
     @GetMapping("/group-members-locations")
-    @Operation(description = "Returns some users location data in format { userId, { longitude, latitude }, timestamp } of your group")
-    public List<Object> getGroupmembersCoordinates( DateTime earliestTime) {
-        userService.getGroupMembers();
-        return new ArrayList<>();
+    @Operation(description = "Returns some users location data in format { userEmail, { longitude, latitude }, timestamp } of your group")
+    public List<GPSData> getGroupmembersCoordinates(@RequestParam Instant earliestTime) {
+        List<GPSData> userLocations = new ArrayList<>();
+        System.out.println(userService.getGroupMembers());
+        for (UserRepresentation user : userService.getGroupMembers()) {
+            System.out.println("Helo" + user.getEmail());
+            userLocations.addAll(gpsDataService.getGPSDataOf(user.getEmail(), earliestTime));
+        }
+        return userLocations;
     }
 
     @GetMapping("/chats") // Todo chats: user hinzufügen, editieren

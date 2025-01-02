@@ -1,6 +1,6 @@
 {
-    "realm": "myrealm",
-    "auth-server-url": "http://localhost:8080",
+    "realm": "geo-tracking-solution",
+    "auth-server-url": "http://localhost:8081",
     "resource": "receiver",
     "credentials": {
       "secret": "xMmOw7SHOiItL2WBm9qWoUlBoNtSQuho"
