@@ -25,7 +25,6 @@ export class ServerDataService {
       error: (e) => console.error('Error fetching secure data', e),
       complete: () => console.info('complete') 
     });
-    
 
    
     if (!this.websocketService.isConnected()) {
@@ -42,6 +41,10 @@ export class ServerDataService {
 
   async getChatMessages(chatid: string, callback: (Data: any) => void) {
     this.getData(`member/chat/${chatid}/messages`, `/topic/chat/${chatid}`, callback);
+  }
+
+  async getGeoLocationData(squadId: number, earliestTime: string, callback: (Data: any) => void) {
+    this.getData(`member/group-members-locations?earliestTime=${earliestTime}`, `/topic/geolocation`, callback);
   }
 
   close() {

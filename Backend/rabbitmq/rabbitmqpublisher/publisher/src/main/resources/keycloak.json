@@ -1,9 +1,0 @@
-{
-    "realm": "myrealm",
-    "auth-server-url": "http://localhost:8080",
-    "resource": "gps_sender",
-    "credentials": {
-      "secret": "O5RVdr8DFAA7fObGMa6VJM9w7vna6bju"
-    }
-  }
-  
