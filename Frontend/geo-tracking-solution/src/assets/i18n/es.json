@@ -1,6 +1,6 @@
 {
     "NAVIGATION": {
-        "HOME": "Tablero",
+        "HOME": "Inicio",
         "CHAT": "Chat",
         "CREATE": "Crear",
         "MAP": "Mapa"
@@ -28,18 +28,18 @@
             "EMAIL": "Correo electrónico",
             "FIRSTNAME": "Nombre",
             "LASTNAME": "Apellido",
-            "CREATE": "Crear Usuario",
+            "CREATE": "Crear usuario",
             "USERNAMEREQUIRED": "El nombre de usuario es obligatorio"
         },
         "GROUP": {
             "GROUPNAME": "Nombre del grupo",
             "EMAIL": "Correo electrónico",
-            "ADDMEMBER": "Agregar Miembro"
+            "ADDMEMBER": "Agregar miembro"
         },
         "REQUIRED": "Requerido",
         "SUCCESS": {
-            "USER": "Usuario creado exitosamente",
-            "GROUP": "Grupo creado exitosamente"
+            "USER": "Usuario creado con éxito",
+            "GROUP": "Grupo creado con éxito"
         },
         "SUBMIT": "Enviar",
         "CANCEL": "Cancelar"
@@ -53,5 +53,7 @@
             "CHANGELANGUAGE": "Cambiar idioma"
         }
     },
-    "HOME": {}
+    "HOME": {
+        "PROJECT": "La solución de geolocalización es una aplicación diseñada para equipos de despliegue que no solo simplifica la gestión del personal, sino que también tiene un buen aspecto mientras lo hace. Específicamente, está diseñada para proporcionar un mapa manejable con información crítica como las coordenadas de los equipos, tanto en tiempo real como para análisis posteriores. Se pueden crear grupos dinámicos para facilitar la comunicación del equipo, asegurando la seguridad de los datos confidenciales y las ubicaciones. Dado que muchos de los usuarios potenciales son parte de infraestructuras críticas, la aplicación está específicamente diseñada para ellos. Garantiza que la aplicación continúe funcionando sin problemas en caso de falla del servidor, confiando en redundancia para tales escenarios."
+    }
 }

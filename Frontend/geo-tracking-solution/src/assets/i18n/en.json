@@ -26,20 +26,20 @@
             "USERNAME": "Username",
             "TEMPORARYPASSWORD": "Temporary Password",
             "EMAIL": "Email",
-            "FIRSTNAME": "Firstname",
-            "LASTNAME": "Lastname",
+            "FIRSTNAME": "First Name",
+            "LASTNAME": "Last Name",
             "CREATE": "Create User",
             "USERNAMEREQUIRED": "Username is required"
         },
         "GROUP": {
-            "GROUPNAME": "Groupname",
+            "GROUPNAME": "Group Name",
             "EMAIL": "Email",
             "ADDMEMBER": "Add Member"
         },
         "REQUIRED": "Required",
         "SUCCESS": {
-            "USER": "User created successfully",
-            "GROUP": "Group created successfully"
+            "USER": "User successfully created",
+            "GROUP": "Group successfully created"
         },
         "SUBMIT": "Submit",
         "CANCEL": "Cancel"
@@ -49,9 +49,11 @@
         "USER": "User",
         "LANGUAGE": {
             "TITLE": "Language",
-            "SELECTLANGUAGE": "Select language",
-            "CHANGELANGUAGE": "Change language"
+            "SELECTLANGUAGE": "Select Language",
+            "CHANGELANGUAGE": "Change Language"
         }
     },
-    "HOME": {}
+    "HOME": {
+        "PROJECT": "The geotracking solution is an application designed for deployment teams that not only simplifies the management of personnel but also looks good while doing it. Specifically, it aims to provide a manageable map with critical information such as the coordinates of the deployment teams, both live and for post-analysis. Dynamic groups can be created to facilitate team communication, ensuring the security of confidential data and the locations of the teams. As many potential users are part of critical infrastructure, the application is specifically tailored to them. It guarantees that the application continues to function seamlessly in the event of a server failure by relying on redundancy for such scenarios."
+    }
 }

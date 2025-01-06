@@ -1,15 +1,15 @@
 {
     "NAVIGATION": {
-        "HOME": "Tableau de bord",
-        "CHAT": "Chat",
+        "HOME": "Accueil",
+        "CHAT": "Discussion",
         "CREATE": "Créer",
         "MAP": "Carte"
     },
     "CHAT": {
-        "TITLE": "Chat",
+        "TITLE": "Discussion",
         "SEND": "Envoyer",
         "MESSAGE": "Message",
-        "ADD CHAT": "Ajouter un chat",
+        "ADD CHAT": "Ajouter une discussion",
         "SEARCH": "Rechercher",
         "ENTERYOURMESSAGE": "Entrez votre message..."
     },
@@ -27,7 +27,7 @@
             "TEMPORARYPASSWORD": "Mot de passe temporaire",
             "EMAIL": "E-mail",
             "FIRSTNAME": "Prénom",
-            "LASTNAME": "Nom",
+            "LASTNAME": "Nom de famille",
             "CREATE": "Créer un utilisateur",
             "USERNAMEREQUIRED": "Le nom d'utilisateur est requis"
         },
@@ -53,5 +53,7 @@
             "CHANGELANGUAGE": "Changer de langue"
         }
     },
-    "HOME": {}
+    "HOME": {
+        "PROJECT": "La solution de géolocalisation est une application conçue pour les équipes de déploiement qui simplifie non seulement la gestion du personnel, mais qui est également attrayante visuellement. Plus précisément, elle vise à fournir une carte gérable avec des informations critiques telles que les coordonnées des équipes, en temps réel et pour une analyse ultérieure. Des groupes dynamiques peuvent être créés pour faciliter la communication au sein de l'équipe, en garantissant la sécurité des données confidentielles et des localisations. Étant donné que de nombreux utilisateurs potentiels font partie des infrastructures critiques, l'application est spécialement conçue pour eux. Elle garantit que l'application continue de fonctionner de manière fluide en cas de panne de serveur, en s'appuyant sur une redondance pour de tels scénarios."
+    }
 }

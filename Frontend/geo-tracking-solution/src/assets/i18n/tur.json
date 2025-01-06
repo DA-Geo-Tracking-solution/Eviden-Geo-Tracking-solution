@@ -1,6 +1,6 @@
 {
     "NAVIGATION": {
-        "HOME": "Gösterge Paneli",
+        "HOME": "Anasayfa",
         "CHAT": "Sohbet",
         "CREATE": "Oluştur",
         "MAP": "Harita"
@@ -15,7 +15,7 @@
     },
     "MAP": {
         "TITLE": "Harita",
-        "USERNAME": "Kullanıcı Adı",
+        "USERNAME": "Kullanıcı adı",
         "LATITUDE": "Enlem",
         "LONGITUDE": "Boylam"
     },
@@ -23,20 +23,20 @@
         "USERTITLE": "Kullanıcı",
         "GROUPTITLE": "Grup",
         "USER": {
-            "USERNAME": "Kullanıcı Adı",
+            "USERNAME": "Kullanıcı adı",
             "TEMPORARYPASSWORD": "Geçici Şifre",
             "EMAIL": "E-posta",
             "FIRSTNAME": "Ad",
             "LASTNAME": "Soyad",
             "CREATE": "Kullanıcı Oluştur",
-            "USERNAMEREQUIRED": "Kullanıcı adı zorunludur"
+            "USERNAMEREQUIRED": "Kullanıcı adı gerekli"
         },
         "GROUP": {
             "GROUPNAME": "Grup Adı",
             "EMAIL": "E-posta",
             "ADDMEMBER": "Üye Ekle"
         },
-        "REQUIRED": "Zorunlu",
+        "REQUIRED": "Gerekli",
         "SUCCESS": {
             "USER": "Kullanıcı başarıyla oluşturuldu",
             "GROUP": "Grup başarıyla oluşturuldu"
@@ -49,9 +49,11 @@
         "USER": "Kullanıcı",
         "LANGUAGE": {
             "TITLE": "Dil",
-            "SELECTLANGUAGE": "Dil seçin",
-            "CHANGELANGUAGE": "Dili değiştir"
+            "SELECTLANGUAGE": "Dil Seçin",
+            "CHANGELANGUAGE": "Dili Değiştir"
         }
     },
-    "HOME": {}
+    "HOME": {
+        "PROJECT": "Coğrafi izleme çözümü, ekiplerin yönetimini basitleştiren ve bunu yaparken şık bir görünüm sunan bir uygulamadır. Özellikle, ekiplerin koordinatları gibi kritik bilgileri, hem canlı hem de sonrasında analiz edilebilir şekilde sağlayan yönetilebilir bir harita sunmayı amaçlar. Dinamik gruplar oluşturularak ekip iletişimi kolaylaştırılabilir. Gizli verilerin ve ekiplerin konumlarının güvenliği sağlanırken, birçok potansiyel kullanıcının kritik altyapının bir parçası olduğu göz önünde bulundurularak uygulama özel olarak onlara göre uyarlanmıştır. Uygulamanın, sunucu arızası durumunda bile sorunsuz çalışmaya devam etmesi, bu tür durumlar için yedekli bir yapı kullanılarak garanti edilmiştir."
+    }
 }

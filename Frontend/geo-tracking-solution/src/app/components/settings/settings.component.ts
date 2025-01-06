@@ -22,7 +22,7 @@ export class SettingsComponent {
   // * Icons
   faUser = faUser;
 
-  constructor(private router: Router, private cookieService: CookieSettingsService, private translateService: TranslateService,  private themeService: ThemeService, ) {
+  constructor(private router: Router, private cookieService: CookieSettingsService, private translateService: TranslateService,  private themeService: ThemeService) {
     this.translateService.use(this.cookieService.getLanguage());
    }
 

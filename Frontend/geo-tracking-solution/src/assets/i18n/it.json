@@ -1,6 +1,6 @@
 {
     "NAVIGATION": {
-        "HOME": "Dashboard",
+        "HOME": "Home",
         "CHAT": "Chat",
         "CREATE": "Crea",
         "MAP": "Mappa"
@@ -29,14 +29,14 @@
             "FIRSTNAME": "Nome",
             "LASTNAME": "Cognome",
             "CREATE": "Crea utente",
-            "USERNAMEREQUIRED": "Nome utente obbligatorio"
+            "USERNAMEREQUIRED": "Il nome utente è obbligatorio"
         },
         "GROUP": {
-            "GROUPNAME": "Nome gruppo",
+            "GROUPNAME": "Nome del gruppo",
             "EMAIL": "Email",
             "ADDMEMBER": "Aggiungi membro"
         },
-        "REQUIRED": "Obbligatorio",
+        "REQUIRED": "Richiesto",
         "SUCCESS": {
             "USER": "Utente creato con successo",
             "GROUP": "Gruppo creato con successo"
@@ -53,5 +53,7 @@
             "CHANGELANGUAGE": "Cambia lingua"
         }
     },
-    "HOME": {}
+    "HOME": {
+        "PROJECT": "La soluzione di geolocalizzazione è un'applicazione progettata per le squadre di intervento che non solo semplifica la gestione del personale, ma lo fa anche in modo esteticamente piacevole. In particolare, mira a fornire una mappa gestibile con informazioni critiche come le coordinate delle squadre, sia in tempo reale che per analisi successive. È possibile creare gruppi dinamici per facilitare la comunicazione del team, garantendo la sicurezza dei dati riservati e delle posizioni. Poiché molti utenti potenziali fanno parte di infrastrutture critiche, l'applicazione è specificamente adattata a loro. Garantisce che l'applicazione continui a funzionare senza problemi in caso di guasto del server, grazie alla ridondanza prevista per tali scenari."
+    }
 }

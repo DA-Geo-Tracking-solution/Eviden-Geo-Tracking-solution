@@ -1,23 +1,23 @@
 {
     "NAVIGATION": {
-        "HOME": "Nadzorna ploča",
+        "HOME": "Početna",
         "CHAT": "Razgovor",
         "CREATE": "Kreiraj",
         "MAP": "Mapa"
     },
     "CHAT": {
         "TITLE": "Razgovor",
-        "SEND": "Pošaljite",
+        "SEND": "Pošalji",
         "MESSAGE": "Poruka",
-        "ADD CHAT": "Dodaj razgovor",
+        "ADD CHAT": "Dodaj Razgovor",
         "SEARCH": "Pretraži",
         "ENTERYOURMESSAGE": "Unesite svoju poruku..."
     },
     "MAP": {
         "TITLE": "Mapa",
         "USERNAME": "Korisničko ime",
-        "LATITUDE": "Širina",
-        "LONGITUDE": "Dužina"
+        "LATITUDE": "Geografska širina",
+        "LONGITUDE": "Geografska dužina"
     },
     "CREATE": {
         "USERTITLE": "Korisnik",
@@ -25,15 +25,15 @@
         "USER": {
             "USERNAME": "Korisničko ime",
             "TEMPORARYPASSWORD": "Privremena lozinka",
-            "EMAIL": "E-mail",
+            "EMAIL": "Email",
             "FIRSTNAME": "Ime",
             "LASTNAME": "Prezime",
             "CREATE": "Kreiraj korisnika",
             "USERNAMEREQUIRED": "Korisničko ime je obavezno"
         },
         "GROUP": {
-            "GROUPNAME": "Naziv grupe",
-            "EMAIL": "E-mail",
+            "GROUPNAME": "Ime grupe",
+            "EMAIL": "Email",
             "ADDMEMBER": "Dodaj člana"
         },
         "REQUIRED": "Obavezno",
@@ -41,17 +41,19 @@
             "USER": "Korisnik uspješno kreiran",
             "GROUP": "Grupa uspješno kreirana"
         },
-        "SUBMIT": "Pošaljite",
-        "CANCEL": "Otkaži"
+        "SUBMIT": "Potvrdi",
+        "CANCEL": "Odustani"
     },
     "SETTINGS": {
         "TITLE": "Postavke",
         "USER": "Korisnik",
         "LANGUAGE": {
             "TITLE": "Jezik",
-            "SELECTLANGUAGE": "Odaberite jezik",
+            "SELECTLANGUAGE": "Izaberite jezik",
             "CHANGELANGUAGE": "Promijenite jezik"
         }
     },
-    "HOME": {}
+    "HOME": {
+        "PROJECT": "Geotracking rješenje je aplikacija dizajnirana za timove na terenu koja ne samo da pojednostavljuje upravljanje osobljem već to čini i na atraktivan način. Posebno je fokusirana na pružanje upravljive mape sa ključnim informacijama poput koordinata timova, kako u realnom vremenu tako i za kasniju analizu. Dinamične grupe se mogu kreirati kako bi se olakšala komunikacija u timu, uz osiguranje sigurnosti povjerljivih podataka i lokacija. Budući da su mnogi potencijalni korisnici dio kritične infrastrukture, aplikacija je specifično prilagođena njihovim potrebama. Garantira se da aplikacija nastavlja s radom čak i u slučaju kvara servera zahvaljujući redundanciji."
+    }
 }
