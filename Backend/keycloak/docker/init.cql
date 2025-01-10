@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS gps_data (
 ) WITH CLUSTERING ORDER BY (timestamp ASC);
 
 -- Table: User by Squad
-CREATE TABLE IF NOT EXISTS users_by_squad (
-    squad_id UUID,
+CREATE TABLE users_by_squad (
+    squad_id int,
     user_email TEXT,
     PRIMARY KEY (squad_id, user_email)
 );
@@ -68,13 +68,13 @@ VALUES ('user2@example.com', '2024-12-01 10:05:00', 34.0532, -118.2447);
 
 -- Insert into User by Squad Table
 INSERT INTO users_by_squad (squad_id, user_email)
-VALUES (uuid(), 'user1@example.com');
+VALUES (1, 'user1@example.com');
 
 INSERT INTO users_by_squad (squad_id, user_email)
-VALUES (uuid(), 'user2@example.com');
+VALUES (2, 'user2@example.com');
 
 INSERT INTO users_by_squad (squad_id, user_email)
-VALUES (uuid(), 'user3@example.com');
+VALUES (2, 'user3@example.com');
 
 
 -- Insert into Messages by Chat Table
