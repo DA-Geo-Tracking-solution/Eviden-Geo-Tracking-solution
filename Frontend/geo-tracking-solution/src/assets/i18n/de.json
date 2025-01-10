@@ -54,13 +54,6 @@
         }
     },
     "HOME": {
-        "PROJECT": "Die Geotracking soultion ist eine für Einsatzteams ausgelegte Applikation, welche nicht nur das managen des
-        Personals vereinfacht, sondern auch noch gut dabei aussieht. Es geht im speziellen darum, eine managebare Karte
-        mit wichtigen Informationen, wie Koordinaten der einsatzteams nicht nur live sondern auch im nachhinein
-        analysieren zu können. Es können dynamische Gruppen erstellt werden, um die Kommunikation im Team zu
-        erleichtern. Natürlich unter Gewährleistung der Sicherheit vertraulicher Daten und Standorten der Einsatzkräfte.
-        Da viele der potentiellen Anwender Teil der kritischen Infrastruktur sind wurde die Applikation gezielt für
-        diese zugeschnitten. Es wird garantiert, dass die Application selbst im Falle eines Serverausfalls Problemlos
-        weiter funktioniert, da für diesige Fälle auf Redundanz gesetzt wurde."
+        "PROJECT": "Die Geotracking-Lösung ist eine für Einsatzteams ausgelegte Applikation, welche nicht nur das Management des Personals vereinfacht, sondern auch noch gut dabei aussieht. Es geht speziell darum, eine managebare Karte mit wichtigen Informationen, wie den Koordinaten der Einsatzteams, sowohl live als auch nachträglich analysieren zu können. Es können dynamische Gruppen erstellt werden, um die Kommunikation im Team zu erleichtern. Natürlich unter Gewährleistung der Sicherheit vertraulicher Daten und Standorte der Einsatzkräfte. Da viele der potenziellen Anwender Teil der kritischen Infrastruktur sind, wurde die Applikation gezielt auf diese zugeschnitten. Es wird garantiert, dass die Applikation selbst im Falle eines Serverausfalls problemlos weiter funktioniert, da für solche Fälle auf Redundanz gesetzt wurde."
     }
 }

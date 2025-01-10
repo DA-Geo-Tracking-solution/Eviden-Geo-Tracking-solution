@@ -6,7 +6,7 @@ import { TemplatePortal } from '@angular/cdk/portal';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieSettingsService } from '../../../services/Cookies/cookie-settings.service';
 import { MatDialog } from '@angular/material/dialog';
-import { SuccessAlertComponent } from './../success-alert/success-alert.component';
+import { SuccessAlertComponent } from '../../settings/success-alert/success-alert.component';
 
 @Component({
   selector: 'app-create-user',
@@ -74,6 +74,7 @@ export class CreateUserComponent {
   openDialog() {
     const dialogRef = this.matDialog.open(SuccessAlertComponent, {
       width: '50%',
+      data: { message: 'User created successfully!' }
     });
   }
 

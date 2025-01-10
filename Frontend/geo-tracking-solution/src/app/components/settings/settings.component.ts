@@ -42,14 +42,14 @@ export class SettingsComponent {
 
   updateBackgroundImage(theme: string) {
     if (theme === 'dark') {
-      this.backgroundImage = '../../../assets/background/BI-1-DEEP_BLUE_CLOSE_UP_2.jpg';
+      this.backgroundImage = '../../../assets/background/BI-2-DEEP_BLUE_CLOSE_UP_2.jpg';
     } else if (theme === 'light') {
-      this.backgroundImage = '../../../assets/background/BI-1-ORANGE_CLOSE_UP_2.jpg';
+      this.backgroundImage = '../../../assets/background/BI-2-ORANGE_CLOSE_UP_2.jpg';
     } else {
       // Optional: Default oder systemabhängige Logik
       this.backgroundImage = window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? '../../../assets/background/BI-1-DEEP_BLUE_CLOSE_UP_2.jpg'
-        : '../../../assets/background/BI-1-ORANGE_CLOSE_UP_2.jpg';
+        ? '../../../assets/background/BI-2-DEEP_BLUE_CLOSE_UP_2.jpg'
+        : '../../../assets/background/BI-2-ORANGE_CLOSE_UP_2.jpg';
     }
   }
 }

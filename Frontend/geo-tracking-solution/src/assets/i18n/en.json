@@ -51,9 +51,12 @@
             "TITLE": "Language",
             "SELECTLANGUAGE": "Select Language",
             "CHANGELANGUAGE": "Change Language"
-        }
+        },
+        "EDIT": "Edit",
+        "SAVE": "Save"
     },
     "HOME": {
-        "PROJECT": "The geotracking solution is an application designed for deployment teams that not only simplifies the management of personnel but also looks good while doing it. Specifically, it aims to provide a manageable map with critical information such as the coordinates of the deployment teams, both live and for post-analysis. Dynamic groups can be created to facilitate team communication, ensuring the security of confidential data and the locations of the teams. As many potential users are part of critical infrastructure, the application is specifically tailored to them. It guarantees that the application continues to function seamlessly in the event of a server failure by relying on redundancy for such scenarios."
+        "PROJECT": "The geotracking solution is an application designed for deployment teams that not only simplifies the management of personnel but also looks good while doing it. Specifically, it aims to provide a manageable map with critical information such as the coordinates of the deployment teams, both live and for post-analysis. Dynamic groups can be created to facilitate team communication, ensuring the security of confidential data and the locations of the teams. As many potential users are part of critical infrastructure, the application is specifically tailored to them. It guarantees that the application continues to function seamlessly in the event of a server failure by relying on redundancy for such scenarios.",
+        "SELECT": "Select"
     }
 }

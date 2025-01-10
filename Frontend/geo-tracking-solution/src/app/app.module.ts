@@ -44,11 +44,11 @@ import { MatSortModule } from '@angular/material/sort';
 import { SettingsComponent } from './components/settings/settings.component';
 import { UserComponent } from './components/settings/user/user.component';
 import { ChangeLanguageComponent } from './components/settings/change-language/change-language.component';
+import { SuccessAlertComponent } from './components/settings/success-alert/success-alert.component';
 
 // ngx-translate Imports
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { SuccessAlertComponent } from './components/user-group/success-alert/success-alert.component';
 
 // Funktion zur Initialisierung des KeycloakService
 export function kcFactory(KeycloakService: KeycloakService) {
@@ -81,10 +81,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     SettingsComponent,
     UserComponent,
     ChangeLanguageComponent,
-    SuccessAlertComponent,
     TeamComponent,
     AboutTheProjectComponent,
-    CardsComponent
+    CardsComponent,
+    SuccessAlertComponent
   ],
   imports: [
     BrowserModule,

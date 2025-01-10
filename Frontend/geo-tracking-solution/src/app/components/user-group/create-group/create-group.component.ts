@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { RestService } from '../../../services/REST/rest.service';
 import { CookieSettingsService } from '../../../services/Cookies/cookie-settings.service';
 import { TranslateService } from '@ngx-translate/core';
+import { MatDialog } from '@angular/material/dialog';
+import { SuccessAlertComponent } from '../../settings/success-alert/success-alert.component';
 
 @Component({
   selector: 'app-create-group',
@@ -22,7 +24,7 @@ export class CreateGroupComponent {
   // * Form 
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private restService: RestService, private cookieService:CookieSettingsService, private translateService:TranslateService ) {
+  constructor(private formBuilder: FormBuilder, private restService: RestService, private cookieService:CookieSettingsService, private translateService:TranslateService, private matDialog: MatDialog) {
     this.form = this.formBuilder.group({
       groupname:['', Validators.required], 
       groupmaster:['', Validators.required] 
@@ -56,6 +58,13 @@ export class CreateGroupComponent {
       }).catch(err => {
           console.error("Error resolving promise:", err);
       });
+  }
+
+  openDialog() {
+    const dialogRef = this.matDialog.open(SuccessAlertComponent, {
+      width: '50%',
+      data: {message: 'Group created successfully!'}
+    });
   }
 
 }

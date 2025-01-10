@@ -7,8 +7,6 @@ import { faUser, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { KeycloakService } from '../../services/keycloak/keycloak.service';
 import { CookieSettingsService } from '../../services/Cookies/cookie-settings.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material/dialog';
-import { SuccessAlertComponent } from './success-alert/success-alert.component';
 
 @Component({
   selector: 'app-user-group',
@@ -30,7 +28,7 @@ export class UserGroupComponent {
   containerClass: string = 'container box';
 
 
-  constructor(private themeService: ThemeService, private route: Router, private activatedRoute: ActivatedRoute, private cookieService: CookieSettingsService, private translateService: TranslateService, public matDialog: MatDialog, private keycloakService: KeycloakService) {
+  constructor(private themeService: ThemeService, private route: Router, private activatedRoute: ActivatedRoute, private cookieService: CookieSettingsService, private translateService: TranslateService, private keycloakService: KeycloakService) {
     this.translateService.use(this.cookieService.getLanguage());
    }
 
@@ -80,15 +78,6 @@ export class UserGroupComponent {
     return this.activeTab == tab;
   }
 
-  openDialog() {
-    const dialogRef = this.matDialog.open(SuccessAlertComponent, {
-      width: '50%',
-    });
-  }
-
-  showAlert() {
-    this.isAlertVisible = true;
-  }
 
 }
 

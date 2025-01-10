@@ -1,91 +1,74 @@
 <div class="background-container" [ngStyle]="{'background-image': 'url(' + backgroundImage + ')'}">
     <div class="form-container">
         <form [formGroup]="form" (ngSubmit)="updateUser()"> 
-
             <div class="field">
                 <label class="label">{{'CREATE.USER.FIRSTNAME' | translate}}</label>
                 <div class="control">
-                    <input class="input is-fullwidth" type="text" placeholder="{{'CREATE.USER.FIRSTNAME' | translate}}" formControlName="firstname">
+                    <input 
+                        class="input is-fullwidth" 
+                        type="text" 
+                        placeholder="{{'CREATE.USER.FIRSTNAME' | translate}}" 
+                        formControlName="firstname" 
+                        [readonly]="!isEditable"
+                        [class.is-light]="!isEditable">
                 </div>
             </div>
 
             <div class="field">
                 <label class="label">{{'CREATE.USER.LASTNAME' | translate}}</label>
                 <div class="control">
-                    <input class="input is-fullwidth" type="text" placeholder="{{'CREATE.USER.LASTNAME' | translate}}" formControlName="lastname">
+                    <input 
+                        class="input is-fullwidth" 
+                        type="text" 
+                        placeholder="{{'CREATE.USER.LASTNAME' | translate}}" 
+                        formControlName="lastname" 
+                        [readonly]="!isEditable"
+                        [class.is-light]="!isEditable">
                 </div>
             </div>
 
             <div class="field">
                 <label class="label">{{'CREATE.USER.USERNAME' | translate}}</label>
-                <div class="control has-icons-left has-icons-right">
-                    <input class="input is-fullwidth" type="text" placeholder="{{'CREATE.USER.USERNAME' | translate}}" formControlName="username"
-                        [ngClass]="{'is-success': form.controls['username'].valid, 'is-danger': form.controls['username'].invalid && form.controls['username'].dirty}">
-                    <span class="icon is-small is-left">
-                        <fa-icon [icon]="faUser"></fa-icon>
-                    </span>
-                    <span class="icon is-small is-right" *ngIf="form.controls['username'].invalid && form.controls['username'].dirty">
-                        <fa-icon [icon]="faExclamationTriangle"></fa-icon>
-                    </span>
-                    <span class="icon is-small is-right" *ngIf="form.controls['username'].valid">
-                        <fa-icon [icon]="faCheck"></fa-icon>
-                    </span>
+                <div class="control">
+                    <input 
+                        class="input is-fullwidth" 
+                        type="text" 
+                        placeholder="{{'CREATE.USER.USERNAME' | translate}}" 
+                        formControlName="username" 
+                        [readonly]="!isEditable"
+                        [class.is-light]="!isEditable">
                 </div>
-                <p class="help is-danger" *ngIf="form.controls['username'].invalid && form.controls['username'].dirty">
-                    {{'CREATE.USER.USERNAMEREQUIRED' | translate}}
-                </p>
             </div>
 
             <div class="field">
                 <label class="label">{{'CREATE.USER.EMAIL' | translate}}</label>
-                <div class="control has-icons-left has-icons-right">
-                    <input class="input is-fullwidth" type="email" placeholder="{{'CREATE.USER.EMAIL' | translate}}" formControlName="email"
-                        [ngClass]="{'is-success': form.controls['email'].valid, 'is-danger': form.controls['email'].invalid && form.controls['email'].dirty}">
-                    <span class="icon is-small is-left">
-                        <fa-icon [icon]="faEnvelope"></fa-icon>
-                    </span>
-                    <span class="icon is-small is-right" *ngIf="form.controls['email'].invalid && form.controls['email'].dirty">
-                        <fa-icon [icon]="faExclamationTriangle"></fa-icon>
-                    </span>
-                    <span class="icon is-small is-right" *ngIf="form.controls['email'].valid">
-                        <fa-icon [icon]="faCheck"></fa-icon>
-                    </span>
+                <div class="control">
+                    <input 
+                        class="input is-fullwidth" 
+                        type="email" 
+                        placeholder="{{'CREATE.USER.EMAIL' | translate}}" 
+                        formControlName="email" 
+                        [readonly]="!isEditable"
+                        [class.is-light]="!isEditable">
                 </div>
-                <p class="help is-danger" *ngIf="form.controls['email'].invalid && form.controls['email'].dirty">
-                    This email is invalid
-                </p>
-            </div>
-
-            <div class="field">
-                <!-- TODO: TEMPORARY PASSWORD -->
-                <label class="label">{{'CREATE.USER.TEMPORARYPASSWORD' | translate}}</label>
-                <div class="control has-icons-left has-icons-right">
-                    <input class="input is-fullwidth" type="password" placeholder="{{'CREATE.USER.TEMPORARYPASSWORD' | translate}}" formControlName="password"
-                        [ngClass]="{'is-success': form.controls['password'].valid, 'is-danger': form.controls['password'].invalid && form.controls['password'].dirty}">
-                    <span class="icon is-small is-left">
-                        <fa-icon [icon]="faKey"></fa-icon>
-                    </span>
-                    <span class="icon is-small is-right" *ngIf="form.controls['password'].invalid && form.controls['password'].dirty">
-                        <fa-icon [icon]="faExclamationTriangle"></fa-icon>
-                    </span>
-                    <span class="icon is-small is-right" *ngIf="form.controls['password'].valid">
-                        <fa-icon [icon]="faCheck"></fa-icon>
-                    </span>
-                </div>
-                <p class="help is-danger" *ngIf="form.controls['password'].hasError('passwordStrength')">
-                    {{ form.controls['password'].getError('passwordStrength') }}
-                </p>
-                <p class="help is-danger" *ngIf="form.controls['password'].hasError('passwordLength')">
-                    {{ form.controls['password'].getError('passwordLength') }}
-                </p>
             </div>
 
             <div class="field is-grouped is-justify-content-center">
                 <div class="control">
-                    <button class="button is-link" type="submit" [disabled]="form.invalid">{{'CREATE.SUBMIT' | translate}}</button>
+                    <button 
+                        class="button is-link" 
+                        type="button" 
+                        (click)="toggleEdit()" (click)="openDialog()">
+                        {{ isEditable ? ('SETTINGS.SAVE' | translate) : ('SETTINGS.EDIT' | translate) }}
+                    </button>
                 </div>
-                <div class="control">
-                    <button class="button is-link is-light" (click)="form.reset()">{{'CREATE.CANCEL' | translate}}</button>
+                <div class="control" *ngIf="isEditable">
+                    <button 
+                        class="button is-link is-light" 
+                        type="button" 
+                        (click)="cancelEdit()">
+                        {{'CREATE.CANCEL' | translate}}
+                    </button>
                 </div>
             </div>
         </form>

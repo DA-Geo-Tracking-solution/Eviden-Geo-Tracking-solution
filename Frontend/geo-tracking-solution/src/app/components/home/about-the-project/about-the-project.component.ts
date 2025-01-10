@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { CookieSettingsService } from '../../../services/Cookies/cookie-settings.service';
 
 @Component({
   selector: 'app-about-the-project',
@@ -6,5 +8,10 @@ import { Component } from '@angular/core';
   styleUrl: './about-the-project.component.css'
 })
 export class AboutTheProjectComponent {
+
+  constructor(private cookieService: CookieSettingsService, private translateService: TranslateService) {
+    this.translateService.use(this.cookieService.getLanguage());
+    
+  }
 
 }
