@@ -1,19 +1,21 @@
-<form [formGroup]="form" (ngSubmit)="createSubGroup()"> 
+<form [formGroup]="form" (ngSubmit)="createSubGroup()">
 
     <div class="field">
         <label class="label"> {{'CREATE.GROUP.GROUPNAME' | translate}} </label>
         <div class="control has-icons-left has-icons-right">
-            <input class="input is-fullwidth" type="text" placeholder="{{'CREATE.GROUP.GROUPNAME' | translate}}" formControlName="username"
+            <input class="input is-fullwidth" type="text" placeholder="{{'CREATE.GROUP.GROUPNAME' | translate}}"
+                formControlName="username"
                 [ngClass]="{'is-success': form.controls['username'].valid, 'is-danger': form.controls['username'].invalid && form.controls['username'].dirty}">
             <span class="icon is-small is-left">
                 <fa-icon [icon]="faUser"></fa-icon>
             </span>
-            <span class="icon is-small is-right" *ngIf="form.controls['username'].invalid && form.controls['username'].dirty">
+            <span class=" icon is-small is-right"
+                *ngIf="form.controls['username'].invalid && form.controls['username'].dirty">
                 <fa-icon [icon]="faExclamationTriangle"></fa-icon>
             </span>
-            <span class="icon is-small is-right" *ngIf="form.controls['username'].valid">
+                <span class=" icon is-small is-right" *ngIf="form.controls['username'].valid">
                 <fa-icon [icon]="faCheck"></fa-icon>
-            </span>
+                </span>
         </div>
         <p class="help is-danger" *ngIf="form.controls['username'].invalid && form.controls['username'].dirty">
             Groupname is required
@@ -21,9 +23,11 @@
     </div>
 
     <div class="field">
-        <label class="label">{{'CREATE.GROUP.EMAIL' | translate}}</label>
+        <!-- TODO: GroupMasterEmail -->
+        <label class="label">GroupMasterEmail</label>
         <div class="control has-icons-left has-icons-right">
-            <input class="input is-fullwidth" type="email" placeholder="{{'CREATE.GROUP.EMAIL' | translate}}" formControlName="email"
+            <input class="input is-fullwidth" type="email" placeholder="{{'CREATE.GROUP.EMAIL' | translate}}"
+                formControlName="email"
                 [ngClass]="{'is-success': form.controls['email'].valid, 'is-danger': form.controls['email'].invalid && form.controls['email'].dirty}">
             <span class="icon is-small is-left">
                 <fa-icon [icon]="faEnvelope"></fa-icon>
@@ -41,14 +45,17 @@
     </div>
 
     <div class="field">
-        <label class="label">{{'CREATE.GROUP.ADDMEMBER' | translate}}</label>
+        <!-- TODO: Add Users to group -->
+        <label class="label">Add Users</label>
         <div class="control has-icons-left has-icons-right">
-            <input class="input is-fullwidth" type="password" placeholder="Temporary Password" formControlName="password"
+            <input class="input is-fullwidth" type="password" placeholder="Temporary Password"
+                formControlName="password"
                 [ngClass]="{'is-success': form.controls['password'].valid, 'is-danger': form.controls['password'].invalid && form.controls['password'].dirty}">
             <span class="icon is-small is-left">
                 <fa-icon [icon]="faKey"></fa-icon>
             </span>
-            <span class="icon is-small is-right" *ngIf="form.controls['password'].invalid && form.controls['password'].dirty">
+            <span class="icon is-small is-right"
+                *ngIf="form.controls['password'].invalid && form.controls['password'].dirty">
                 <fa-icon [icon]="faExclamationTriangle"></fa-icon>
             </span>
             <span class="icon is-small is-right" *ngIf="form.controls['password'].valid">
@@ -65,7 +72,8 @@
 
     <div class="field is-grouped is-justify-content-center">
         <div class="control">
-            <button class="button is-link" type="submit" [disabled]="form.invalid">{{'CREATE.SUBMIT' | translate}}</button>
+            <button class="button is-link" type="submit" [disabled]="form.invalid">{{'CREATE.SUBMIT' |
+                translate}}</button>
         </div>
         <div class="control">
             <button class="button is-link is-light" (click)="form.reset()">{{'CREATE.CANCEL' | translate}}</button>

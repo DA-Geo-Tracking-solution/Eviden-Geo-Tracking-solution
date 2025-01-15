@@ -24,14 +24,16 @@ export class CreateGroupComponent {
   // * Form 
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private restService: RestService, private cookieService:CookieSettingsService, private translateService:TranslateService, private matDialog: MatDialog) {
+  constructor(private formBuilder: FormBuilder, private restService: RestService, 
+              private cookieService:CookieSettingsService, private translateService:TranslateService, 
+              private matDialog: MatDialog) {
+    
     this.form = this.formBuilder.group({
       groupname:['', Validators.required], 
       groupmaster:['', Validators.required] 
     }, {updateOn: 'change'});
 
     this.translateService.use(this.cookieService.getLanguage());
-   
   }
 
    get groupname() {return this.form.get('groupname');}
