@@ -14,6 +14,7 @@ import { MapTableComponent } from './components/map-table/map-table.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { UserComponent } from './components/settings/user/user.component';
 import { ChangeLanguageComponent } from './components/settings/change-language/change-language.component';
+import { ManageMembersComponent } from './components/user-group/manage-members/manage-members.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [authGuard] },
@@ -21,7 +22,8 @@ const routes: Routes = [
   {
     path: 'create', component: UserGroupComponent, canActivate: [authGuard], children: [
       { path: 'user', component: CreateUserComponent, data: { width: '100%', maxWidth: '500px' }, canActivate: [authGuard] },
-      { path: 'group', component: CreateGroupComponent, data: { width: '100%', maxWidth: '500px' }, canActivate: [authGuard, groupmasterGuard] }
+      { path: 'group', component: CreateGroupComponent, data: { width: '100%', maxWidth: '500px' }, canActivate: [authGuard, groupmasterGuard] },
+      { path: 'member', component: ManageMembersComponent, data: { width: '100%', maxWidth: '500px' }, canActivate: [authGuard, groupmasterGuard] }
     ]
   },
   { path: 'chat', component: ChatComponent, canActivate: [authGuard] },

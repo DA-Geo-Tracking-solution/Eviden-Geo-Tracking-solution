@@ -23,11 +23,20 @@
                             <span> {{'CREATE.GROUPTITLE' | translate}}</span>
                         </a>
                     </li>
+                    <li [class.is-active]="isActiveTab('member')">
+                        <a routerLink="member" (click)="setActiveTab('member')">
+                            <span class="icon is-small">
+                                <fa-icon [icon]="faUserGroup"></fa-icon>
+                            </span>
+                            <!-- ! {{'CREATE.GROUPTITLE' | translate}} -->
+                            <span>Member</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
 
-        <!-- Inhalt der untergeordneten Routen (z. B. CreateUser oder CreateGroup) -->
+        <!-- Inhalt der untergeordneten Routen (z. B. CreateUser oder CreateGroup, ...) -->
         <div class="form-container">
             <router-outlet></router-outlet>
         </div>
