@@ -50,6 +50,7 @@ import { SuccessAlertComponent } from './components/settings/success-alert/succe
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ManageMembersComponent } from './components/user-group/manage-members/manage-members.component';
+import { CostumErrorMessageComponent } from './components/costum-error-message/costum-error-message.component';
 
 // Funktion zur Initialisierung des KeycloakService
 export function kcFactory(KeycloakService: KeycloakService) {
@@ -86,7 +87,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AboutTheProjectComponent,
     CardsComponent,
     SuccessAlertComponent,
-    ManageMembersComponent
+    ManageMembersComponent,
+    CostumErrorMessageComponent
   ],
   imports: [
     BrowserModule,

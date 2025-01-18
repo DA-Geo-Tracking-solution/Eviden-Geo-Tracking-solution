@@ -1,0 +1,66 @@
+/* Container für die Tabelle */
+.table-container {
+    max-height: 300px;
+    /* Maximale Höhe des scrollbaren Bereichs */
+    overflow: hidden;
+    /* Kein Überlauf außerhalb des Containers */
+    border: 1px solid #ccc;
+    /* Optionale Umrandung */
+    border-radius: 5px;
+    /* Runde Ecken für das Layout */
+}
+
+/* Scrollbarer Bereich */
+.scrollable-content {
+    max-height: 300px;
+    /* Begrenzung der Höhe */
+    overflow-y: auto;
+    /* Vertikales Scrollen aktivieren */
+    display: block;
+    /* Scrollbar als Blockelement darstellen */
+}
+
+/* Standard Tabellendesign */
+.table {
+    table-layout: auto;
+    /* Automatische Größenanpassung der Spalten */
+    width: 100%;
+    /* Tabelle nimmt 100% des Containers ein */
+}
+
+.table th,
+.table td {
+    text-align: left;
+    /* Text linksbündig */
+    padding: 8px 12px;
+    /* Innenabstand für Lesbarkeit */
+    white-space: nowrap;
+    /* Kein automatischer Zeilenumbruch */
+}
+
+.table td {
+    vertical-align: middle;
+    /* Inhalte in der Mitte der Zellen ausrichten */
+}
+
+.table td button {
+    display: flex;
+    /* Button-Inhalte zentrieren */
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    /* Kleinere Buttons */
+}
+
+/* Button zum Hinzufügen eines neuen Mitglieds */
+.add-member-container {
+    margin-top: 20px;
+    /* Abstand zur Tabelle */
+}
+
+.add-member-container .button.is-link {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+}

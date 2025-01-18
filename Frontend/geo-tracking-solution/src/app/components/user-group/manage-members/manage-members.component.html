@@ -1,1 +1,35 @@
-<p>manage-members works!</p>
+<div class="table-container">
+    <!-- Tabelle mit Kopfzeile -->
+    <table class="table is-fullwidth">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+    </table>
+
+    <!-- Scrollbarer Bereich für den Tabelleninhalt -->
+    <ng-scrollbar class="scrollable-content">
+        <table class="table is-fullwidth">
+            <tbody>
+                <tr *ngFor="let contact of contacts">
+                    <td>{{ contact.email }}</td>
+                    <td>{{ contact.name }}</td>
+                    <td>
+                        <button class="button is-small is-danger" (click)="removeMember()">
+                            <span class="icon is-small">
+                                <fa-icon [icon]="faTrash"></fa-icon>
+                            </span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </ng-scrollbar>
+</div>
+
+<!-- Button zum Hinzufügen neuer Mitglieder -->
+<div class="add-member-container">
+    <button class="button is-link" routerLink="/create/user">Add Member</button>
+</div>
