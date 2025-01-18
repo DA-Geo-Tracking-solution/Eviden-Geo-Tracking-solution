@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
-import { ConfigurationBarComponent } from './components/configuration-bar/configuration-bar.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -66,7 +65,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     NavigationBarComponent,
-    ConfigurationBarComponent,
     MapComponent,
     MapTableComponent,
     LoginComponent,

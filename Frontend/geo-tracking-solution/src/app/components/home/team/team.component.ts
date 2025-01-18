@@ -16,7 +16,7 @@ export class TeamComponent {
     {
       title: 'Benjamin Suljević',
       subtitle: 'pls follow on GitHub <3',
-      image: '../../../../assets/images/suljevic.jpg',
+      image: '../../../../assets/images/Dashboard/Team/suljevic.jpg',
       tag: '#bulma #design #ts #git',
       date: '2024-11-17',
       link: 'https://suljevic.at/'
@@ -24,7 +24,7 @@ export class TeamComponent {
     {
       title: 'Jonas Schwarz',
       subtitle: 'uiux',
-      image: '../../../../assets/images/schwarz.png',
+      image: '../../../../assets/images/Dashboard/Team/schwarz.png',
       tag: '#design #map #ts',
       date: '2024-11-17',
       link: 'https://suljevic.at/'
@@ -35,7 +35,7 @@ export class TeamComponent {
     {
       title: 'Adrian Zeitlberger',
       subtitle: 'Gewonnen !!!',
-      image: '../../../../assets/images/zeitlberger.png',
+      image: '../../../../assets/images/Dashboard/Team/zeitlberger.png',
       tag: '#backend',
       date: '2024-11-17',
       link: 'https://suljevic.at/'
@@ -43,7 +43,7 @@ export class TeamComponent {
     {
       title: 'Felix Ebertz',
       subtitle: 'databaseadmin',
-      image: '../../../../assets/images/ebertz.png',
+      image: '../../../../assets/images/Dashboard/Team/ebertz.png',
       tag: '#databases',
       date: '2024-11-17',
       link: 'https://www.linkedin.com/in/felix-ebertz-95889832b/'
@@ -54,7 +54,7 @@ export class TeamComponent {
     {
       title: 'Martin Höfermeyer, Msc',
       subtitle: 'manager',
-      image: '../../../../assets/images/hoefermeyer.png',
+      image: '../../../../assets/images/Dashboard/Team/hoefermeyer.png',
       tag: '#supervisor',
       date: '2024-11-17',
       link: 'https://suljevic.at/'
