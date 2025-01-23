@@ -25,8 +25,13 @@ export class UserComponent {
   faCheck = faCheck;
 
   form: FormGroup;
-  isEditable: boolean = false; // Tracks if fields are editable
-  originalFormData: any = {}; // Holds the original data for cancel functionality
+  isEditable: boolean = false;
+  /**
+   * Holds the original data for cancel functionality
+   */
+  originalFormData: any = {};
+  showSuccessAlert: boolean = false;
+
 
   constructor(
     private keycloakService: KeycloakService, private cookieService: CookieSettingsService, private translateService: TranslateService, private formBuilder: FormBuilder, private restService: RestService, public matDialog: MatDialog) {
@@ -46,7 +51,7 @@ export class UserComponent {
 
 
   /**
-   * Load user data from the backend and populate the form.
+   * TODO: Load user data from the backend and populate the form.
    */
 
   /**
