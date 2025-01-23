@@ -17,7 +17,7 @@ public class Consumer {
 
     
 
-    @Autowired
+    /*@Autowired
     private GPSDataService gpsDataService;
 
     private final String keycloakIssuerUri = "http://localhost:8081/realms/geo-tracking-solution";
@@ -83,5 +83,5 @@ public class Consumer {
         } catch (Exception e) {
             throw new IllegalArgumentException("Invalid token: " + e.getMessage());
         }
-    }
+    }*/
 }

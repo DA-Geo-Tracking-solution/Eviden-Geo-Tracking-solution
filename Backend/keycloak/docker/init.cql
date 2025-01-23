@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS gps_data (
     latitude FLOAT,
     longitude FLOAT,
     PRIMARY KEY (user_email, timestamp)
-) WITH CLUSTERING ORDER BY (timestamp DESC);
+) WITH CLUSTERING ORDER BY (timestamp ASC);
 
 -- Table: User by Squad
 CREATE TABLE IF NOT EXISTS users_by_squad (
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS messages_by_chat (
     content TEXT,
     timestamp TIMESTAMP,
     PRIMARY KEY (chat_id, timestamp, message_id)
-) WITH CLUSTERING ORDER BY (timestamp DESC);
+) WITH CLUSTERING ORDER BY (timestamp ASC);
 
 -- Table: Chats by User
 CREATE TABLE IF NOT EXISTS chats_by_user (
