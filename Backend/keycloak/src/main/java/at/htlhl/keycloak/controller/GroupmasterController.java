@@ -5,11 +5,16 @@ import at.htlhl.keycloak.model.keycloak.User;
 import at.htlhl.keycloak.service.GroupService;
 import at.htlhl.keycloak.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+
+import org.keycloak.representations.idm.GroupRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @CrossOrigin(origins = "*")
@@ -37,16 +42,35 @@ public class GroupmasterController {
     }
 
     @PostMapping("/subgroup")
-    @Operation(description = "Creates new subrgoup in format { name, groupmasterEmail } and adds a groupmaster")
+    @Operation(description = "Creates new subrgoup in format { name, groupmasterEmail, [ memberEmails ] } and adds a groupmaster")
     public String createSubGroup(@RequestBody Map<String, Object> request) {
         String name = (String) request.get("name");
         String groupmasterEmail = (String) request.get("groupmasterEmail");
+        Object memberObject = request.get("memberEmails");
+        List<String> memberEmails = new ArrayList<>();
         try {
-            groupService.createSubGroupWithRoles(name, groupmasterEmail);
+            if (memberObject != null && memberObject instanceof List) {
+                memberEmails = (List<String>) memberObject;
+            }
+            List<UserRepresentation> groupmasterList = groupService.getGroupMembers().stream()
+                .filter(user -> user.getEmail().equals(groupmasterEmail))
+                .collect(Collectors.toList());
+
+            if (groupmasterList.isEmpty()) {
+                throw new Exception("User with email " + groupmasterEmail + " in this group not found.");
+            }
+            UserRepresentation groupmaster = groupmasterList.get(0);
+
+        
+            GroupRepresentation createdGroup = groupService.createSubGroupWithRoles(name);
+            groupService.addUserToGroupWithRoles(groupmaster, createdGroup, groupService.ALL_ROLE_NAMES);
+            for (String memberEmail: memberEmails) {
+                groupService.addUserToGroupByUseremail(memberEmail, createdGroup);
+            }
         } catch (Exception e) {
             return e.getMessage();
         }
-        return "not completely implemented";
+        return "Succesful created";
     }
 
     @GetMapping("/subgroups")

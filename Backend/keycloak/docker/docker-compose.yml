@@ -30,6 +30,18 @@ services:
         - ./init.cql:/init.cql
       command: /bin/bash -c "echo loading cassandra keyspace && cqlsh cassandra -f /init.cql"
 
+  rabbitmq:
+    image: rabbitmq:3-management    # This version includes the RabbitMQ management plugin
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"                 # Port for RabbitMQ AMQP protocol
+      - "15672:15672"               # Port for RabbitMQ Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest  # Default username
+      RABBITMQ_DEFAULT_PASS: guest  # Default password
+    networks:
+      - rabbitmq_network
+      
   keycloak:
     image: quay.io/keycloak/keycloak:26.0.0
     environment:
@@ -63,6 +75,10 @@ services:
       - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+networks:
+  rabbitmq_network:
+    driver: bridge
 
 volumes:
   postgres_data:

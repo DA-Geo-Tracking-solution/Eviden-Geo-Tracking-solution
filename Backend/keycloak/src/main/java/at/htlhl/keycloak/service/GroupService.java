@@ -1,6 +1,12 @@
 package at.htlhl.keycloak.service;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.GroupResource;
+import org.keycloak.admin.client.resource.GroupsResource;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.GroupRepresentation;
@@ -13,14 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @Service
@@ -32,21 +30,13 @@ public class GroupService {
     @Autowired
     private Keycloak keycloak;
 
-    public static final List<String> ALL_ROLE_NAMES = Arrays.asList("groupmaster", "squadmaster", "member");
+    public static final List<String> ALL_ROLE_NAMES = Arrays.asList("member", "squadmaster", "groupmaster");
 
 
-    public void addUserToGroupByUseremail(String userEmail, GroupRepresentation group, List<String> roleNames) throws Exception {
+    public UserResource addUserToGroup(UserRepresentation user, GroupRepresentation group) throws Exception {
         RealmResource realmResource = keycloak.realm(realm);
 
-        // Add User to Group
-        //List<UserRepresentation> users = realmResource.users().searchByEmail(userEmail, true);
-        List<UserRepresentation> users = getGroupMembers().stream()
-            .filter(user -> user.getEmail().equals(userEmail))
-            .collect(Collectors.toList());
-        if (users.isEmpty()) {
-            throw new Exception("User with email " + userEmail + " in this group not found.");
-        }
-        UserResource userResource = realmResource.users().get(users.get(0).getId());
+        UserResource userResource = realmResource.users().get(user.getId());
         List<GroupRepresentation> currentGroups = userResource.groups();
         for (GroupRepresentation currentGroup : currentGroups) {
             userResource.leaveGroup(currentGroup.getId());
@@ -54,49 +44,64 @@ public class GroupService {
         }
         userResource.joinGroup(group.getId());
 
+        return userResource;
+    }
+
+    public UserResource addUserToGroupByUseremail(String userEmail, GroupRepresentation group) throws Exception {
+        List<UserRepresentation> users = getGroupMembers().stream()
+        .filter(user -> user.getEmail().equals(userEmail))
+        .collect(Collectors.toList());
+        if (users.isEmpty()) {
+            throw new Exception("User with email " + userEmail + " in this group not found.");
+        }
+
+        return addUserToGroup(users.get(0), group);
+    }
+
+    public void addUserToGroupWithRoles(UserRepresentation user, GroupRepresentation group, List<String> roleNames) throws Exception {
+        UserResource userResource = addUserToGroup(user, group);
+
         // Assign roles to the user
         List<RoleRepresentation> roles = rolesByRoleNames(roleNames);
         userResource.roles().realmLevel().add(roles);
-
-        System.out.println("User " + userEmail + " has been added to group " + group.getName() + " and assigned roles.");
     }
 
+     public GroupRepresentation createSubGroupWithRoles(String groupName) throws Exception {
+        GroupsResource groupsResource = keycloak.realm(realm).groups();
 
-    public void addUserToGroup(String userId, String groupId, String realm) {
-        // Assign the user to the group
-        keycloak.realm(realm).users().get(userId).joinGroup(groupId);
-    }
-
-    public GroupRepresentation createSubGroupWithRoles(String groupName, String groupmasterEmail) throws Exception{
-        // Create new Subgroup
-        GroupRepresentation group = new GroupRepresentation();
-        group.setName(groupName);
+        // Find the parent group
         List<GroupRepresentation> groups = getUserGroups();
         if (groups.isEmpty()) {
             throw new Exception("Invalid Request! User is in no group! >8[)");
         }
-        if (groups.get(0).getSubGroups().stream().filter(subgroup -> subgroup.getName().equals(groupName)).toList().isEmpty()) {
+        GroupRepresentation parentGroup = groupsResource.groups().stream()
+            .filter(group -> group.getName().equals(groups.get(0).getName())).findFirst()
+            .orElseThrow(() -> new Exception("Parent group does not exist!"));
+
+
+        // Create a new subgroup
+        GroupResource parentGroupResource = groupsResource.group(parentGroup.getId());
+        if (parentGroupResource.getSubGroups(0, null, true).stream().anyMatch(subGroup -> subGroup.getName().equals(groupName))) {
             throw new Exception("Subgroup already exists!");
         }
-        group.setParentId(groups.get(0).getId());
-        keycloak.realm(realm).groups().add(group);
+        GroupRepresentation newSubGroup = new GroupRepresentation();
+        newSubGroup.setName(groupName);
+        parentGroupResource.subGroup(newSubGroup);
 
-        // Add Roles To Group
-        GroupRepresentation createdGroup = getGroupFromName(groupName);
+        // Add roles to subgroup
+        GroupRepresentation createdSubGroup = parentGroupResource.getSubGroups(0, null, true) // if more information needed change true to false
+            .stream().filter(subGroup -> subGroup.getName().equals(groupName)).findFirst().orElse(null);
         List<RoleRepresentation> roles = rolesByRoleNames(ALL_ROLE_NAMES);
-        keycloak.realm(realm).groups().group(createdGroup.getId()).roles().realmLevel().add(roles);
+        groupsResource.group(createdSubGroup.getId()).roles().realmLevel().add(roles);
 
-        //Add Groupmaster to Subgroup
-        addUserToGroupByUseremail(groupmasterEmail, createdGroup, ALL_ROLE_NAMES);
-
-        return createdGroup;
+        return createdSubGroup;
     }
 
     public List<GroupRepresentation> getSubGroupsOf(GroupRepresentation parentGroup) {
             return parentGroup.getSubGroups();
     }
 
-    private List<UserRepresentation> getGroupMembers() {
+    public List<UserRepresentation> getGroupMembers() {
         List<GroupRepresentation> groups = getUserGroups();
 
         if (!groups.isEmpty()) {
