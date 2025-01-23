@@ -9,13 +9,13 @@ import 'leaflet-draw';
 export class RasterMapService {
 
   private map!: L.Map;
-  private rastermarkers: { [key: number]: L.Marker } = [];
+  private rastermarkers: { [key: string]: L.Marker } = {};
   private userLocations: { [key: string]: [number, number][] } = {};
 
   private allLocations: any;
   private drawnItems = new L.FeatureGroup();
   //temporary to store coordinates from map should later be pushed to backend
-  private drawingCoordinates: any;
+  private drawingCoordinates: any = [];
 
   constructor() { }
 
@@ -26,18 +26,18 @@ export class RasterMapService {
   drawUserMarkers(users: User[]) {
     if (this.map) {
       for (const user of users) {
-        if (this.rastermarkers[user.id]) {
-          this.rastermarkers[user.id].setLatLng([user.location.latitude, user.location.longitude])
+        if (this.rastermarkers[user.userEmail]) {
+          this.rastermarkers[user.userEmail].setLatLng([user.location.latitude, user.location.longitude])
         } else {
           const marker = L.marker([user.location.latitude, user.location.longitude]);
           marker.addTo(this.map);
-          marker.bindPopup(`<b>I am ${user.username}</b>`).openPopup();
-          this.rastermarkers[user.id] = marker;
+          //marker.bindPopup(`<b>I am ${user.userEmail}</b>`).openPopup();
+          this.rastermarkers[user.userEmail] = marker;
         }
       }
       if (Object.keys(this.rastermarkers).length > users.length) {
         for (const key of Object.keys(this.rastermarkers)) {
-          users.findIndex((user) => user.id !== Number.parseInt(key));
+          users.findIndex((user) => user.userEmail !== key);
         }
       }
     }
@@ -48,13 +48,13 @@ export class RasterMapService {
     for (const user of users) {
       const lat = user.location.latitude;
       const lng = user.location.longitude;
-      if (!this.userLocations[user.id]) {
-        this.userLocations[user.id] = [];
+      if (!this.userLocations[user.userEmail]) {
+        this.userLocations[user.userEmail] = [];
       }
       //add current location to Array and get rid of the oldest when more than 10 locations
-      this.userLocations[user.id].push([lat, lng]);
-      if (this.userLocations[user.id].length > 10) {
-        this.userLocations[user.id].shift();
+      this.userLocations[user.userEmail].push([lat, lng]);
+      if (this.userLocations[user.userEmail].length > 10) {
+        this.userLocations[user.userEmail].shift();
       }
     }
     // Check if the map is defined
@@ -79,6 +79,7 @@ export class RasterMapService {
   }
 
   drawDrawings(drawingData: any) {
+    this.drawingCoordinates = drawingData;
     for (const figure of drawingData) {
       if (figure.type === 'Polygon') {
         const polygonCoordinates = [];
@@ -112,16 +113,16 @@ export class RasterMapService {
           fillColor: '#3388ff',
           fillOpacity: 0.5
         }).addTo(this.drawnItems);
-      }else if (figure.type === 'Point') {
+      } else if (figure.type === 'Point') {
         const pointCoordinates: L.LatLngExpression = [figure.coordinates[1], figure.coordinates[0]];
-        L.circleMarker(pointCoordinates, {radius: 5}).addTo(this.drawnItems);
+        L.circleMarker(pointCoordinates, { radius: 5 }).addTo(this.drawnItems);
       }
     }
   }
 
   //clear the MarkersArray
   clearMarkers() {
-    this.rastermarkers = [];
+    this.rastermarkers = {};
   }
 
   initializeDrawing(): void {
@@ -168,16 +169,56 @@ export class RasterMapService {
 
     // Ereignisse, um auf die gezeichneten Formen zu reagieren
     this.map.on(L.Draw.Event.CREATED, (event) => {
+      let data: any;
       const layer = event.layer;
       this.drawnItems.addLayer(layer);
 
-      let coordinates;
-
       if (layer instanceof L.Polygon) {
-        coordinates = layer.getLatLngs();
-        console.log(coordinates);
+        const coordinates = layer.getLatLngs();
+        const swappedCoordinates = this.swapLatLngs(coordinates);
+        swappedCoordinates[0].push(swappedCoordinates[0][0]);
+        data = {
+          type: "Polygon",
+          coordinates: swappedCoordinates
+        };
+      } else if (layer instanceof L.Polyline) {
+        const coordinates = layer.getLatLngs();
+        const swappedCoordinates = this.swapLatLngs(coordinates);
+        data = {
+          type: "Linestring",
+          coordinates: swappedCoordinates
+        };
+      } else if (layer instanceof L.CircleMarker) {
+        //needs to be like that, because the circle drawing function in leaflet is just a marker, but the real marker always has the radius 10
+        if (layer.getRadius() == 10) {
+          const coordinates = layer.getLatLng();
+          const swappedCoordinates = this.swapLatLngs(coordinates);
+          data = {
+            type: "Point",
+            coordinates: swappedCoordinates
+          };
+        } else {
+          const coordinates = layer.getLatLng();
+          const swappedCoordinates = this.swapLatLngs(coordinates);
+          const radiusInDegrees = layer.getRadius() / (111320 * Math.cos(swappedCoordinates[0] * Math.PI / 180));
+          data = {
+            type: "Circle",
+            coordinates: [swappedCoordinates, radiusInDegrees]
+          };
+        }
+      }
+      if (data) {
+        this.drawingCoordinates.push(data);
       }
     });
+  }
+
+  swapLatLngs(coords: L.LatLng | L.LatLng[] | L.LatLng[][] | L.LatLng[][][]): any {
+    if (Array.isArray(coords)) {
+      return coords.map(coord => this.swapLatLngs(coord));
+    } else {
+      return [parseFloat(coords.lng.toFixed(9)), parseFloat(coords.lat.toFixed(9))];
+    }
   }
 
   getDrawingData(): void {

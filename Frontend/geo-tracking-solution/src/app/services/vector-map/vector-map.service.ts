@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import maplibregl from 'maplibre-gl';
+import maplibregl, { Color, Feature } from 'maplibre-gl';
 import User from '../../classes/User';
 import MaplibreTerradrawControl from '@watergis/maplibre-gl-terradraw';
 import { GeoJSONStoreFeatures, TerraDraw } from 'terra-draw';
@@ -12,7 +12,7 @@ import { GeoJSONStoreFeatures, TerraDraw } from 'terra-draw';
 export class VectorMapService {
   private map!: maplibregl.Map;
   private drawControl!: MaplibreTerradrawControl;
-  private vectormarkers: { [key: number]: maplibregl.Marker } = [];
+  private vectormarkers: { [key: string]: maplibregl.Marker } = {};
   private userLocations: { [key: string]: [number, number][] } = {};
 
   private allLocations: any;
@@ -20,6 +20,7 @@ export class VectorMapService {
   private geojsonData: GeoJSONStoreFeatures[] = [];
   //temporary to store coordinates from map should later be pushed to backend
   private drawingCoordinates: any;
+
 
   constructor() { }
 
@@ -33,18 +34,18 @@ export class VectorMapService {
     if (this.map) {
       for (const user of users) {
         // when there already is a marker for a User change its position
-        if (this.vectormarkers[user.id]) {
-          this.vectormarkers[user.id].setLngLat([user.location.longitude, user.location.latitude]);
+        if (this.vectormarkers[user.userEmail]) {
+          this.vectormarkers[user.userEmail].setLngLat([user.location.longitude, user.location.latitude]);
         }
         // when there currently is no marker for a User add a new one to the map
         else {
           const marker = new maplibregl.Marker().setLngLat([user.location.longitude, user.location.latitude]).addTo(this.map);
-          this.vectormarkers[user.id] = marker;
+          this.vectormarkers[user.userEmail] = marker;
         }
       }
       if (Object.keys(this.vectormarkers).length > users.length) { // Checking if any markers are left over after drawing new markers
         for (const key of Object.keys(this.vectormarkers)) { // Iterating through the vectormarkers dictionary
-          users.findIndex((user) => user.id !== Number.parseInt(key)); // Finding the index of the user with the given ID in the users array
+          users.findIndex((user) => user.userEmail !== key); // Finding the index of the user with the given ID in the users array
         }
       }
     }
@@ -53,57 +54,50 @@ export class VectorMapService {
 
   //a method to draw trails behind the markers to show the previous path of the user
   drawUserLines(users: User[]): void {
+    const features: any = [];
     for (const user of users) {
       const lat = user.location.latitude;
       const lng = user.location.longitude;
-      // when a user doesn' have previous locations create a new array for them
-      if (!this.userLocations[user.id]) {
-        this.userLocations[user.id] = [];
+      // when a user does not have previous locations create a new array for them
+      if (!this.userLocations[user.userEmail]) {
+        this.userLocations[user.userEmail] = [];
       }
-      this.userLocations[user.id].push([lng, lat]);
+      this.userLocations[user.userEmail].push([lng, lat]);
       // if the user already has the maximum number of stored locations (at the moment 10) remove the oldest
-      if (this.userLocations[user.id].length > 10) {
-        this.userLocations[user.id].shift();
+      if (this.userLocations[user.userEmail].length > 10) {
+        this.userLocations[user.userEmail].shift();
       }
-      const lineId = `line-${user.id}`; // Creating a unique ID for each line, using the user's ID as the prefix
       //finally draw the line onto the map
-      if (this.map) {
-        //generate geojson
-        const lineData: GeoJSON.FeatureCollection<GeoJSON.LineString> = {
-          'type': 'FeatureCollection',
-          'features': [
-            {
-              'type': 'Feature',
-              'geometry': {
-                'type': 'LineString',
-                'coordinates': this.userLocations[user.id]
-              },
-              properties: {}
-            }
-          ]
-        };
-        // when there already is a line for a specific user just update it
-        if (this.map.getSource(lineId)) {
-          const source = this.map.getSource(lineId) as maplibregl.GeoJSONSource;
-          source.setData(lineData);
-          // if there is no line for a user create a new one
-        } else {
-          this.map.addSource(lineId, {
-            'type': 'geojson',
-            'data': lineData
-          });
-          this.map.addLayer({
-            'id': lineId,
-            'type': 'line',
-            'source': lineId,
-            'paint': {
-              'line-color': '#ff0000',
-              'line-width': 4,
-              'line-opacity': 0.8
-            }
-          })
+      features.push({
+        'type': 'Feature',
+        'properties': {
+          'color': this.generateColorFromEmail(user.userEmail)
+        },
+        'geometry': {
+          'type': 'LineString',
+          'coordinates': this.userLocations[user.userEmail]
         }
-      }
+      });
+    }
+    if (this.map) {
+      this.map.on('load', () => {
+        this.map.addSource('lines', {
+          'type': 'geojson',
+          'data': {
+            'type': 'FeatureCollection',
+            'features': features
+          }
+        });
+        this.map.addLayer({
+          'id': 'lines',
+          'type': 'line',
+          'source': 'lines',
+          'paint': {
+            'line-width': 3,
+            'line-color': ['get', 'color']
+          }
+        });
+      });
     }
   }
 
@@ -222,7 +216,7 @@ export class VectorMapService {
 
   //clear the MarkersArray
   clearMarkers() {
-    this.vectormarkers = [];
+    this.vectormarkers = {};
   }
 
   //initialize the drawControl and configure it to fit our needs
@@ -276,7 +270,7 @@ export class VectorMapService {
                 type: "Linestring",
                 coordinates: feature.geometry.coordinates
               });
-            } 
+            }
             //get the coordinates of points and add them to the data array
             else if (["point"].includes(feature.properties.mode)) {
               data.push({
@@ -287,6 +281,7 @@ export class VectorMapService {
           }
         }
         this.drawingCoordinates = data;
+        //console.log(data);
       });
     });
   }
@@ -294,5 +289,30 @@ export class VectorMapService {
   //returns the coordinates of all drawn figures
   getDrawingData(): void {
     return this.drawingCoordinates;
+  }
+
+  generateColorFromEmail(email: string): string{
+    const hash = this.hashEmail(email);
+    const color = this.hashToColor(hash);
+
+    return color;
+  }
+
+  private hashEmail(email: string): number {
+    let hash = 0;
+    for (let i = 0; i < email.length; i++) {
+      const char = email.charCodeAt(i);
+      hash = (hash << 5) - hash + char;
+      hash = hash & hash;
+    }
+    return hash;
+  }
+
+  private hashToColor(hash: number): string {
+    const r = (hash >> 16) & 0xff;
+    const g = (hash >> 8) & 0xff;
+    const b = hash & 0xff;         
+    
+    return `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}`;
   }
 }

@@ -58,19 +58,22 @@ export class MapComponent {
   }
 
   changeMapType(): void {
+    console.log(this.users);
     switch (this._selectedMap) {
       case 'vector':
         this.vectorService.initializeDrawControl();
         //TODO implement getDrawingData so it returns something
-        //this.drawingData = this.rasterMapService.getDrawingData();
+        this.drawingData = this.rasterMapService.getDrawingData();
+        console.log(this.drawingData);
         this.vectorService.drawUserMarkers(this.users);
-        //this.vectorService.drawUserLines(this.users);
+        this.vectorService.drawUserLines(this.users);
         if (this.drawingData) {
           this.vectorService.drawPreviousFigures(this.drawingData);
         }
         break;
       case 'raster':
         this.drawingData = this.vectorService.getDrawingData();
+        console.log(this.drawingData);
         this.rasterMapService.drawUserMarkers(this.users);
         this.rasterMapService.drawUserLines(this.users);
         this.rasterMapService.drawDrawings(this.drawingData);
@@ -93,6 +96,7 @@ export class MapComponent {
         break;
     }
   }
+
   //delete current Map and make init of new chosen Map
   reloadMap(_selectedMap: string) {
     this._selectedMap = _selectedMap;
