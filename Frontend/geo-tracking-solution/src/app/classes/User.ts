@@ -1,6 +1,4 @@
 export default interface User {
-    id: number;
-    username: string;
-    group: string;
+    userEmail: string;
     location: { longitude: number, latitude: number };
 }

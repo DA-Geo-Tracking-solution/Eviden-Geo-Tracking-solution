@@ -14,12 +14,12 @@ import { MatSort } from '@angular/material/sort';
   styleUrl: './map-table.component.css'
 })
 export class MapTableComponent implements OnInit {
-  currentUserData: User = { id: -1, username: "currentUser", group: "auth", location: { longitude: 16.1, latitude: 48.627 } };
+  currentUserData: User = { userEmail: "currentUser", location: { longitude: 16.1, latitude: 48.627 } };
   users: User[] = [this.currentUserData];
 
-  displayedColumns: string[] = ['id', 'username', 'longitude', 'latitude'];
+  displayedColumns: string[] = ['username', 'longitude', 'latitude'];
 
-  dataSource!: MatTableDataSource<User>;
+  tableSource!: MatTableDataSource<User>;
   @ViewChild(MatSort) sort!: MatSort;
 
   currentTheme: string = '';
@@ -34,7 +34,7 @@ export class MapTableComponent implements OnInit {
     { value: 'satellite', viewValue: 'Satelit' },
   ];
 
-  constructor(private themeService: ThemeService, private cookieService: CookieSettingsService, private translateService: TranslateService, private serverDataService: ServerDataService) { 
+  constructor(private themeService: ThemeService, private cookieService: CookieSettingsService, private translateService: TranslateService, private serverDataService: ServerDataService) {
     this.translateService.use(this.cookieService.getLanguage());
   }
 
@@ -43,8 +43,8 @@ export class MapTableComponent implements OnInit {
       this.currentTheme = theme;
     });
 
-    this.dataSource = new MatTableDataSource(this.users);
-    this.dataSource.sort = this.sort;
+    this.tableSource = new MatTableDataSource(this.users);
+    this.tableSource.sort = this.sort;
 
     const date = new Date(Date.now());
     date.setFullYear(2023)
@@ -54,18 +54,51 @@ export class MapTableComponent implements OnInit {
 
     this.serverDataService.getGeoLocationData(0, earliestDate, (data: any) => {
       if (data.key?.timestamp && data.key?.userEmail && data.longitude && data.latitude) {
-        const user: User = { id: -0, username: data.key.userEmail, group: "auth", location: { longitude: data.longitude, latitude: data.latitude } }
-        this.users.push(user)
-        console.log(this.users);
-        this.dataSource.data = this.users;
+        const userEmail = data.key.userEmail;
+        const newLocation = { longitude: data.longitude, latitude: data.latitude };
+
+        const existingUserIndex = this.users.findIndex(user => user.userEmail === userEmail);
+        if (existingUserIndex !== -1) {
+          this.tableSource.data[existingUserIndex].location = newLocation;
+        } else {
+          this.tableSource.data.push({ userEmail, location: newLocation });
+        }
+        this.users.push({ userEmail, location: newLocation });
       }
     });
+  }
+
+  updateTableSource(): void {
+    const userMap = new Map<string, User>();
+    this.users.forEach(user => {
+      userMap.set(user.userEmail, user);
+    });
+    this.tableSource.data = Array.from(userMap.values());
   }
 
 
   //delete current Map and make init of new chosen Map
   changeMapType(selectedMap: string) {
-    this.selectedMap = selectedMap;    
-  }
+    this.selectedMap = selectedMap;
 
+    //insert some testdata
+    const newUsers = [
+      { userEmail: "currentUser0", location: { longitude: 16.0, latitude: 48.627 } },
+      { userEmail: "currentUser1", location: { longitude: 14.5, latitude: 52.520 } },
+      { userEmail: "currentUser1", location: { longitude: -74.006, latitude: 40.7128 } },
+      { userEmail: "currentUser2", location: { longitude: 2.3522, latitude: 48.8566 } },
+      { userEmail: "currentUser2", location: { longitude: 151.2093, latitude: -33.8688 } },
+      { userEmail: "currentUser2", location: { longitude: -0.1276, latitude: 51.5074 } },
+      { userEmail: "currentUser3", location: { longitude: 139.6917, latitude: 35.6895 } },
+      { userEmail: "currentUser3", location: { longitude: -118.2437, latitude: 34.0522 } },
+      { userEmail: "currentUser3", location: { longitude: 10.4515, latitude: 51.1657 } },
+      { userEmail: "currentUser3", location: { longitude: -3.7038, latitude: 40.4168 } }
+    ];
+
+    newUsers.forEach(newUser => {
+      this.users.push(newUser);
+    });
+
+    this.updateTableSource();
+  }
 }

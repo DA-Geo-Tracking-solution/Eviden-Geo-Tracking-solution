@@ -27,15 +27,11 @@
                         </div>
                     </nav>
 
-                    <table mat-table [dataSource]="dataSource" matSort class="table"
+                    <table mat-table [dataSource]="tableSource" matSort class="table"
                         [ngClass]="{'dark-theme': currentTheme === 'dark', 'light-theme': currentTheme === 'light'}">
-                        <ng-container matColumnDef="id">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-                        </ng-container>
                         <ng-container matColumnDef="username">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'MAP.USERNAME' | translate}} </th>
-                            <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.userEmail}}</td>
                         </ng-container>
                         <ng-container matColumnDef="longitude">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'MAP.LONGITUDE' | translate}} </th>
