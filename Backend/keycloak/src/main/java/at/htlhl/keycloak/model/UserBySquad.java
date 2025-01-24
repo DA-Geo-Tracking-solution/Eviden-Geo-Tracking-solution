@@ -26,15 +26,15 @@ public class UserBySquad {
         return key;
     }
 
-    public void setKey(UserByChatKey key) {
+    public void setKey(UserBySquadKey key) {
         this.key = key;
     }
 
     @PrimaryKeyClass
     public static class UserBySquadKey {
 
-        @PrimaryKeyColumn(name = "chat_id", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
-        private UUID chatId;
+        @PrimaryKeyColumn(name = "squad_id", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
+        private UUID squadId;
 
         @PrimaryKeyColumn(name = "user_email", ordinal = 1, type = PrimaryKeyType.PARTITIONED)
         private String userEmail;
@@ -46,12 +46,12 @@ public class UserBySquad {
             this.userEmail = userEmail;
         }        
 
-        public UUID getChatId() {
-            return chatId;
+        public UUID getSquadId() {
+            return squadId;
         }
 
-        public void setChatId(UUID chatId) {
-            this.chatId = chatId;
+        public void setSquadId(UUID squadId) {
+            this.squadId = squadId;
         }
 
         public String getUserEmail() {

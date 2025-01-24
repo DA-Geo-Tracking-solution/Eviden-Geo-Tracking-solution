@@ -41,7 +41,7 @@ services:
       RABBITMQ_DEFAULT_PASS: guest  # Default password
     networks:
       - rabbitmq_network
-      
+
   keycloak:
     image: quay.io/keycloak/keycloak:26.0.0
     environment:
