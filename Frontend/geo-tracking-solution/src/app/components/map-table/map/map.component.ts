@@ -51,20 +51,16 @@ export class MapComponent {
     this.changeMapType();
   }
 
-  //TODO: make it change when new data is received from backend to avoid Error ERROR TypeError: this.map is undefined
   //draw new Lines and Markers when something changes
   ngOnChanges(changes: SimpleChanges): void {
     this.changeMapType();
   }
 
   changeMapType(): void {
-    console.log(this.users);
     switch (this._selectedMap) {
       case 'vector':
         this.vectorService.initializeDrawControl();
-        //TODO implement getDrawingData so it returns something
         this.drawingData = this.rasterMapService.getDrawingData();
-        console.log(this.drawingData);
         this.vectorService.drawUserMarkers(this.users);
         this.vectorService.drawUserLines(this.users);
         if (this.drawingData) {
@@ -73,10 +69,11 @@ export class MapComponent {
         break;
       case 'raster':
         this.drawingData = this.vectorService.getDrawingData();
-        console.log(this.drawingData);
         this.rasterMapService.drawUserMarkers(this.users);
         this.rasterMapService.drawUserLines(this.users);
-        this.rasterMapService.drawDrawings(this.drawingData);
+        if (this.drawingData) {
+          this.rasterMapService.drawDrawings(this.drawingData);
+        }
         break;
     }
   }
@@ -100,7 +97,9 @@ export class MapComponent {
   //delete current Map and make init of new chosen Map
   reloadMap(_selectedMap: string) {
     this._selectedMap = _selectedMap;
-    this.map.remove();
+    if (this.map) {
+      this.map.remove();
+    }
     this.initMap();
   }
 

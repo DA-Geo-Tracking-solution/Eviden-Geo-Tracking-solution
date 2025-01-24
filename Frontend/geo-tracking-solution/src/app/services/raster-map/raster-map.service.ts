@@ -14,7 +14,7 @@ export class RasterMapService {
 
   private allLocations: any;
   private drawnItems = new L.FeatureGroup();
-  //temporary to store coordinates from map should later be pushed to backend
+  //temporary to store coordinates from map should be pushed to backend
   private drawingCoordinates: any = [];
 
   constructor() { }
@@ -80,42 +80,44 @@ export class RasterMapService {
 
   drawDrawings(drawingData: any) {
     this.drawingCoordinates = drawingData;
-    for (const figure of drawingData) {
-      if (figure.type === 'Polygon') {
-        const polygonCoordinates = [];
-        for (const coordinates of figure.coordinates[0]) {
-          polygonCoordinates.push([coordinates[1], coordinates[0]]);
-        }
-        L.polygon(polygonCoordinates, {
-          color: 'blue',
-          fillColor: '#3388ff',
-          fillOpacity: 0.5
-        }).addTo(this.drawnItems);
-      } else if (figure.type === 'Circle') {
-        const center: L.LatLngExpression = [figure.coordinates[0][1], figure.coordinates[0][0]];
-        const radius = figure.coordinates[1];
-        //factor for latitude specific factor from DegreeLongitude to meters
-        const metersPerDegreeLongitude = 111320 * Math.cos(figure.coordinates[0][1] * (Math.PI / 180));
+    if (drawingData) {
+      for (const figure of drawingData) {
+        if (figure.type === 'Polygon') {
+          const polygonCoordinates = [];
+          for (const coordinates of figure.coordinates[0]) {
+            polygonCoordinates.push([coordinates[1], coordinates[0]]);
+          }
+          L.polygon(polygonCoordinates, {
+            color: 'blue',
+            fillColor: '#3388ff',
+            fillOpacity: 0.5
+          }).addTo(this.drawnItems);
+        } else if (figure.type === 'Circle') {
+          const center: L.LatLngExpression = [figure.coordinates[0][1], figure.coordinates[0][0]];
+          const radius = figure.coordinates[1];
+          //factor for latitude specific factor from DegreeLongitude to meters
+          const metersPerDegreeLongitude = 111320 * Math.cos(figure.coordinates[0][1] * (Math.PI / 180));
 
-        L.circle(center, {
-          radius: radius * metersPerDegreeLongitude,
-          color: 'blue',
-          fillColor: '#3388ff',
-          fillOpacity: 0.5
-        }).addTo(this.drawnItems);
-      } else if (figure.type === 'Linestring') {
-        const linestringCoordinates = [];
-        for (const coordinates of figure.coordinates) {
-          linestringCoordinates.push([coordinates[1], coordinates[0]]);
+          L.circle(center, {
+            radius: radius * metersPerDegreeLongitude,
+            color: 'blue',
+            fillColor: '#3388ff',
+            fillOpacity: 0.5
+          }).addTo(this.drawnItems);
+        } else if (figure.type === 'Linestring') {
+          const linestringCoordinates = [];
+          for (const coordinates of figure.coordinates) {
+            linestringCoordinates.push([coordinates[1], coordinates[0]]);
+          }
+          L.polyline(linestringCoordinates, {
+            color: 'blue',
+            fillColor: '#3388ff',
+            fillOpacity: 0.5
+          }).addTo(this.drawnItems);
+        } else if (figure.type === 'Point') {
+          const pointCoordinates: L.LatLngExpression = [figure.coordinates[1], figure.coordinates[0]];
+          L.circleMarker(pointCoordinates, { radius: 5 }).addTo(this.drawnItems);
         }
-        L.polyline(linestringCoordinates, {
-          color: 'blue',
-          fillColor: '#3388ff',
-          fillOpacity: 0.5
-        }).addTo(this.drawnItems);
-      } else if (figure.type === 'Point') {
-        const pointCoordinates: L.LatLngExpression = [figure.coordinates[1], figure.coordinates[0]];
-        L.circleMarker(pointCoordinates, { radius: 5 }).addTo(this.drawnItems);
       }
     }
   }
@@ -173,40 +175,40 @@ export class RasterMapService {
       const layer = event.layer;
       this.drawnItems.addLayer(layer);
 
-      if (layer instanceof L.Polygon) {
-        const coordinates = layer.getLatLngs();
-        const swappedCoordinates = this.swapLatLngs(coordinates);
-        swappedCoordinates[0].push(swappedCoordinates[0][0]);
-        data = {
-          type: "Polygon",
-          coordinates: swappedCoordinates
-        };
-      } else if (layer instanceof L.Polyline) {
-        const coordinates = layer.getLatLngs();
-        const swappedCoordinates = this.swapLatLngs(coordinates);
-        data = {
-          type: "Linestring",
-          coordinates: swappedCoordinates
-        };
-      } else if (layer instanceof L.CircleMarker) {
+      if (layer instanceof L.CircleMarker) {
         //needs to be like that, because the circle drawing function in leaflet is just a marker, but the real marker always has the radius 10
+        const singlePointCoordinates = layer.getLatLng();
+        const singlePointSwappedCoordinates = this.swapLatLngs(singlePointCoordinates);
         if (layer.getRadius() == 10) {
-          const coordinates = layer.getLatLng();
-          const swappedCoordinates = this.swapLatLngs(coordinates);
           data = {
             type: "Point",
-            coordinates: swappedCoordinates
+            coordinates: singlePointSwappedCoordinates
           };
         } else {
-          const coordinates = layer.getLatLng();
-          const swappedCoordinates = this.swapLatLngs(coordinates);
-          const radiusInDegrees = layer.getRadius() / (111320 * Math.cos(swappedCoordinates[0] * Math.PI / 180));
+          const radiusInDegrees = layer.getRadius() / (111320 * Math.cos(singlePointSwappedCoordinates[0] * Math.PI / 180));
           data = {
             type: "Circle",
-            coordinates: [swappedCoordinates, radiusInDegrees]
+            coordinates: [singlePointSwappedCoordinates, radiusInDegrees]
+          };
+        }
+      } else {
+        const multiPointCoordinates = layer.getLatLngs();
+        const multiPointSwappedCoordinates = this.swapLatLngs(multiPointCoordinates);
+        if (layer instanceof L.Polygon) {
+
+          multiPointSwappedCoordinates[0].push(multiPointSwappedCoordinates[0][0]);
+          data = {
+            type: "Polygon",
+            coordinates: multiPointSwappedCoordinates
+          };
+        } else if (layer instanceof L.Polyline) {
+          data = {
+            type: "Linestring",
+            coordinates: multiPointSwappedCoordinates
           };
         }
       }
+
       if (data) {
         this.drawingCoordinates.push(data);
       }
