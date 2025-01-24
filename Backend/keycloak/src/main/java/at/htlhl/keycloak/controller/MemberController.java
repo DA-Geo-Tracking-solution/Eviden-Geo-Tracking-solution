@@ -79,6 +79,16 @@ public class MemberController {
         return user;
     }
 
+    @PutMapping("/user")
+    @Operation(description = "Creates new user in format { {username, userEmail, firstname, lastname}, temporaryPassword } in group")
+    public String editUser(@RequestBody Map<String, Object> request) {
+        
+        User userModel = User.MapToUser((Map<String, Object>) request.get("user"));
+        String temporaryPassword = (String) request.get("temporaryPassword");
+
+        return "{ \"message\": \"" + userService.updateUser(userModel, temporaryPassword) + "\" }";
+    }
+
     // TODO this can only be done with a running Database ---------------------
 
     @GetMapping("/user-location")

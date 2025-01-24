@@ -1,5 +1,6 @@
 package at.htlhl.keycloak.controller;
 
+import at.htlhl.keycloak.model.Role;
 import at.htlhl.keycloak.model.keycloak.Group;
 import at.htlhl.keycloak.model.keycloak.User;
 import at.htlhl.keycloak.service.GroupService;
@@ -63,7 +64,7 @@ public class GroupmasterController {
 
         
             GroupRepresentation createdGroup = groupService.createSubGroupWithRoles(name);
-            groupService.addUserToGroupWithRoles(groupmaster, createdGroup, groupService.ALL_ROLE_NAMES);
+            groupService.addUserToGroupWithRoles(groupmaster, createdGroup, Role.getAll());
             for (String memberEmail: memberEmails) {
                 groupService.addUserToGroupByUseremail(memberEmail, createdGroup);
             }
