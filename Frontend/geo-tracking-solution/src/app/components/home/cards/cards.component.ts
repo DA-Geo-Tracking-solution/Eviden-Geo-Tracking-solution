@@ -24,13 +24,13 @@ export class CardsComponent {
       title: 'Create User/Group',
       description: 'Create new users or groups whenever you need to.',
       image: '../../../../assets/images/Dashboard/Components/create.jpg',
-      routerLink: '/create'
+      routerLink: '/create/user'
     },
     {
       title: 'Settings',
       description: 'Personalize your workspace to your own taste!',
       image: '../../../../assets/images/Dashboard/Components/settings.png',
-      routerLink: '/settings'
+      routerLink: '/settings/user'
     }
   ];
 

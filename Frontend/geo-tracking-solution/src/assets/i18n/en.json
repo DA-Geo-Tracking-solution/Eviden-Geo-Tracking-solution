@@ -33,7 +33,7 @@
         },
         "GROUP": {
             "GROUPNAME": "Group Name",
-            "EMAIL": "Email",
+            "EMAIL": "GroupMasterEmail",
             "ADDMEMBER": "Add Member"
         },
         "REQUIRED": "Required",

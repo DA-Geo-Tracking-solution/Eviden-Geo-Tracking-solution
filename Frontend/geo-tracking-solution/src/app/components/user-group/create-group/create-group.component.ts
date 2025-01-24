@@ -41,33 +41,37 @@ export class CreateGroupComponent {
 
     this.translateService.use(this.cookieService.getLanguage());
 
-    // this.addUserInput();
+    // TODO: Einer der Beiden muss es sein
+    this.addUserField();
+    this.addUserInput();
   }
 
-  // addUserInput(): void {
-  //   const control = new FormControl();
-  //   this.userControls.push(control);
-  //   this.filteredUsers.push([]);
+  addUserInput(): void {
+    const control = new FormControl();
+    this.userControls.push(control);
+    this.filteredUsers.push([]);
 
-  //   // Live-Suche für das neue Feld einrichten
-  //   control.valueChanges
-  //     .pipe(
-  //       debounceTime(300),
-  //       switchMap((query: string) => {
-  //         if (!query) return of([]);
-  //         return this.restService.GET(`member/group-members?query=${query}`).pipe(
-  //           map((response: any[]) => response),
-  //           catchError(() => of([]))
-  //         );
-  //       })
-  //     )
-  //     .subscribe(users => {
-  //       const index = this.userControls.indexOf(control);
-  //       if (index !== -1) {
-  //         this.filteredUsers[index] = users;
-  //       }
-  //     });
-  // }
+    // Live-Suche für das neue Feld einrichten
+    control.valueChanges
+      .pipe(
+        debounceTime(300),
+        switchMap((query: string) => {
+          if (!query) return of([]);
+          return from(this.restService.GET(`member/group-members?query=${query}`)).pipe(
+            switchMap(observable => observable.pipe(
+              map((response: any[]) => response),
+              catchError(() => of([]))
+            ))
+          );
+        })
+      )
+      .subscribe(users => {
+        const index = this.userControls.indexOf(control);
+        if (index !== -1) {
+          this.filteredUsers[index] = users;
+        }
+      });
+  }
 
   get groupname() { return this.form.get('groupname'); }
   get groupmaster() { return this.form.get('groupmaster'); }
@@ -135,30 +139,35 @@ export class CreateGroupComponent {
   }
 
   // Search for users based on input
-  onUserSearch(query: string, index: number): void {
-    if (!query) {
-      this.filteredUsers[index] = []; // Clear suggestions if no query
+  onUserSearch(event: Event, index: number): void {
+    const inputElement = event.target as HTMLInputElement | null; // Cast und mögliche Nullwerte beachten
+  
+    if (!inputElement || !inputElement.value) {
+      this.filteredUsers[index] = []; // Wenn das Element oder der Wert fehlt, Vorschläge leeren
       return;
     }
-
-    // Await the Promise to get the Observable, then subscribe to it
+  
+    const query = inputElement.value;
+  
     this.restService.GET(`member/group-members?query=${query}`)
       .then(observable => {
         observable.subscribe({
           next: (users: any[]) => {
-            this.filteredUsers[index] = users; // Update suggestions
+            this.filteredUsers[index] = users; // Vorschläge aktualisieren
           },
           error: (err) => {
-            console.error('Error fetching users:', err);
-            this.filteredUsers[index] = []; // Clear suggestions on error
+            console.error('Fehler beim Abrufen der Nutzer:', err);
+            this.filteredUsers[index] = []; // Vorschläge bei Fehler löschen
           }
         });
       })
       .catch(err => {
-        console.error('Promise error:', err);
-        this.filteredUsers[index] = []; // Clear suggestions on error
+        console.error('Fehler in der Promise:', err);
+        this.filteredUsers[index] = []; // Vorschläge bei Fehler löschen
       });
   }
+  
+
 
   addUserField(): void {
     this.users.push({});

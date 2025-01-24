@@ -54,9 +54,10 @@
     <!-- Add Users -->
     <div class="field" *ngFor="let user of users; let i = index">
         <label class="label">{{ 'ADD.USER' | translate }}</label>
-        <div class="control has-icons-left">                                                
-                                              <!-- TODO: (input)="onUserSearch($event.target.value, i)"  das später hinzufügen-->
-            <input class="input is-fullwidth" type="text" placeholder="{{ 'SEARCH.USER' | translate }}" />
+        <div class="control has-icons-left">
+            <!-- TODO: (input)="onUserSearch($event.target.value, i)"  das später hinzufügen-->
+            <input class="input is-fullwidth" type="text" placeholder="{{ 'SEARCH.USER' | translate }}"
+                (input)="onUserSearch($event,i)" />
 
             <span class="icon is-small is-left">
                 <fa-icon [icon]="faUser"></fa-icon>
@@ -72,10 +73,11 @@
     </div>
 
     <!-- Add Another User Button -->
-    <div class="field">
+    <div class="field has-text-centered">
         <div class="control">
             <button type="button" class="button is-light" (click)="addUserField()">
-                + {{ 'ADD.ANOTHER.USER' | translate }}
+                +
+                <!-- + {{ 'ADD.ANOTHER.USER' | translate }} -->
             </button>
         </div>
     </div>
@@ -84,12 +86,14 @@
     <div class="field is-grouped is-justify-content-center">
         <div class="control">
             <button class="button is-link" type="submit" [disabled]="form.invalid">
-                {{ 'CREATE.SUBMIT' | translate }}
+                <!-- {{ 'CREATE.SUBMIT' | translate }} -->
+                Submit
             </button>
         </div>
         <div class="control">
             <button class="button is-link is-light" type="button" (click)="form.reset()">
-                {{ 'CREATE.CANCEL' | translate }}
+                <!-- {{ 'CREATE.CANCEL' | translate }} -->
+                Cancel
             </button>
         </div>
     </div>
