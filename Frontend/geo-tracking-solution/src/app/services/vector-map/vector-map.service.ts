@@ -18,7 +18,7 @@ export class VectorMapService {
   private allLocations: any;
   private terraDrawInstance!: TerraDraw;
   private geojsonData: GeoJSONStoreFeatures[] = [];
-  //temporary to store coordinates from map should later be pushed to backend
+  //temporary to store coordinates from map should be pushed to backend
   private drawingCoordinates: any;
 
 
@@ -43,9 +43,9 @@ export class VectorMapService {
           this.vectormarkers[user.userEmail] = marker;
         }
       }
-      if (Object.keys(this.vectormarkers).length > users.length) { // Checking if any markers are left over after drawing new markers
-        for (const key of Object.keys(this.vectormarkers)) { // Iterating through the vectormarkers dictionary
-          users.findIndex((user) => user.userEmail !== key); // Finding the index of the user with the given ID in the users array
+      if (Object.keys(this.vectormarkers).length > users.length) {
+        for (const key of Object.keys(this.vectormarkers)) {
+          users.findIndex((user) => user.userEmail !== key);
         }
       }
     }
@@ -281,7 +281,6 @@ export class VectorMapService {
           }
         }
         this.drawingCoordinates = data;
-        //console.log(data);
       });
     });
   }
@@ -291,7 +290,7 @@ export class VectorMapService {
     return this.drawingCoordinates;
   }
 
-  generateColorFromEmail(email: string): string{
+  generateColorFromEmail(email: string): string {
     const hash = this.hashEmail(email);
     const color = this.hashToColor(hash);
 
@@ -311,8 +310,8 @@ export class VectorMapService {
   private hashToColor(hash: number): string {
     const r = (hash >> 16) & 0xff;
     const g = (hash >> 8) & 0xff;
-    const b = hash & 0xff;         
-    
+    const b = hash & 0xff;
+
     return `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}`;
   }
 }
