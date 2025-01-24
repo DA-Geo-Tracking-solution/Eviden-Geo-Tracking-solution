@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -39,7 +40,7 @@ public class GPSSender {
 
             try (Connection connection = factory.newConnection();
                  Channel channel = connection.createChannel()) {
-                channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+                channel.queueDeclare(QUEUE_NAME, true, false, false, null);
 
                 // Step 2: Read and process the CSV file
                 try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
@@ -66,6 +67,7 @@ public class GPSSender {
                             // Publish the message
                             channel.basicPublish("", QUEUE_NAME, null, message.getBytes(StandardCharsets.UTF_8));
                             System.out.println(" [x] Sent: '" + message + "'");
+                            TimeUnit.SECONDS.sleep(1);
                         } catch (Exception e) {
                             System.out.println("Failed to parse timestamp: " + timestamp);
                             continue; // Skip this record if parsing fails

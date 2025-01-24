@@ -15,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.List;
 //import javax.ws.rs.core.Response;
 
-
 @Service
 public class UserService {
 
@@ -34,6 +33,7 @@ public class UserService {
         }
         return List.of();
     }
+
 
     public UserRepresentation getUserByEmail(String userEmail) {
         System.out.println(userEmail);
@@ -58,7 +58,8 @@ public class UserService {
                 return ("Username or Email already in Use!");
             } else if (status == 201) {
                 return "Successful created user :)";
-                //String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
+                // String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$",
+                // "$1");
             } else {
                 String errorResponse = response.readEntity(String.class);
                 System.err.println("Error response from Keycloak: " + errorResponse);
@@ -77,7 +78,6 @@ public class UserService {
         keycloak.realm(realm).users().get(userId).remove();
     }
 
-
     private String getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Jwt jwt = (Jwt) authentication.getPrincipal();
@@ -95,9 +95,8 @@ public class UserService {
         Jwt jwt = (Jwt) authentication.getPrincipal();
         return (String) jwt.getClaims().get("preferred_username");
     }
-    
 
-    private List<GroupRepresentation> getUserGroups() {
+    public List<GroupRepresentation> getUserGroups() {
         return keycloak.realm(realm).users().get(getUserId()).groups();
     }
 }

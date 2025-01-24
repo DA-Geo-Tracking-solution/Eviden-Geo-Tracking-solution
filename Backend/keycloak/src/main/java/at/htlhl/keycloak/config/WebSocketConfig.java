@@ -33,19 +33,22 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 import at.htlhl.keycloak.service.ChatService;
 import at.htlhl.keycloak.service.GPSDataService;
 import at.htlhl.keycloak.service.GroupService;
+import at.htlhl.keycloak.service.SquadService;
 import at.htlhl.keycloak.service.UserService;
 
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     private ChatService chatService;
+    private SquadService squadService;
 
     @Autowired
-    public WebSocketConfig(ChatService chatService) {
+    public WebSocketConfig(ChatService chatService, SquadService squadService) {
         this.chatService = chatService;
+        this.squadService = squadService;
     }
 
-	@Override
+    @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
         registration.interceptors(new ChannelInterceptor() {
             @Override
@@ -69,64 +72,89 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                         // Add JWT to session attributes
                         sessionAttributes.put("jwt", jwt);
 
-
                         String userEmail = (String) jwt.getClaims().get("email");
                         if (userEmail == null) {
-                            userEmail = jwt.getSubject(); 
+                            userEmail = jwt.getSubject();
                         }
 
                         System.out.println("JWT successfully added to session attributes: " + jwt.getSubject());
                         var auth = new UsernamePasswordAuthenticationToken(userEmail, null,
-                               new KeycloakJwtAuthenticationConverter().convert(jwt).getAuthorities());
+                                new KeycloakJwtAuthenticationConverter().convert(jwt).getAuthorities());
                         accessor.setUser(auth);
                         System.out.println(auth);
-                        
-                        //SecurityContextHolder.getContext().setAuthentication(auth);
-                        /*try {
-                            Jwt jwt = jwtDecoder().decode(token);
-                            Collection<? extends GrantedAuthority> authorities = new KeycloakJwtAuthenticationConverter().convert(jwt).getAuthorities();
-                            accessor.setUser(new UsernamePasswordAuthenticationToken(jwt.getSubject(), null, authorities));
-                            System.out.println(accessor.getUser());
-                        } catch (Exception e) {
-                            System.out.println("Invalid token: " + e.getMessage());
-                            throw new AuthenticationException("Invalid token") {};
-                        }*/
-                        /*try {
-                            // Decode the JWT token
-                            Jwt jwt = jwtDecoder.decode(token);
-                            
-                            // Add authentication to WebSocket session
-                            accessor.setUser(new UsernamePasswordAuthenticationToken(jwt.getSubject(), null, getAuthoritiesFromJwt(jwt)));
-                            System.out.println("Authenticated user: " + jwt.getSubject());
-                        } catch (Exception e) {
-                            System.out.println("Invalid token: " + e.getMessage());
-                            throw new SecurityException("Unauthorized: Invalid JWT token");
-                        }**/
-                    
+
+                        // SecurityContextHolder.getContext().setAuthentication(auth);
+                        /*
+                         * try {
+                         * Jwt jwt = jwtDecoder().decode(token);
+                         * Collection<? extends GrantedAuthority> authorities = new
+                         * KeycloakJwtAuthenticationConverter().convert(jwt).getAuthorities();
+                         * accessor.setUser(new UsernamePasswordAuthenticationToken(jwt.getSubject(),
+                         * null, authorities));
+                         * System.out.println(accessor.getUser());
+                         * } catch (Exception e) {
+                         * System.out.println("Invalid token: " + e.getMessage());
+                         * throw new AuthenticationException("Invalid token") {};
+                         * }
+                         */
+                        /*
+                         * try {
+                         * // Decode the JWT token
+                         * Jwt jwt = jwtDecoder.decode(token);
+                         * 
+                         * // Add authentication to WebSocket session
+                         * accessor.setUser(new UsernamePasswordAuthenticationToken(jwt.getSubject(),
+                         * null, getAuthoritiesFromJwt(jwt)));
+                         * System.out.println("Authenticated user: " + jwt.getSubject());
+                         * } catch (Exception e) {
+                         * System.out.println("Invalid token: " + e.getMessage());
+                         * throw new SecurityException("Unauthorized: Invalid JWT token");
+                         * }
+                         **/
+
                     } else {
                         System.out.println("No Authorization header found");
-                        throw new AuthenticationException("No Authorization header found") {};
+                        throw new AuthenticationException("No Authorization header found") {
+                        };
                     }
                 } else if (StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
                     String destination = accessor.getDestination();
-                    /*if (destination != null && destination.startsWith("/topic/restricted")) {
-                        UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) accessor.getUser();
-                        if (auth == null || auth.getAuthorities().stream().noneMatch(
-                                authority -> authority.getAuthority().equals("ROLE_ALLOWED_TO_SUBSCRIBE"))) {
-                            throw new AuthenticationException("User not authorized to subscribe to " + destination) {};
+                    /*
+                     * if (destination != null && destination.startsWith("/topic/restricted")) {
+                     * UsernamePasswordAuthenticationToken auth =
+                     * (UsernamePasswordAuthenticationToken) accessor.getUser();
+                     * if (auth == null || auth.getAuthorities().stream().noneMatch(
+                     * authority -> authority.getAuthority().equals("ROLE_ALLOWED_TO_SUBSCRIBE"))) {
+                     * throw new AuthenticationException("User not authorized to subscribe to " +
+                     * destination) {};
+                     * }
+                     * }
+                     */
+                    if (destination != null && destination.startsWith("/topic/geolocation/squad/")) {
+                        UUID squadId = UUID.fromString(destination.substring(25));
+
+                        UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) accessor
+                                .getUser();
+                        if (!squadService.isUserInSquad(squadId, (String) auth.getPrincipal())) {
+                            throw new AuthenticationException("User not authorized to subscribe to " + destination) {
+                            };
                         }
-                    }*/
+
+                    }
                     if (destination != null && destination.startsWith("/topic/chat/")) {
 
                         UUID chatId = UUID.fromString(destination.substring(12));
-                        
-                        UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) accessor.getUser();
+
+                        UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) accessor
+                                .getUser();
                         if (!chatService.isUserInChat(chatId, (String) auth.getPrincipal())) {
-                            throw new AuthenticationException("User not authorized to subscribe to " + destination) {};
-                        }                         
+                            throw new AuthenticationException("User not authorized to subscribe to " + destination) {
+                            };
+                        }
                     }
 
                 }
+
                 return message;
             }
         });
@@ -142,11 +170,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws/chat")
                 .setAllowedOriginPatterns("*");
-                //.addInterceptors(new JwtHandshakeInterceptor(jwtDecoder())); // Allow all origins
-                //.withSockJS(); // SockJS fallback
+        // .addInterceptors(new JwtHandshakeInterceptor(jwtDecoder())); // Allow all
+        // origins
+        // .withSockJS(); // SockJS fallback
     }
-    
-
 
     @Bean
     public JwtDecoder jwtDecoder() {

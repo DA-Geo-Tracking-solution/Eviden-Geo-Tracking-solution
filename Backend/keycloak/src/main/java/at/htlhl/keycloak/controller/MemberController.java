@@ -5,7 +5,9 @@ import at.htlhl.keycloak.model.ChatByUser;
 import at.htlhl.keycloak.model.ChatMessage;
 import at.htlhl.keycloak.model.GPSData;
 import at.htlhl.keycloak.model.MessageByChat;
+import at.htlhl.keycloak.model.SquadData;
 import at.htlhl.keycloak.model.UserByChat;
+import at.htlhl.keycloak.model.UserBySquad;
 import at.htlhl.keycloak.model.Chat.Member;
 import at.htlhl.keycloak.model.MessageByChat.MessageByChatKey;
 import at.htlhl.keycloak.model.keycloak.User;
@@ -13,6 +15,7 @@ import at.htlhl.keycloak.service.ChatService;
 import at.htlhl.keycloak.service.GPSDataService;
 import at.htlhl.keycloak.service.GroupService;
 import at.htlhl.keycloak.service.MessageService;
+import at.htlhl.keycloak.service.SquadService;
 import at.htlhl.keycloak.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.apache.james.mime4j.dom.datetime.DateTime;
@@ -35,6 +38,7 @@ import java.util.UUID;
 public class MemberController {
 
     private GroupService groupService;
+    private SquadService squadService;
     private UserService userService;
     private GPSDataService gpsDataService;
     private ChatService chatService;
@@ -43,13 +47,12 @@ public class MemberController {
 
     @Autowired
     public MemberController(
-        GroupService groupService,
-        UserService userService,
-        GPSDataService gpsDataService,
-        ChatService chatService,
-        MessageService messageService,
-        SimpMessagingTemplate messagingTemplate
-    ) {
+            GroupService groupService,
+            UserService userService,
+            GPSDataService gpsDataService,
+            ChatService chatService,
+            MessageService messageService,
+            SimpMessagingTemplate messagingTemplate) {
         this.groupService = groupService;
         this.userService = userService;
         this.gpsDataService = gpsDataService;
@@ -97,6 +100,31 @@ public class MemberController {
         return userLocations;
     }
 
+    @GetMapping("/squad-members-locations")
+    @Operation(description = "Returns some users location data in format { userEmail, { longitude, latitude }, timestamp } of your group")
+    public List<GPSData> getSquadMembersCoordinates(@RequestParam Instant earliestTime) {
+        List<GPSData> userLocations = new ArrayList<>();
+        List<String> userEmails = new ArrayList<>();
+        
+        // System.out.println(userService.getGroupMembers());
+        for (UserBySquad squad : squadService.getSquadsFromUser(userService.getUserEmail())) {
+            List<String> userEmailsInSquad = new ArrayList<>();
+            for (UserBySquad user : squadService.getUsersInSquad(squad.getKey().getSquadId())) {
+                String userEmail =  user.getKey().getUserEmail();
+                if (!userEmails.contains(userEmail)) {
+                    System.out.println("Helo" + userEmail);
+                    userLocations.addAll(gpsDataService.getGPSDataOf(user.getKey().getUserEmail(), earliestTime));
+                    if (!userEmailsInSquad.contains(userEmail)) {
+                        userEmailsInSquad.add(userEmail);
+                    }
+                }
+            }
+            userEmails.addAll(userEmailsInSquad);
+        }
+
+        return userLocations;
+    }
+
     @GetMapping("/chats") // Todo chats: user hinzufügen, editieren
     @Operation(description = "Returns all chats a user has in format { chatId, chatName, [member] }")
     public List<Chat> getChats() {
@@ -105,8 +133,8 @@ public class MemberController {
         List<ChatByUser> chatsByUser = chatService.getChatsFromUser(userEmail);
 
         ArrayList<Chat> chats = new ArrayList<>();
-        
-        for (ChatByUser chatByUser: chatsByUser) {
+
+        for (ChatByUser chatByUser : chatsByUser) {
             System.out.println(chatByUser.getChatName());
             System.out.println(chatByUser.getKey().getChatId());
             System.out.println(chatByUser.getKey().getUserEmail());
@@ -114,34 +142,38 @@ public class MemberController {
             List<UserByChat> usersByChat = chatService.getUsersInChat(chatByUser.getKey().getChatId());
 
             List<Member> members = new ArrayList<>();
-            for (UserByChat userByChat: usersByChat) {
+            for (UserByChat userByChat : usersByChat) {
                 String email = userByChat.getKey().getUserEmail();
-                UserRepresentation user =  userService.getUserByEmail(email);
+                UserRepresentation user = userService.getUserByEmail(email);
                 String name = (user != null) ? user.getUsername() : ("Unknown user with email: " + email);
                 members.add(new Member(
-                    name,
-                    email
-                    ));
+                        name,
+                        email));
             }
 
             chats.add(new Chat(
-                chatByUser.getKey().getChatId(), 
-                chatByUser.getChatName(), 
-                members));
+                    chatByUser.getKey().getChatId(),
+                    chatByUser.getChatName(),
+                    members));
         }
 
         return chats;
-        /*ArrayList<Chat> data = new ArrayList<>();
-
-        data.add(new Chat("0", "Global-Chat", new Member[]{new Member("user1", "user1@example.com")}));
-        data.add(new Chat("1", "Global-Chat-2 :)", new Member[]{new Member("user1", "user1@example.com")}));
-        data.add(new Chat("2", "Please implement DB!", new Member[]{new Member("user1", "user1@example.com")}));
-        return data;*/
+        /*
+         * ArrayList<Chat> data = new ArrayList<>();
+         * 
+         * data.add(new Chat("0", "Global-Chat", new Member[]{new Member("user1",
+         * "user1@example.com")}));
+         * data.add(new Chat("1", "Global-Chat-2 :)", new Member[]{new Member("user1",
+         * "user1@example.com")}));
+         * data.add(new Chat("2", "Please implement DB!", new Member[]{new
+         * Member("user1", "user1@example.com")}));
+         * return data;
+         */
     }
 
     @PostMapping("/chat")
     @Operation(description = "Create a chat with format { chatName, [useremail] }")
-    public String createChat( @RequestBody Map<String, Object> request) {
+    public String createChat(@RequestBody Map<String, Object> request) {
         List<String> userEmails = (List<String>) request.get("userEmails");
         if (userEmails == null) {
             return "userEmails do not exist";
@@ -149,7 +181,7 @@ public class MemberController {
         if (!userEmails.contains(userService.getUserEmail())) {
             userEmails.add(userService.getUserEmail());
         }
-        String chatName = (String)request.get("chatName");
+        String chatName = (String) request.get("chatName");
         if (chatName == null) {
             chatName = "Unkown ChatName";
         }
@@ -158,10 +190,10 @@ public class MemberController {
             System.out.println(chatId + "------------------------------------------");
             addChatMessage(chatId, "Chat Created");
             return "created Succesfully";
-        } catch(Exception e) {
+        } catch (Exception e) {
             return e.getMessage();
         }
-        
+
     }
 
     @PutMapping("/chat/{chatId}")
@@ -184,7 +216,7 @@ public class MemberController {
         try {
             chatService.putUserInChat(userEmail, chatId, chatName);
             return "updated Succesfully";
-        } catch(Exception e) {
+        } catch (Exception e) {
             return e.getMessage();
         }
     }
@@ -194,17 +226,25 @@ public class MemberController {
     public Object getChatMessages(@PathVariable("chatId") UUID chatId) {
         List<MessageByChat> messageByChats = messageService.getMessagesInChat(chatId);
         return messageByChats;
-        //TODO get actual data
-        /*ArrayList<ChatMessage> data = new ArrayList<>();
-
-        for (MessageByChat messageByChat: messageByChats) {
-
-        }
-
-        data.add(new ChatMessage("puzzles00z", "please implement the the method getChatMessage",  LocalDateTime.of(2024, 11, 30, 15, 30, 0)));
-        data.add(new ChatMessage("adrian00z", "please implement the the method getChatMessage",  LocalDateTime.of(2024, 11, 30, 15, 30, 0)));
-        data.add(new ChatMessage("puzzles007", "please implement the the method getChatMessage",  LocalDateTime.of(2024, 11, 30, 15, 30, 0)));
-        return data;*/
+        // TODO get actual data
+        /*
+         * ArrayList<ChatMessage> data = new ArrayList<>();
+         * 
+         * for (MessageByChat messageByChat: messageByChats) {
+         * 
+         * }
+         * 
+         * data.add(new ChatMessage("puzzles00z",
+         * "please implement the the method getChatMessage", LocalDateTime.of(2024, 11,
+         * 30, 15, 30, 0)));
+         * data.add(new ChatMessage("adrian00z",
+         * "please implement the the method getChatMessage", LocalDateTime.of(2024, 11,
+         * 30, 15, 30, 0)));
+         * data.add(new ChatMessage("puzzles007",
+         * "please implement the the method getChatMessage", LocalDateTime.of(2024, 11,
+         * 30, 15, 30, 0)));
+         * return data;
+         */
     }
 
     @PostMapping("chat/{chatId}/message")
@@ -214,7 +254,8 @@ public class MemberController {
             Instant time = Instant.now();
             String authorEmail = userService.getUserEmail();
             UUID messagId = messageService.createMessagesInChat(chatId, authorEmail, message, time);
-            messagingTemplate.convertAndSend("/topic/chat/" + chatId,  new MessageByChat((new MessageByChatKey(chatId, time, messagId )), authorEmail, message));
+            messagingTemplate.convertAndSend("/topic/chat/" + chatId,
+                    new MessageByChat((new MessageByChatKey(chatId, time, messagId)), authorEmail, message));
         } else {
             return "You are not in this chat: " + chatId;
         }

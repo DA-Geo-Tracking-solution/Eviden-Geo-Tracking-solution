@@ -1,30 +1,50 @@
 package at.htlhl.keycloak.messaging;
 
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.keycloak.representations.idm.GroupRepresentation;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Component;
-import at.htlhl.keycloak.model.GPSData;
-import at.htlhl.keycloak.model.GPSData.GPSDataKey;
-import at.htlhl.keycloak.service.GPSDataService;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
-import java.time.Instant;
+import org.springframework.stereotype.Component;
+
+import at.htlhl.keycloak.config.KeycloakJwtAuthenticationConverter;
+import at.htlhl.keycloak.model.GPSData;
+import at.htlhl.keycloak.model.GPSData.GPSDataKey;
+import at.htlhl.keycloak.model.UserBySquad;
+import at.htlhl.keycloak.service.GPSDataService;
+import at.htlhl.keycloak.service.SquadService;
+import at.htlhl.keycloak.service.UserService;
+import org.springframework.amqp.core.Queue;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+
 
 @Component
 public class Consumer {
-
-    
 
     @Autowired
     private GPSDataService gpsDataService;
 
     private final String keycloakIssuerUri = "http://localhost:8081/realms/geo-tracking-solution";
+    private SquadService squadService;
+    private UserService userService;
     private final SimpMessagingTemplate messagingTemplate;
     
+    
     @Autowired
-    public Consumer(SimpMessagingTemplate messagingTemplate) {
+    public Consumer(SimpMessagingTemplate messagingTemplate, SquadService squadService, UserService userService) {
+        this.squadService = squadService;
+        this.userService = userService;
         this.messagingTemplate = messagingTemplate;
     }
 
@@ -69,7 +89,17 @@ public class Consumer {
             gpsDataService.saveGPSData(gpsData);
 
             System.out.println("[x] Received and saved: " + gpsData);
-            messagingTemplate.convertAndSend("/topic/geolocation", gpsData);
+
+
+            /* List<GroupRepresentation> groups = userService.getUserGroups();
+            if (groups.isEmpty()) {
+                //return "Invalid Request! User is in no group! >8[)";
+            }
+
+            messagingTemplate.convertAndSend("/topic/geolocation/group/" + groups.get(0).getId(), gpsData);*/
+            for (UserBySquad userBySquad: squadService.getSquadsFromUser(userEmail)) {
+                messagingTemplate.convertAndSend("/topic/geolocation/squad/" + userBySquad.getKey().getSquadId(), gpsData);
+            }
         } catch (Exception e) {
             System.err.println("Error processing message: " + e.getMessage());
         }
@@ -84,4 +114,11 @@ public class Consumer {
             throw new IllegalArgumentException("Invalid token: " + e.getMessage());
         }
     }
+
+    // @Bean
+    // public JwtDecoder jwtDecoderRMQ() {
+    //     // Replace with your JwtDecoder logic, e.g., using Keycloak's public key to
+    //     // decode the JWT
+    //     return JwtDecoders.fromIssuerLocation("http://localhost:8081/realms/geo-tracking-solution");
+    // }
 }

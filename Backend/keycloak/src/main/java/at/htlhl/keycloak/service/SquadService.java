@@ -12,7 +12,9 @@ import at.htlhl.keycloak.model.SquadData;
 import at.htlhl.keycloak.model.ChatByUser;
 import at.htlhl.keycloak.model.ChatByUser.ChatByUserKey;
 import at.htlhl.keycloak.model.UserByChat;
+import at.htlhl.keycloak.model.UserBySquad;
 import at.htlhl.keycloak.model.UserByChat.UserByChatKey;
+import at.htlhl.keycloak.model.UserBySquad.UserBySquadKey;
 import at.htlhl.keycloak.repositories.ChatByUserRepository;
 import at.htlhl.keycloak.repositories.SquadRepository;
 import at.htlhl.keycloak.repositories.UserByChatRepository;
@@ -29,19 +31,19 @@ public class SquadService {
         this.squadRepository = squadRepository;
     }
     
-    public List<SquadData> getSquadFromUser(String userEmail) {
-        return squadRepository.getSquad(userEmail);
+    public List<UserBySquad> getSquadsFromUser(String userEmail) {
+        return squadRepository.getSquads(userEmail);
     }
 
-    public List<SquadData> getUsersInSquad(UUID squadId) {
+    public List<UserBySquad> getUsersInSquad(UUID squadId) {
         return squadRepository.getUsers(squadId);
-    } 
+    }
 
 
-    // public boolean isUserInChat(int squadId, String userEmail) {
-    //     System.out.println("@Query(\"SELECT user_email FROM users_by_squad WHERE squad_id = " + squadId + " AND user_email = " + userEmail + " LIMIT 1\")");
-    //     return squadRepository.isUserInSquad(squadId, userEmail).size() == 1;
-    // }
+    public boolean isUserInSquad(UUID squadId, String userEmail) {
+        System.out.println("@Query(\"SELECT user_email FROM user_by_squad WHERE squad_id = " + squadId + " AND user_email = " + userEmail + " LIMIT 1\")");
+        return squadRepository.isUserInSquad(squadId, userEmail).size() == 1;
+    }
 
     public UUID createSquad(List<String> userEmails) throws Exception{
         UUID squadId = UUID.randomUUID();
@@ -68,7 +70,7 @@ public class SquadService {
 
 
 
-    public void putUserInChat(String userEmail, UUID squadId, String chatName) throws Exception{
+    public void putUserInSquad(String userEmail, UUID squadId, String chatName) throws Exception{
         try {
             // Inserts only if uuid exist else throws error
             if (!squadRepository.doesSquadIdExist(squadId).isPresent()) {
@@ -86,6 +88,6 @@ public class SquadService {
 
     private void revertUsersBySquad(String userEmail, UUID squadId) {
         UserBySquadKey userBySquadKey = new UserBySquadKey(squadId, userEmail);
-        squadRepository.deleteById(userByChatKey);
+        squadRepository.deleteById(userBySquadKey);
     }    
 }
