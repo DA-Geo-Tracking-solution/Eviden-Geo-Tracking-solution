@@ -4,6 +4,8 @@ import { Chat, Contact } from '../../../models/interfaces';
 import { MessageService } from '../../../services/message/message.service';
 import { CookieSettingsService } from '../../../services/Cookies/cookie-settings.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ServerDataService } from '../../../services/server-data/server-data.service';
+import { KeycloakService } from '../../../services/keycloak/keycloak.service';
 
 @Component({
   selector: 'app-chat-list',
@@ -16,34 +18,70 @@ export class ChatListComponent implements OnInit {
 
   chats: Chat[] = [];
 
-  filteredChats: Chat[] = [...this.chats];
+  filteredChats: Chat[] = [];
   searchContact: string = '';
 
 
-  constructor(private restService: RestService, private cookieSettingsService: CookieSettingsService, private translateService: TranslateService, private messageService: MessageService) { 
+  constructor(private serverDataService: ServerDataService, private keycloakService: KeycloakService, private restService: RestService, private cookieSettingsService: CookieSettingsService, private translateService: TranslateService, private messageService: MessageService) { 
     this.translateService.use(this.cookieSettingsService.getLanguage());
-
   }
 
 
   async ngOnInit() {
-    (await this.restService.GET("member/chats")).subscribe({
-      next: (chatData: any) => {
-        for (const chat of chatData) {
-          this.chats.push({
-            chatId: chat.chatId,
-            chatName: chat.chatName,
-            users: chat.members.map((user: any) => ({
+    await this.waitForCondition(() => this.keycloakService.user?.email !== undefined, 100);
+
+    if (this.keycloakService.user?.email) {
+      this.serverDataService.getChatCreations(this.keycloakService.user?.email, (chatObject: any) => {
+          const chat = {
+            chatId: chatObject.chatId,
+            chatName: chatObject.chatName,
+            users: chatObject.members.map((user: any) => ({
               name: `${user.firstname} ${user.lastname}`,
               email: user.email
             }))
-          });
+          };
+          this.messageService.addChat(chat);
+          this.chats.push(chat);
+          this.filteredChats.push(chat);
         }
-        this.messageService.init(this.chats);
-        this.filteredChats = [...this.chats];
+        //this.messageService.init(this.chats);
+        //this.filteredChats = [...this.chats];
+      );
+    }
+
+    /*(await this.restService.GET("member/chats")).subscribe({
+      next: (chatData: any) => {
+        for (const chatObject of chatData) {
+          const chat = {
+            chatId: chatObject.chatId,
+            chatName: chatObject.chatName,
+            users: chatObject.members.map((user: any) => ({
+              name: `${user.firstname} ${user.lastname}`,
+              email: user.email
+            }))
+          };
+          this.messageService.addChat(chat);
+          this.chats.push(chat);
+          this.filteredChats.push(chat);
+        }
+        //this.messageService.init(this.chats);
+        //this.filteredChats = [...this.chats];
       },
       error: (e) => console.error('Error fetching chats', e),
       complete: () => console.info('Complete fetching chats')
+    });*/
+  }
+
+  private waitForCondition(conditionFn: () => boolean, interval: number): Promise<void> {
+    return new Promise((resolve) => {
+      const checkCondition = () => {
+        if (conditionFn()) {
+          resolve(); // Resolve the promise if the condition is true
+        } else {
+          setTimeout(checkCondition, interval); // Retry after the interval
+        }
+      };
+      checkCondition();
     });
   }
 

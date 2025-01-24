@@ -124,6 +124,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                         if (!chatService.isUserInChat(chatId, (String) auth.getPrincipal())) {
                             throw new AuthenticationException("User not authorized to subscribe to " + destination) {};
                         }                         
+                    } else if (destination != null && destination.startsWith("/topic/chatCreation/")) {
+
+                        String userEmail = destination.substring(20);
+                        
+                        UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) accessor.getUser();
+                        if (!userEmail.equals((String) auth.getPrincipal())) {
+                            throw new AuthenticationException("User not authorized to subscribe to " + destination) {};
+                        }                         
                     }
 
                 }

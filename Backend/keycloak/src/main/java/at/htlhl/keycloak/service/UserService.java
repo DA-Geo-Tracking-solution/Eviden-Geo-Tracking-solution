@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
 //import javax.ws.rs.core.Response;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -30,7 +31,9 @@ public class UserService {
 
         if (!groups.isEmpty()) {
             String groupId = groups.get(0).getId();
-            return keycloak.realm(realm).groups().group(groupId).members();
+            return keycloak.realm(realm).groups().group(groupId).members().stream()
+                .filter(user -> !user.getEmail().equals(getUserEmail()))
+                .collect(Collectors.toList());
         }
         return List.of();
     }

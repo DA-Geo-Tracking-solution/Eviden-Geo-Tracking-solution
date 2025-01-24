@@ -20,6 +20,7 @@ export class ServerDataService {
       next: (v) =>  {
         for (const element of v) {
           callback(element);
+          console.log(element)
         }
       },
       error: (e) => console.error('Error fetching secure data', e),
@@ -45,6 +46,10 @@ export class ServerDataService {
 
   async getGeoLocationData(squadId: number, earliestTime: string, callback: (Data: any) => void) {
     this.getData(`member/group-members-locations?earliestTime=${earliestTime}`, `/topic/geolocation`, callback);
+  }
+
+  async getChatCreations(userEmail: string, callback: (Data: any) => void) {
+    this.getData(`member/chats`, `/topic/chatCreation/${userEmail}`, callback);
   }
 
   close() {

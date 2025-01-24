@@ -131,12 +131,6 @@ public class MemberController {
         }
 
         return chats;
-        /*ArrayList<Chat> data = new ArrayList<>();
-
-        data.add(new Chat("0", "Global-Chat", new Member[]{new Member("user1", "user1@example.com")}));
-        data.add(new Chat("1", "Global-Chat-2 :)", new Member[]{new Member("user1", "user1@example.com")}));
-        data.add(new Chat("2", "Please implement DB!", new Member[]{new Member("user1", "user1@example.com")}));
-        return data;*/
     }
 
     @PostMapping("/chat")
@@ -154,9 +148,10 @@ public class MemberController {
             chatName = "Unkown ChatName";
         }
         try {
-            UUID chatId = chatService.createChat(chatName, userEmails);
-            System.out.println(chatId + "------------------------------------------");
-            addChatMessage(chatId, "Chat Created");
+            Chat chat = chatService.createChat(chatName, userEmails);
+            for (String userEmail : userEmails) {
+                messagingTemplate.convertAndSend("/topic/chatCreation/" + userEmail,  chat);
+            }
             return "created Succesfully";
         } catch(Exception e) {
             return e.getMessage();
@@ -213,8 +208,8 @@ public class MemberController {
         if (chatService.isUserInChat(chatId, userService.getUserEmail())) {
             Instant time = Instant.now();
             String authorEmail = userService.getUserEmail();
-            UUID messagId = messageService.createMessagesInChat(chatId, authorEmail, message, time);
-            messagingTemplate.convertAndSend("/topic/chat/" + chatId,  new MessageByChat((new MessageByChatKey(chatId, time, messagId )), authorEmail, message));
+            UUID messageId = messageService.createMessagesInChat(chatId, authorEmail, message, time);
+            messagingTemplate.convertAndSend("/topic/chat/" + chatId,  new MessageByChat((new MessageByChatKey(chatId, time, messageId )), authorEmail, message));
         } else {
             return "You are not in this chat: " + chatId;
         }

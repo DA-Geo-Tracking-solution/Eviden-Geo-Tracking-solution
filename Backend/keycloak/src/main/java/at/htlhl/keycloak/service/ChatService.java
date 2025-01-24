@@ -1,16 +1,17 @@
 package at.htlhl.keycloak.service;
 
-import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import at.htlhl.keycloak.model.GPSData;
+import at.htlhl.keycloak.model.Chat;
 import at.htlhl.keycloak.model.ChatByUser;
-import at.htlhl.keycloak.model.ChatByUser.ChatByUserKey;
 import at.htlhl.keycloak.model.UserByChat;
+import at.htlhl.keycloak.model.Chat.Member;
 import at.htlhl.keycloak.model.UserByChat.UserByChatKey;
 import at.htlhl.keycloak.repositories.ChatByUserRepository;
 import at.htlhl.keycloak.repositories.UserByChatRepository;
@@ -42,7 +43,7 @@ public class ChatService {
         return usersByChatRepository.isUserInChat(chatId, userEmail).size() == 1;
     }
 
-    public UUID createChat(String chatName, List<String> userEmails) throws Exception{
+    public Chat createChat(String chatName, List<String> userEmails) throws Exception{
         UUID chatId = UUID.randomUUID();
         try {
             // Inserts if uuid not exists else throws error
@@ -50,13 +51,18 @@ public class ChatService {
                 throw new Exception();
             }
 
+            List<Member> members = new ArrayList<>();
+
             for (String userEmail: userEmails) {
-                if (userService.getUserByEmail(userEmail) != null) {
+                UserRepresentation user = userService.getUserByEmail(userEmail);
+               
+                if (user != null) {
                     usersByChatRepository.insertIfNotExists(chatId, userEmail);
                     chatsByUserRepository.insertIfNotExists(userEmail, chatId, chatName);
+                    members.add(new Member(user.getUsername(), userEmail));
                 }    
             }
-            return chatId;
+            return new Chat(chatId, chatName, members);
         } catch (Exception e) {
             // Undo changes if one fails
             for (String userEmail: userEmails) {
