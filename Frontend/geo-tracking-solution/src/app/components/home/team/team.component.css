@@ -30,3 +30,20 @@
 .is-fullwidth{
     width: 100%;
 }
+
+.card-image figure {
+    max-height: 150px; /* Höhe des Bildes */
+    display: flex;
+    justify-content: center; /* Horizontal zentrieren */
+    align-items: center; /* Vertikal zentrieren */
+    overflow: hidden; /* Überflüssige Teile des Bildes abschneiden */
+}
+
+.card-image img {
+    width: auto;
+    /* TODO: Das padding Nacher entfernen, weil es bad ist */
+    padding-left: 80px; /* Bild proportional skalieren */
+    height: 100%; /* Höhe des Bildes anpassen */
+    justify-content: center;
+    align-items: center;
+}

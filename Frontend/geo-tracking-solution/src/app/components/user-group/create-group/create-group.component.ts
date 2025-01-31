@@ -21,157 +21,54 @@ export class CreateGroupComponent {
   faEnvelope = faEnvelope;
   faUser = faUser;
   faExclamationTriangle = faExclamationTriangle;
-  faKey = faKey;
   faCheck = faCheck;
 
-  // * Form 
   form: FormGroup;
-  userControls: FormControl[] = [];
-  filteredUsers: any[] = [];
   users: any[] = [];
+  userControls: FormControl[] = [];
+  filteredUsers: any[][] = [];
   selectedUsers: any[] = [];
 
-  constructor(private formBuilder: FormBuilder, private restService: RestService, private cookieService: CookieSettingsService, private translateService: TranslateService, private matDialog: MatDialog) {
-
+  constructor(
+    private formBuilder: FormBuilder,
+    private restService: RestService,
+    private cookieService: CookieSettingsService,
+    private translateService: TranslateService,
+    private matDialog: MatDialog
+  ) {
     this.form = this.formBuilder.group({
       groupname: ['', Validators.required],
-      groupmaster: ['', Validators.required],
-      searchUsers: ['']
-    }, { updateOn: 'change' });
+      groupmasteremail: ['', [Validators.required, Validators.email]]
+    });
 
     this.translateService.use(this.cookieService.getLanguage());
-
-    // TODO: Einer der Beiden muss es sein
     this.addUserField();
-    this.addUserInput();
   }
 
-  addUserInput(): void {
-    const control = new FormControl();
+  addUserField(): void {
+    const control = new FormControl('');
+    this.users.push({});
     this.userControls.push(control);
     this.filteredUsers.push([]);
-
-    // Live-Suche für das neue Feld einrichten
-    control.valueChanges
-      .pipe(
-        debounceTime(300),
-        switchMap((query: string) => {
-          if (!query) return of([]);
-          return from(this.restService.GET(`member/group-members?query=${query}`)).pipe(
-            switchMap(observable => observable.pipe(
-              map((response: any[]) => response),
-              catchError(() => of([]))
-            ))
-          );
-        })
-      )
-      .subscribe(users => {
-        const index = this.userControls.indexOf(control);
-        if (index !== -1) {
-          this.filteredUsers[index] = users;
-        }
-      });
   }
 
-  get groupname() { return this.form.get('groupname'); }
-  get groupmaster() { return this.form.get('groupmaster'); }
-
-
-  createSubGroup(): void {
-    const user = this.form["value"]
-    this.restService.POST("groupmaster/subgroup", {
-      name: this.groupname,
-      groupmasterEmail: this.groupmaster
-    }).then(observable => {
-      observable.subscribe({
-        next: (line) => {
-          console.log(line)
-        },
-        error: (err) => {
-          console.error("Error in Observable:", err);
-        },
-        complete: () => {
-          console.log("Observable completed");
-        },
-      });
-    }).catch(err => {
-      console.error("Error resolving promise:", err);
-    });
-  }
-
-  openDialog() {
-    const dialogRef = this.matDialog.open(SuccessAlertComponent, {
-      width: '50%',
-      data: { message: 'Group created successfully!' }
-    });
-  }
-
-  addUserToGroup(user: any): void {
-    if (!this.selectedUsers.includes(user)) {
-      this.selectedUsers.push(user);
-    }
-    this.filteredUsers = [];
-    this.form.get('searchUsers')?.reset();
-  }
-
-  removeUserFromGroup(user: any): void {
-    this.selectedUsers = this.selectedUsers.filter(u => u !== user);
-  }
-
-  /**
-   * Wird aufgerufen, wenn ein Nutzer aus den Vorschlägen ausgewählt wird.
-   */
-  addUserToSelected(user: any, index: number): void {
-    if (!this.selectedUsers.some(u => u.id === user.id)) {
-      this.selectedUsers.push(user);
-    }
-
-    // Dropdown schließen und das Input-Feld zurücksetzen
-    this.filteredUsers[index] = [];
-    this.userControls[index].reset();
-  }
-
-  /**
-   * Entfernt einen Nutzer aus der ausgewählten Liste.
-   */
-  removeUserFromSelected(user: any): void {
-    this.selectedUsers = this.selectedUsers.filter(u => u.id !== user.id);
-  }
-
-  // Search for users based on input
   onUserSearch(event: Event, index: number): void {
-    const inputElement = event.target as HTMLInputElement | null; // Cast und mögliche Nullwerte beachten
-  
+    const inputElement = event.target as HTMLInputElement;
     if (!inputElement || !inputElement.value) {
-      this.filteredUsers[index] = []; // Wenn das Element oder der Wert fehlt, Vorschläge leeren
+      this.filteredUsers[index] = [];
       return;
     }
-  
     const query = inputElement.value;
-  
     this.restService.GET(`member/group-members?query=${query}`)
       .then(observable => {
         observable.subscribe({
           next: (users: any[]) => {
-            this.filteredUsers[index] = users; // Vorschläge aktualisieren
+            this.filteredUsers[index] = users;
           },
-          error: (err) => {
-            console.error('Fehler beim Abrufen der Nutzer:', err);
-            this.filteredUsers[index] = []; // Vorschläge bei Fehler löschen
-          }
+          error: () => this.filteredUsers[index] = []
         });
       })
-      .catch(err => {
-        console.error('Fehler in der Promise:', err);
-        this.filteredUsers[index] = []; // Vorschläge bei Fehler löschen
-      });
-  }
-  
-
-
-  addUserField(): void {
-    this.users.push({});
-    this.filteredUsers.push([]);
+      .catch(() => this.filteredUsers[index] = []);
   }
 
   onSelectUser(user: any, index: number): void {
@@ -179,4 +76,22 @@ export class CreateGroupComponent {
     this.filteredUsers[index] = [];
   }
 
+  createSubGroup(): void {
+    this.restService.POST("groupmaster/subgroup", {
+      name: this.form.value.groupname,
+      groupmasterEmail: this.form.value.groupmasteremail
+    }).then(observable => {
+      observable.subscribe({
+        next: () => this.openDialog(),
+        error: (err) => console.error("Error:", err)
+      });
+    });
+  }
+
+  openDialog(): void {
+    this.matDialog.open(SuccessAlertComponent, {
+      width: '50%',
+      data: { message: 'Group created successfully!' }
+    });
+  }
 }

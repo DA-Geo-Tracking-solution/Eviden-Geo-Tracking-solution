@@ -23,8 +23,8 @@ export class TeamComponent {
     },
     {
       title: 'Jonas Schwarz',
-      subtitle: 'uiux',
-      image: '../../../../assets/images/Dashboard/Team/schwarz.png',
+      subtitle: 'Android?!',
+      image: '../../../../assets/images/Dashboard/Team/jonas.png',
       tag: '#design #map #ts',
       date: '2024-11-17',
       link: 'https://suljevic.at/'
@@ -34,8 +34,8 @@ export class TeamComponent {
   backendCards = [
     {
       title: 'Adrian Zeitlberger',
-      subtitle: 'Gewonnen !!!',
-      image: '../../../../assets/images/Dashboard/Team/zeitlberger.png',
+      subtitle: 'Gewonnnnnnnen!!!',
+      image: '../../../../assets/images/Dashboard/Team/adrian.jpg',
       tag: '#backend',
       date: '2024-11-17',
       link: 'https://suljevic.at/'
@@ -53,8 +53,8 @@ export class TeamComponent {
   supervisorCards = [
     {
       title: 'Martin Höfermeyer, Msc',
-      subtitle: 'manager',
-      image: '../../../../assets/images/Dashboard/Team/hoefermeyer.png',
+      subtitle: 'Betreuer',
+      image: '../../../../assets/images/Dashboard/Team/hoefermeyer2.jpg',
       tag: '#supervisor',
       date: '2024-11-17',
       link: 'https://suljevic.at/'
