@@ -1,5 +1,6 @@
 package at.htlhl.keycloak.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,8 @@ import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
+import at.htlhl.keycloak.model.Role;
+
 
 @Service
 public class GroupService {
@@ -30,8 +33,8 @@ public class GroupService {
     @Autowired
     private Keycloak keycloak;
 
-    public static final List<String> ALL_ROLE_NAMES = Arrays.asList("member", "squadmaster", "groupmaster");
-
+    //public static final List<String> ALL_ROLE_NAMES = Arrays.asList("member", "squadmaster", "groupmaster");
+    
 
     public UserResource addUserToGroup(UserRepresentation user, GroupRepresentation group) throws Exception {
         RealmResource realmResource = keycloak.realm(realm);
@@ -91,7 +94,7 @@ public class GroupService {
         // Add roles to subgroup
         GroupRepresentation createdSubGroup = parentGroupResource.getSubGroups(0, null, true) // if more information needed change true to false
             .stream().filter(subGroup -> subGroup.getName().equals(groupName)).findFirst().orElse(null);
-        List<RoleRepresentation> roles = rolesByRoleNames(ALL_ROLE_NAMES);
+        List<RoleRepresentation> roles = rolesByRoleNames(Role.getAll());
         groupsResource.group(createdSubGroup.getId()).roles().realmLevel().add(roles);
 
         return createdSubGroup;
