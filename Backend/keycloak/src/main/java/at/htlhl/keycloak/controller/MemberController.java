@@ -79,17 +79,14 @@ public class MemberController {
         return user;
     }
 
-    @PutMapping("/user")
-    @Operation(description = "Creates new user in format { {username, userEmail, firstname, lastname}, temporaryPassword } in group")
+    @PatchMapping("/user")
+    @Operation(description = "Edits Userinformation in format { {username, userEmail, firstname, lastname} } of User")
     public String editUser(@RequestBody Map<String, Object> request) {
         
         User userModel = User.MapToUser((Map<String, Object>) request.get("user"));
-        String temporaryPassword = (String) request.get("temporaryPassword");
 
-        return "{ \"message\": \"" + userService.updateUser(userModel, temporaryPassword) + "\" }";
+        return "{ \"message\": \"" + userService.updateUser(userModel) + "\" }";
     }
-
-    // TODO this can only be done with a running Database ---------------------
 
     @GetMapping("/user-location")
     @Operation(description = "Returns some users location data in format { userEmail, { longitude, latitude }, timestamp } of your group")

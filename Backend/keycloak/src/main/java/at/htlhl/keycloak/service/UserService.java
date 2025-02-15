@@ -90,8 +90,16 @@ public class UserService {
         UserResource userResource = realmResource.users().get(getUserByEmail(userEmail).getId());
         userResource.roles().realmLevel().add(Role.getAsRoleList(roles, keycloak, realm));
     }
-    public String updateUser(User userModel, String password) {
+
+    public String updateUser(User userModel) {
         try {
+
+
+            System.out.println(getUserEmail() + "---  ,  ---" + userModel.getEmail());
+            if (getUserByEmail(userModel.getEmail()) != null && !getUserEmail().equals(userModel.getEmail())) {
+                return "Email alrady exists";
+            }
+
             // Find the user by ID
             UserRepresentation user = keycloak.realm(realm).users().get(getUserId()).toRepresentation();
     
@@ -106,24 +114,39 @@ public class UserService {
             if (userModel.getLastname() != null) user.setLastName(userModel.getLastname());
             if (userModel.getEmail() != null) user.setEmail(userModel.getEmail());
             if (userModel.getUsername() != null) user.setUsername(userModel.getUsername());
-    
+
             // Send the update request
             keycloak.realm(realm).users().get(userId).update(user);
     
+            // Return success message
+            return "User details updated successfully";
+    
+        } catch (Exception e) {
+            return "An error occurred while updating the user: " + e.getMessage();
+        }
+    }
+
+    public String updatePassword(String password) {
+        try {
+            UserRepresentation user = keycloak.realm(realm).users().get(getUserId()).toRepresentation();
+        
+            if (user == null) {
+                return "User not found";
+            }
+
+            String userId = user.getId();
+
             // Update the user's password
             if (password != null && !password.isEmpty()) {
                 CredentialRepresentation credential = new CredentialRepresentation();
                 credential.setType(CredentialRepresentation.PASSWORD);
                 credential.setValue(password);
                 credential.setTemporary(false);
-    
+
                 // Send the password reset request
                 keycloak.realm(realm).users().get(userId).resetPassword(credential);
             }
-    
-            // Return success message
-            return "User details and password updated successfully";
-    
+            return "Password updated successfully";
         } catch (Exception e) {
             return "An error occurred while updating the user: " + e.getMessage();
         }
@@ -131,8 +154,21 @@ public class UserService {
     
     
 
-    public void deleteUser(String userId) {
-        keycloak.realm(realm).users().get(userId).remove();
+    public String deleteUserByEmail(String userEmail) {
+        try {
+            String userId = getUserByEmail(userEmail).getId();
+            boolean userExists = getGroupMembers().stream()
+                    .anyMatch(user -> user.getId().equals(userId));
+
+            if (!userExists) {
+                return "User does not exist in the same group";
+            }
+
+            keycloak.realm(realm).users().delete(userId);
+            return "User deleted successfully";
+        } catch (Exception e) {
+            return "Error deleting user: " + e.getMessage();
+        }
     }
 
     private String getUserId() {

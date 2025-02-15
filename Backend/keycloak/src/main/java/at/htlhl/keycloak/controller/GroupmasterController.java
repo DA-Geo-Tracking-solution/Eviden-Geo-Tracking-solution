@@ -74,6 +74,12 @@ public class GroupmasterController {
         return "Succesful created";
     }
 
+    @DeleteMapping("/user/{userEmail}")
+    @Operation(description = "Deletes user by { userEmail } in group")
+    public String deleteUser(@PathVariable("userEmail") String userEmail) {
+        return "{ \"message\": \"" + userService.deleteUserByEmail(userEmail) + "\" }";
+    }
+
     @GetMapping("/subgroups")
     @Operation(description = "optionally")
     public Object getSubGroups() {

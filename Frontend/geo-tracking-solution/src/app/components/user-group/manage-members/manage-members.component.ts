@@ -52,9 +52,15 @@ export class ManageMembersComponent implements OnInit {
     this.isAlertVisible = true;
   }
 
-  removeMember() {
-    // this.restService.DELETE("")
-    console.log('Member removed');
+  removeMember(userEmail: string) {
+    this.restService.DELETE(`groupmaster/user/${userEmail}`).then(observable => {
+      observable.subscribe({
+        next: (message) => {
+          console.log(message)
+        },
+        error: (err) => console.error("Error fetching members:", err),
+      });
+    });
   }
 
 }

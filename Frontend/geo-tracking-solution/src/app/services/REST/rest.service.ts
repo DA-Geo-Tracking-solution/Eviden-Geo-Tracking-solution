@@ -23,18 +23,36 @@ export class RestService {
 
   async POST(path: string, body: any): Promise<Observable<any>> {
     const token = this.keycloakService.profile?.token;
-  
-   
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     console.log('Making POST request to:', `${this.url}/${path}`);
     console.log('Headers:', headers);
     console.log('Body:', body);
-  
-    console.log(body)
 
     return this.http.post(`${this.url}/${path}`, body, { headers });
   }
+
+  async PATCH(path: string, body: any): Promise<Observable<any>> {
+    const token = this.keycloakService.profile?.token;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  
+    console.log('Making PATCH request to:', `${this.url}/${path}`);
+    console.log('Headers:', headers);
+    console.log('Body:', body);
+  
+    return this.http.patch(`${this.url}/${path}`, body, { headers });
+  }
+
+  async DELETE(path: string): Promise<Observable<any>> {
+    const token = this.keycloakService.profile?.token;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  
+    console.log('Making DELETE request to:', `${this.url}/${path}`);
+    console.log('Headers:', headers);
+  
+    return this.http.delete(`${this.url}/${path}`, { headers });
+  }
+
 
   // Fehlerbehandlung
   private handleError(error: HttpErrorResponse) {

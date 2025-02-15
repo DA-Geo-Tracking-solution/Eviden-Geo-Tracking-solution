@@ -29,7 +29,14 @@ export class KeycloakService {
     return this._profile;
   }
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    if (isPlatformBrowser(this.platformId)) {
+      setInterval(() => {
+        this.refreshToken();
+      }, 60000);
+    }
+  }
+  
 
   async init(): Promise<boolean> {
     if (isPlatformBrowser(this.platformId)) {
@@ -48,6 +55,32 @@ export class KeycloakService {
     return false;
   }
 
+  async refreshToken(): Promise<void> {
+    if (this.keycloak && this._profile) {
+      try {
+        const refreshed = await this.keycloak.updateToken(30); // Refresh if token expires in 30 seconds
+        if (refreshed) {
+          console.log("Token successfully refreshed");
+          this._profile.token = this.keycloak.token; // Update the token in your profile
+        } else {
+          console.log("Token is still valid, no need to refresh");
+        }
+      } catch (error) {
+        console.error("Failed to refresh token", error);
+        this.keycloak.logout(); // Log out user if refresh fails
+      }
+    }
+  }
+
+  async updateUserProfile(): Promise<void> {
+    if (this.keycloak) {
+      this._profile = await this.keycloak.loadUserProfile() as UserProfile;
+      // Optionally force a token refresh after reloading the user profile:
+      await this.refreshToken();
+    }
+  }
+  
+  
   get roles(): string[] {
     if (this.keycloak?.tokenParsed) {
       const tokenParsed = this.keycloak.tokenParsed as any;

@@ -85,7 +85,7 @@ export class UserComponent {
    */
   updateUser() {
     const updatedUser = this.form.value;
-    this.restService.POST('user/update', {
+    this.restService.PATCH('member/user', {
       user: {
         username: updatedUser.username,
         userEmail: updatedUser.email,
@@ -109,9 +109,13 @@ export class UserComponent {
    * Open a dialog to show success message.
    */
   openDialog() {
-    this.matDialog.open(SuccessAlertComponent, {
+    const dialogRef = this.matDialog.open(SuccessAlertComponent, {
       width: '400px',
-      data: { message: 'User updated successfully!' }
+      data: { message: 'User updated successfully! Now you will be logged out!' }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.keycloakService.logout();
     });
   }
 }
