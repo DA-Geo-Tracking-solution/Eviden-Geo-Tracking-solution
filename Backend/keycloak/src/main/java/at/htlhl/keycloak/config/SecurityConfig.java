@@ -21,7 +21,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/", "/public/**").permitAll()
-                        .requestMatchers("/ws", "/ws/chat/**").permitAll()
+                        .requestMatchers("/ws", "/ws/geo-tracking-solution/**").permitAll()
                         .requestMatchers("/v3/**", "/swagger-ui/**").permitAll() // Todo delete on production
                         .requestMatchers("/member/**").hasRole("member")
                         .requestMatchers("/squadmaster/**").hasRole("squadmaster")

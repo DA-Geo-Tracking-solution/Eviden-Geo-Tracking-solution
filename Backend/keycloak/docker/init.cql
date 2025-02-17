@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS gps_data (
 ) WITH CLUSTERING ORDER BY (timestamp ASC);
 
 -- Table: User by Squad
-CREATE TABLE user_by_squad (
+CREATE TABLE IF NOT EXISTS user_by_squad (
     squad_id uuid,
     user_email TEXT,
     PRIMARY KEY (squad_id, user_email)

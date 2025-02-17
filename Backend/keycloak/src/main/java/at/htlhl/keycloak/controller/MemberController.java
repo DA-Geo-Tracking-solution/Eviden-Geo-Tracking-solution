@@ -223,25 +223,6 @@ public class MemberController {
     public Object getChatMessages(@PathVariable("chatId") UUID chatId) {
         List<MessageByChat> messageByChats = messageService.getMessagesInChat(chatId);
         return messageByChats;
-        // TODO get actual data
-        /*
-         * ArrayList<ChatMessage> data = new ArrayList<>();
-         * 
-         * for (MessageByChat messageByChat: messageByChats) {
-         * 
-         * }
-         * 
-         * data.add(new ChatMessage("puzzles00z",
-         * "please implement the the method getChatMessage", LocalDateTime.of(2024, 11,
-         * 30, 15, 30, 0)));
-         * data.add(new ChatMessage("adrian00z",
-         * "please implement the the method getChatMessage", LocalDateTime.of(2024, 11,
-         * 30, 15, 30, 0)));
-         * data.add(new ChatMessage("puzzles007",
-         * "please implement the the method getChatMessage", LocalDateTime.of(2024, 11,
-         * 30, 15, 30, 0)));
-         * return data;
-         */
     }
 
     @PostMapping("chat/{chatId}/message")

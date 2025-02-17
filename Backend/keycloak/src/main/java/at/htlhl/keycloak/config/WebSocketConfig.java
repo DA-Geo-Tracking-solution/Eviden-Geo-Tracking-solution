@@ -175,7 +175,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws/chat")
+        registry.addEndpoint("/ws/geo-tracking-solution")
                 .setAllowedOriginPatterns("*");
         // .addInterceptors(new JwtHandshakeInterceptor(jwtDecoder())); // Allow all
         // origins
